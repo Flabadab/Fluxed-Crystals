@@ -1,7 +1,7 @@
 package fluxedCrops.tileEntity;
 
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.world.World;
 import fluxedCrops.api.CropBase;
 
 /**
@@ -30,10 +30,11 @@ public class TileEntityPowerBlock extends TileEntity {
 
 	}
 
-	public boolean growPlant() {
-		if (worldObj.getBlock(xCoord, yCoord + 1, zCoord) instanceof CropBase) {
-			return ((CropBase) worldObj.getBlock(xCoord, yCoord + 1, zCoord)).growCrop(worldObj, xCoord, yCoord + 1, zCoord, worldObj.rand);
-		}
+	public boolean growPlant(World world) {
+		if (world != null)
+			if (world.getBlock(xCoord, yCoord + 1, zCoord) instanceof CropBase) {
+				return ((CropBase) world.getBlock(xCoord, yCoord + 1, zCoord)).growCrop(world, xCoord, yCoord + 1, zCoord, world.rand);
+			}
 		return false;
 	}
 

@@ -11,6 +11,8 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
 import fluxedCrops.blocks.FCBlocks;
+import fluxedCrops.network.MessageEnergyUpdate;
+import fluxedCrops.network.PacketHandler;
 
 /**
  * Created by Jared on 11/2/2014.
@@ -48,12 +50,6 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 					// NO-OP
 				} else {
 					if (worldObj.getBlock(xCoord + x, yCoord, zCoord + z).isReplaceable(worldObj, xCoord + x, yCoord, zCoord + z)) {
-						worldObj.setBlock(xCoord + x, yCoord, zCoord + z, FCBlocks.powerBlock);
-						((TileEntityPowerBlock) worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z)).setManager(this);
-						powerBlocks.add((TileEntityPowerBlock) worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z));
-						placedBlocks = true;
-						if (!worldObj.isRemote)
-							storage.extractEnergy(250, false);
 
 						int items = 0;
 
@@ -63,10 +59,24 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 						if (getStackInSlot(1) != null) {
 							items += getStackInSlot(1).stackSize;
 						}
-						if (getStackInSlot(0) != null) {
+						if (getStackInSlot(0) != null && items >= 0) {
 							decrStackSize(0, 1);
-						} else if (getStackInSlot(1) != null) {
+							worldObj.setBlock(xCoord + x, yCoord, zCoord + z, FCBlocks.powerBlock);
+							((TileEntityPowerBlock) worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z)).setManager(this);
+							powerBlocks.add((TileEntityPowerBlock) worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z));
+							placedBlocks = true;
+							if (!worldObj.isRemote)
+								PacketHandler.INSTANCE.sendToServer(new MessageEnergyUpdate(xCoord, yCoord, zCoord, storage.getEnergyStored() - 250));
+
+						} else if (getStackInSlot(1) != null && items >= 0 && getStackInSlot(0).stackSize == 0) {
 							decrStackSize(1, 1);
+							worldObj.setBlock(xCoord + x, yCoord, zCoord + z, FCBlocks.powerBlock);
+							((TileEntityPowerBlock) worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z)).setManager(this);
+							powerBlocks.add((TileEntityPowerBlock) worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z));
+							placedBlocks = true;
+							if (!worldObj.isRemote)
+								PacketHandler.INSTANCE.sendToServer(new MessageEnergyUpdate(xCoord, yCoord, zCoord, storage.getEnergyStored() - 250));
+
 						}
 
 					}
@@ -117,7 +127,7 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 		if (worldObj.getWorldTime() % 12 == 0) {
 			for (TileEntityPowerBlock power : powerBlocks) {
 				if (this.storage.getEnergyStored() > 250)
-					if (power.growPlant()) {
+					if (power.growPlant(worldObj)) {
 						this.storage.extractEnergy(250, false);
 					}
 			}
@@ -166,7 +176,7 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 
 	@Override
 	public String getInventoryName() {
-		return "Soldering Station";
+		return "Manager";
 	}
 
 	@Override
@@ -229,6 +239,7 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 	public void readFromNBT(NBTTagCompound tags) {
 		super.readFromNBT(tags);
 		readInventoryFromNBT(tags);
+		readPowerBlocksFromNBT(tags);
 	}
 
 	public void readInventoryFromNBT(NBTTagCompound tags) {
@@ -242,10 +253,21 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 		}
 	}
 
+	public void readPowerBlocksFromNBT(NBTTagCompound tags) {
+		NBTTagList nbttaglist = tags.getTagList("powerBlocks", Constants.NBT.TAG_COMPOUND);
+		for (int iter = 0; iter < nbttaglist.tagCount(); iter++) {
+			NBTTagCompound tagList = (NBTTagCompound) nbttaglist.getCompoundTagAt(iter);
+			TileEntityPowerBlock tile = new TileEntityPowerBlock();
+			tile.readFromNBT(nbttaglist.getCompoundTagAt(iter));
+			powerBlocks.add(tile);
+		}
+	}
+
 	@Override
 	public void writeToNBT(NBTTagCompound tags) {
 		super.writeToNBT(tags);
 		writeInventoryToNBT(tags);
+		WritePowerBlocksToNBT(tags);
 	}
 
 	public void writeInventoryToNBT(NBTTagCompound tags) {
@@ -262,4 +284,15 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 		tags.setTag("Items", nbttaglist);
 	}
 
+	public void WritePowerBlocksToNBT(NBTTagCompound tags) {
+		NBTTagList nbtlist = new NBTTagList();
+
+		for (TileEntityPowerBlock power : powerBlocks) {
+			NBTTagCompound tagList = new NBTTagCompound();
+			power.writeToNBT(tagList);
+			nbtlist.appendTag(tagList);
+		}
+
+		tags.setTag("powerBlocks", nbtlist);
+	}
 }

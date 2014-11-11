@@ -1,4 +1,4 @@
-package fluxedCrops.client.gui;
+package fluxedCrops.client.gui.manager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;

@@ -1,4 +1,4 @@
-package fluxedCrops.client.gui;
+package fluxedCrops.client.gui.manager;
 
 import fluxedCrops.blocks.BlockPowerBlock;
 import fluxedCrops.blocks.FCBlocks;

@@ -6,7 +6,12 @@ import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import fluxedCrops.FluxedCrops;
+import fluxedCrops.client.gui.manager.ContainerManagerBlock;
+import fluxedCrops.client.gui.manager.GUIManagerBlock;
+import fluxedCrops.client.gui.seedInfuser.ContainerSeedInfuser;
+import fluxedCrops.client.gui.seedInfuser.GUISeedInfuser;
 import fluxedCrops.tileEntity.TileEntityManagerBlock;
+import fluxedCrops.tileEntity.TileEntitySeedInfuser;
 
 public class GUIHandler implements IGuiHandler {
 
@@ -25,6 +30,12 @@ public class GUIHandler implements IGuiHandler {
 			}
 			break;
 
+		case 1:
+			TileEntity tile = world.getTileEntity(x, y, z);
+			if (tile != null && tile instanceof TileEntitySeedInfuser) {
+				return new ContainerSeedInfuser(player.inventory, (TileEntitySeedInfuser) tile);
+			}
+			break;
 		}
 
 		return null;
@@ -38,8 +49,14 @@ public class GUIHandler implements IGuiHandler {
 			if (te != null && te instanceof TileEntityManagerBlock) {
 				return new GUIManagerBlock(player.inventory, (TileEntityManagerBlock) te);
 			}
-
 			break;
+		case 1:
+			TileEntity tile = world.getTileEntity(x, y, z);
+			if (tile != null && tile instanceof TileEntitySeedInfuser) {
+				return new GUISeedInfuser(player.inventory, (TileEntitySeedInfuser) tile);
+			}
+			break;
+
 		}
 
 		return null;

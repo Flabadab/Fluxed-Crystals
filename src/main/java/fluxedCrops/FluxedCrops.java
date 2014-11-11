@@ -1,5 +1,7 @@
 package fluxedCrops;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -7,6 +9,8 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import fluxedCrops.api.RecipeRegistry;
+import fluxedCrops.api.recipe.RecipeSeedInfuser;
 import fluxedCrops.blocks.FCBlocks;
 import fluxedCrops.client.gui.GUIHandler;
 import fluxedCrops.config.ConfigHandler;
@@ -29,6 +33,7 @@ public class FluxedCrops {
 		FCBlocks.init();
 		PacketHandler.init();
 		new GUIHandler();
+		RecipeRegistry.registerSeedInfuserRecipe(new RecipeSeedInfuser(new ItemStack(Blocks.dirt), new ItemStack(Blocks.diamond_block)));
 	}
 
 	@EventHandler

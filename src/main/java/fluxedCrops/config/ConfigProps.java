@@ -7,4 +7,10 @@ package fluxedCrops.config;
 public class ConfigProps {
 
     public static int ironColor;
+    public static int goldColor;
+    public static int coalColor;
+    public static int charcoalColor;
+    
+    
+    
 }

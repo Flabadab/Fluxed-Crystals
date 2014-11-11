@@ -9,17 +9,17 @@ import net.minecraft.world.World;
 import fluxedCrops.api.CropBase;
 import fluxedCrops.items.FCItems;
 
-public class BlockIronCrop extends CropBase {
+public class BlockCoalCrop extends CropBase {
 
-	public BlockIronCrop() {
+	public BlockCoalCrop() {
 	}
 
 	protected Item getSeed() {
-		return FCItems.ironSeed;
+		return FCItems.charcoalSeed;
 	}
 
 	protected Item getDrop() {
-		return FCItems.ironShard;
+		return FCItems.charcoalShard;
 	}
 
 	/**

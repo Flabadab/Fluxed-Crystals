@@ -19,16 +19,15 @@ public class FCBlocks {
 	public static Block goldCrop = new BlockGoldCrop();
 	public static Block coalCrop = new BlockCoalCrop();
 	public static Block charcoalCrop = new BlockCharcoalCrop();
-	
 
 	public static Block powerBlock = new BlockPowerBlock();
 	public static Block managerBlock = new BlockManagerBlock();
 	public static Block seedInfuser = new BlockSeedInfuser();
-	
 
 	public static void init() {
 		registerBlocks();
 		registerTileEntity();
+
 	}
 
 	private static void registerTileEntity() {
@@ -43,12 +42,11 @@ public class FCBlocks {
 		registerCrop(goldCrop, "Gold Crop", "Crop_Gold", (CreativeTabs) null, "gold");
 		registerCrop(coalCrop, "Coal Crop", "Crop_Coal", (CreativeTabs) null, "coal");
 		registerCrop(charcoalCrop, "Charcoal Crop", "Charcoal_Coal", (CreativeTabs) null, "charcoal");
-		
-		
+
 		registerBlock(powerBlock, "Power Block", "power_block");
 		registerBlock(managerBlock, "Manager Block", "Manager_Block");
 		registerBlock(seedInfuser, "Seed Infuser", "Seed_Infuser");
-		
+
 	}
 
 	private static void registerBlock(Block block, String name, String key) {
@@ -62,7 +60,7 @@ public class FCBlocks {
 	}
 
 	private static void registerCrop(Block block, String name, String key, CreativeTabs tab, String material) {
-		((CropBase)block).setMaterial(material);
+		((CropBase) block).setMaterial(material);
 		block.setBlockName(name).setCreativeTab(tab);
 		GameRegistry.registerBlock(block, key);
 	}

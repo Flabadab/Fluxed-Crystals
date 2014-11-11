@@ -3,6 +3,7 @@ package fluxedCrops.blocks.crops;
 import java.util.ArrayList;
 import java.util.Random;
 
+import thermalfoundation.item.TFItems;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -14,12 +15,12 @@ public class BlockIronCrop extends CropBase {
 	public BlockIronCrop() {
 	}
 
-	protected Item getSeed() {
+	public Item getSeed() {
 		return FCItems.ironSeed;
 	}
 
-	protected Item getDrop() {
-		return FCItems.ironShard;
+	public Item getDrop() {
+		return TFItems.nuggetIron.getItem();
 	}
 
 	/**
@@ -33,7 +34,6 @@ public class BlockIronCrop extends CropBase {
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
 		ret.add(new ItemStack(this.getSeed()));
-		System.out.println(metadata);
 		if (metadata >= 7)
 			ret.add(new ItemStack(this.getDrop(), 1, 0));
 

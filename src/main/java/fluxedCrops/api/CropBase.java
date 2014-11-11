@@ -105,9 +105,9 @@ public abstract class CropBase extends BlockCrops {
 		return world.getBlock(x, y, z) == FCBlocks.powerBlock;
 	}
 
-	protected abstract Item getSeed();
+	public abstract Item getSeed();
 
-	protected abstract Item getDrop();
+	public abstract Item getDrop();
 
 	public Item getItemDropped(int meta, Random random, int p_149650_3_) {
 		return getSeed();
@@ -129,7 +129,8 @@ public abstract class CropBase extends BlockCrops {
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
 		ret.add(new ItemStack(this.getSeed()));
-		ret.add(new ItemStack(this.getDrop(), 1, 0));
+		if (metadata >= 7)
+			ret.add(new ItemStack(getDrop(), 1, 0));
 
 		return ret;
 	}
@@ -155,9 +156,6 @@ public abstract class CropBase extends BlockCrops {
 	 * gets checked often with plants.
 	 */
 	public boolean canBlockStay(World world, int x, int y, int z) {
-		if (world.getBlock(x, y - 1, z) == FCBlocks.powerBlock)
-			return true;
-
-		return false;
+		return world.getBlock(x, y - 1, z) == FCBlocks.powerBlock;
 	}
 }

@@ -14,11 +14,11 @@ public class BlockCharcoalCrop extends CropBase {
 	public BlockCharcoalCrop() {
 	}
 
-	protected Item getSeed() {
+	public Item getSeed() {
 		return FCItems.charcoalSeed;
 	}
 
-	protected Item getDrop() {
+	public Item getDrop() {
 		return FCItems.charcoalShard;
 	}
 
@@ -33,7 +33,6 @@ public class BlockCharcoalCrop extends CropBase {
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
 		ret.add(new ItemStack(this.getSeed()));
-		System.out.println(metadata);
 		if (metadata >= 7)
 			ret.add(new ItemStack(this.getDrop(), 1, 0));
 

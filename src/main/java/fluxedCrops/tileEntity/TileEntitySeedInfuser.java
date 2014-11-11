@@ -163,12 +163,12 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 				if (getStackInSlot(1).stackSize >= 36) {
 					RecipeRegistry recipes = new RecipeRegistry();
 					for (RecipeSeedInfuser recipe : recipes.getSeedRecipes()) {
-						if (recipe.matches(getStackInSlot(1))) {
-							decrStackSize(1, 36);
-							setInventorySlotContents(0, recipe.getOutput());
-							System.out.println("hi");
+						if (OreDictionary.getOreName(getStackInSlot(1)).equals(recipe.getInput())) {
+								decrStackSize(1, 36);
+								setInventorySlotContents(0, recipe.getOutput());
+								System.out.println("hi");
 
-						}
+							}
 					}
 				}
 			}

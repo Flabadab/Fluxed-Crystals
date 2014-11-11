@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class RecipeSeedInfuser {
 
@@ -33,6 +32,13 @@ public class RecipeSeedInfuser {
 		return false;
 	}
 
+	public boolean matchesInput(ItemStack stack) {
+		if (OreDictionary.getOreName(OreDictionary.getOreID(stack)).equals(getInput())) {
+			return true;
+		}
+		return false;
+	}
+
 	public ItemStack getInput() {
 		return input;
 	}
@@ -40,5 +46,5 @@ public class RecipeSeedInfuser {
 	public ItemStack getOutput() {
 		return output;
 	}
-	
+
 }

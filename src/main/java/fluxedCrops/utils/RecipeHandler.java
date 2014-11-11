@@ -1,5 +1,8 @@
 package fluxedCrops.utils;
 
+import fluxedCrops.api.RecipeRegistry;
+import fluxedCrops.api.recipe.RecipeSeedInfuser;
+
 public class RecipeHandler {
 	
 	public static void init(){
@@ -8,7 +11,6 @@ public class RecipeHandler {
 	}
 
 	private static void registerSeedInfuserRecipes() {
-		fluxedCrops.api.RecipeRegistry.
 	}
 
 	private static void registerRecipes() {

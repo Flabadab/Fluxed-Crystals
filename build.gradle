@@ -25,6 +25,25 @@ minecraft {
     version = "1.7.10-10.13.2.1236"
     runDir = "eclipse"
 }
+repositories{
+    	maven { // ttCore
+			name 'tterrag Repo'
+			url "http://maven.tterrag.com/"
+		}
+		maven {
+        name = "chickenbones"
+        url = "http://chickenbones.net/maven"
+    }
+}
+// Define properties file
+ext.configFile = file "build.properties"
+
+configFile.withReader {
+    // Load config. It shall from now be referenced as simply config or project.config
+    def prop = new Properties()
+    prop.load(it)
+    project.ext.config = new ConfigSlurper().parse prop
+}
 
 dependencies {
     // you may put jars on which you depend on in ./libs
@@ -39,7 +58,10 @@ dependencies {
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
+	compile "codechicken:CodeChickenLib:${config.mc_version}-${config.ccl_version}:dev"
+	compile "codechicken:NotEnoughItems:${config.mc_version}-${config.nei_version}:dev"
+	compile "tterrag.core:ttCore:MC1.7.10-0.0.3-32:deobf"
+	
 }
 
 processResources

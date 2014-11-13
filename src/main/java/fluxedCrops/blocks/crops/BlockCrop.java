@@ -11,20 +11,25 @@ import fluxedCrops.items.FCItems;
 
 public class BlockCrop extends CropBase {
 
-	private Item seed;
-	private Item drop;
+	protected ItemStack seed;
+	protected ItemStack drop;
 
-	public BlockCrop(Item seed, Item drop) {
-		this.seed = seed;
-		this.drop = drop;
+	public BlockCrop() {
 	}
 
-	public Item getSeed() {
+	public ItemStack getSeed() {
 		return seed;
 	}
 
-	public Item getDrop() {
+	public ItemStack getDrop() {
 		return drop;
 	}
 
+	public void setSeed(ItemStack seed) {
+		this.seed = seed;
+	}
+
+	public void setDrop(ItemStack drop) {
+		this.drop = drop;
+	}
 }

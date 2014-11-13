@@ -1,5 +1,7 @@
 package fluxedCrops.items;
 
+import thaumcraft.api.aspects.Aspect;
+import thermalfoundation.item.TFItems;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -11,22 +13,17 @@ import fluxedCrops.items.seeds.ItemSeed;
 
 public class FCItems {
 
-	public static Item ironShard = new ItemShard();
 	public static Item ironSeed = new ItemSeed(FCBlocks.ironCrop);
-
-	public static Item goldShard = new ItemShard();
 	public static Item goldSeed = new ItemSeed(FCBlocks.goldCrop);
-
-	public static Item coalShard = new ItemShard();
 	public static Item coalSeed = new ItemSeed(FCBlocks.coalCrop);
-
-	public static Item charcoalShard = new ItemShard();
 	public static Item charcoalSeed = new ItemSeed(FCBlocks.charcoalCrop);
-
+	public static Item copperSeed = new ItemSeed(FCBlocks.copperCrop);
+	
 	public static void init() {
 		registerItems();
 		registerNBT();
 		registerRecipes();
+		
 	}
 
 	private static void registerRecipes() {
@@ -34,15 +31,11 @@ public class FCItems {
 	}
 
 	private static void registerItems() {
-		registerShard(ironShard, "Iron Shard", "ironShard", ConfigProps.ironColor);
 		registerSeed(ironSeed, "Iron Seed", "seedIron", ConfigProps.ironColor);
-		registerShard(goldShard, "Gold Shard", "goldShard", ConfigProps.goldColor);
 		registerSeed(goldSeed, "Gold Seed", "seedGold", ConfigProps.goldColor);
-		registerShard(coalShard, "Coal Shard", "coalShard", ConfigProps.coalColor);
 		registerSeed(coalSeed, "Coal Seed", "seedCoal", ConfigProps.coalColor);
-		registerShard(charcoalShard, "Charcoal Shard", "charcoalShard", ConfigProps.charcoalColor);
 		registerSeed(charcoalSeed, "Charcoal Seed", "seedCharcoal", ConfigProps.charcoalColor);
-		
+		registerSeed(copperSeed, "Copper Seed", "seedCopper", ConfigProps.copperColor);
 
 	}
 

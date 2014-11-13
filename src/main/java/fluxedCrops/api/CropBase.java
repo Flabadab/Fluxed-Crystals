@@ -3,6 +3,7 @@ package fluxedCrops.api;
 import java.util.ArrayList;
 import java.util.Random;
 
+import thermalfoundation.item.TFItems;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.BlockLeaves;
@@ -13,6 +14,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidTankInfo;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fluxedCrops.ModProps;
@@ -105,42 +107,18 @@ public abstract class CropBase extends BlockCrops {
 		return world.getBlock(x, y, z) == FCBlocks.powerBlock;
 	}
 
-	public abstract Item getSeed();
+	public abstract ItemStack getSeed();
 
-	public abstract Item getDrop();
-
-	public Item getItemDropped(int meta, Random random, int p_149650_3_) {
-		return getSeed();
-	}
-
-	/**
-	 * Returns the quantity of items to drop on block destruction.
-	 */
-	public int quantityDropped(Random random) {
-		return 1;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public Item getItem(World world, int x, int y, int z) {
-		return this.getSeed();
-	}
+	public abstract ItemStack getDrop();
 
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-		ret.add(new ItemStack(this.getSeed()));
+		ret.add(getSeed());
 		if (metadata >= 7)
-			ret.add(new ItemStack(getDrop(), 1, 0));
+			ret.add(getDrop());
 
 		return ret;
-	}
-
-	/**
-	 * Drops the block items with a specified chance of dropping the specified
-	 * items
-	 */
-	public void dropBlockAsItemWithChance(World p_149690_1_, int p_149690_2_, int p_149690_3_, int p_149690_4_, int p_149690_5_, float p_149690_6_, int p_149690_7_) {
-		super.dropBlockAsItemWithChance(p_149690_1_, p_149690_2_, p_149690_3_, p_149690_4_, p_149690_5_, p_149690_6_, 0);
 	}
 
 	public boolean func_149851_a(World p_149851_1_, int p_149851_2_, int p_149851_3_, int p_149851_4_, boolean p_149851_5_) {

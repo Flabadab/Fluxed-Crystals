@@ -1,5 +1,7 @@
 package fluxedCrops;
 
+import thermalfoundation.ThermalFoundation;
+import cofh.api.modhelpers.ThermalExpansionHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.Mod;
@@ -14,11 +16,12 @@ import fluxedCrops.api.recipe.RecipeSeedInfuser;
 import fluxedCrops.blocks.FCBlocks;
 import fluxedCrops.client.gui.GUIHandler;
 import fluxedCrops.config.ConfigHandler;
+import fluxedCrops.handlers.ThaumcraftHandler;
 import fluxedCrops.items.FCItems;
 import fluxedCrops.network.PacketHandler;
 import fluxedCrops.proxy.CommonProxy;
 
-@Mod(modid = ModProps.modid, name = ModProps.name, version = ModProps.version, dependencies = "required-after:ThermalFoundation;required-after:CoFHCore;after:NotEnoughItems")
+@Mod(modid = ModProps.modid, name = ModProps.name, version = ModProps.version, dependencies = "required-after:ThermalFoundation;required-after:CoFHCore;after:Thaumcraft")
 public class FluxedCrops {
 
 	@Instance("fluxedcrops")
@@ -31,14 +34,13 @@ public class FluxedCrops {
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
 		FCItems.init();
 		FCBlocks.init();
+		ThaumcraftHandler.init();
 		PacketHandler.init();
 		new GUIHandler();
-		RecipeRegistry.registerSeedInfuserRecipe(new RecipeSeedInfuser(new ItemStack(Blocks.dirt), new ItemStack(Blocks.diamond_block)));
 	}
 
 	@EventHandler
 	public static void Init(FMLInitializationEvent event) {
-
 	}
 
 	@EventHandler

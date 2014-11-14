@@ -10,7 +10,9 @@ public class ConfigProps {
     public static int goldColor;
     public static int coalColor;
     public static int charcoalColor;
+    public static int copperColor;
     
     
     
+   
 }

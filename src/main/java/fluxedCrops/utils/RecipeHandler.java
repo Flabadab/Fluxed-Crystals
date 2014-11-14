@@ -14,7 +14,7 @@ public class RecipeHandler {
 	}
 
 	private static void registerSeedInfuserRecipes() {
-		RecipeRegistry.registerSeedInfuserRecipe(new RecipeSeedInfuser(new ItemStack(Items.iron_ingot), "ironCrop"));
+		RecipeRegistry.registerSeedInfuserRecipe(new RecipeSeedInfuser(new ItemStack(Items.iron_ingot), new ItemStack(FCItems.ironSeed)));
 		
 	}
 

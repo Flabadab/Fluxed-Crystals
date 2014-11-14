@@ -9,11 +9,11 @@ import net.minecraftforge.oredict.OreDictionary;
 public class RecipeSeedInfuser {
 
 	public ItemStack input;
-	public String cropBlock;
+	public ItemStack output;
 
-	public RecipeSeedInfuser(ItemStack input, String cropBlock) {
+	public RecipeSeedInfuser(ItemStack input, ItemStack output) {
 		this.input = input;
-		this.cropBlock = cropBlock;
+		this.output = output;
 	}
 
 	public boolean matches(ItemStack stack) {
@@ -36,8 +36,8 @@ public class RecipeSeedInfuser {
 		return input;
 	}
 
-	public String getOutput() {
-		return cropBlock;
+	public ItemStack getOutput() {
+		return output;
 	}
 
 }

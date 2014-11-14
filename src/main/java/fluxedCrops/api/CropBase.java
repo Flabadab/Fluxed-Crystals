@@ -23,7 +23,7 @@ import fluxedCrops.ModProps;
 import fluxedCrops.blocks.FCBlocks;
 import fluxedCrops.tileEntity.TileEntityCrop;
 
-public abstract class CropBase extends BlockCrops {
+public abstract class CropBase extends BlockCrops implements ITileEntityProvider {
 	private IIcon[] icons;
 	private String material;
 
@@ -116,6 +116,10 @@ public abstract class CropBase extends BlockCrops {
 
 	public boolean func_149852_a(World p_149852_1_, Random p_149852_2_, int p_149852_3_, int p_149852_4_, int p_149852_5_) {
 		return false;
+	}
+
+	@Override
+	public void dropBlockAsItemWithChance(World p_149690_1_, int p_149690_2_, int p_149690_3_, int p_149690_4_, int p_149690_5_, float p_149690_6_, int p_149690_7_) {
 	}
 
 	/**

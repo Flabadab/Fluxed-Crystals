@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 
@@ -34,12 +35,16 @@ public abstract class SeedBase extends Item implements ISeed, IPlantable {
 		if (world.getBlock(x, y, z) == FCBlocks.powerBlock) {
 			if (hitY == 1.0F) {
 				world.setBlock(x, y + 1, z, crop);
-				world.setTileEntity(x, y+1, z, new TileEntityCrop(stack, drop));
-				
+				ItemStack seed = stack.copy();
+				seed.stackSize = 1;
+				((BlockCrop) world.getBlock(x, y + 1, z)).setOthers(seed, drop, world, x, y + 1, z);
+				world.setTileEntity(x, y + 1, z, new TileEntityCrop(seed, drop));
+				System.out.println(world.getTileEntity(x, y + 1, z));
 				--stack.stackSize;
 				return true;
 			}
 		}
 		return false;
 	}
+
 }

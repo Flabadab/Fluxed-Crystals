@@ -18,7 +18,8 @@ public class SlotSeed extends Slot {
 	}
 
 	public boolean isItemValid(ItemStack stack) {
-//		if (stack.getItem() instanceof ISeed)
+		if (stack.getItem() instanceof ISeed)
 			return true;
+		return false;
 	}
 }

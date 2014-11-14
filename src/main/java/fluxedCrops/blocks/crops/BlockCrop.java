@@ -3,7 +3,7 @@ package fluxedCrops.blocks.crops;
 import java.util.ArrayList;
 
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
@@ -14,7 +14,12 @@ import fluxedCrops.tileEntity.TileEntityCrop;
 public class BlockCrop extends CropBase implements ITileEntityProvider {
 
 	public BlockCrop() {
+	}
 
+	public void onBlockPreDestroy(World world, int x, int y, int z, int meta) {
+		for (ItemStack stack : getDrop(world, x, y, z, meta, (TileEntityCrop) world.getTileEntity(x, y, z))) {
+			world.spawnEntityInWorld(new EntityItem(world, x, y, z, stack));
+		}
 	}
 
 	public void setOthers(ItemStack seed, ItemStack drop, IBlockAccess world, int x, int y, int z) {
@@ -26,18 +31,19 @@ public class BlockCrop extends CropBase implements ITileEntityProvider {
 		}
 	}
 
+	public ArrayList<ItemStack> getDrop(World world, int x, int y, int z, int metadata, TileEntityCrop tile) {
+		System.out.println(world.getBlock(x, y, z) + ":" + tile);
+		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+		ret.add(tile.getSeed());
+		if (metadata >= 7)
+			ret.add(tile.getDrop());
+
+		return ret;
+	}
+
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
-		world.setBlock(x, y + 1, z, Blocks.diamond_ore);
-
-		TileEntityCrop tile = (TileEntityCrop) world.getTileEntity(x, y, z);
-		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-		if (tile != null) {
-			ret.add(tile.getSeed());
-			if (metadata >= 7)
-				ret.add(tile.getDrop());
-		}
-		return ret;
+		return null;
 	}
 
 	@Override

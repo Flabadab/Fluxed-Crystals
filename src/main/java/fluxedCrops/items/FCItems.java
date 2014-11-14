@@ -1,23 +1,21 @@
 package fluxedCrops.items;
 
-import thaumcraft.api.aspects.Aspect;
-import thermalfoundation.item.TFItems;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import thermalfoundation.item.TFItems;
 import cpw.mods.fml.common.registry.GameRegistry;
 import fluxedCrops.ModProps;
 import fluxedCrops.blocks.FCBlocks;
 import fluxedCrops.config.ConfigProps;
-import fluxedCrops.items.seeds.ItemIronSeed;
 import fluxedCrops.items.seeds.ItemSeed;
 
 public class FCItems {
 
-	public static Item ironSeed = new ItemSeed(FCBlocks.ironCrop);
-	public static Item goldSeed = new ItemSeed(FCBlocks.goldCrop);
-	public static Item coalSeed = new ItemSeed(FCBlocks.coalCrop);
-	public static Item charcoalSeed = new ItemSeed(FCBlocks.charcoalCrop);
-	public static Item copperSeed = new ItemSeed(FCBlocks.copperCrop);
+	public static Item ironSeed = new ItemSeed(FCBlocks.ironCrop, TFItems.dustIron);
+	public static Item goldSeed = new ItemSeed(FCBlocks.goldCrop, TFItems.dustIron);
+	public static Item coalSeed = new ItemSeed(FCBlocks.coalCrop, TFItems.dustIron);
+	public static Item charcoalSeed = new ItemSeed(FCBlocks.charcoalCrop, TFItems.dustIron);
+	public static Item copperSeed = new ItemSeed(FCBlocks.copperCrop, TFItems.dustIron);
 	
 	public static void init() {
 		registerItems();

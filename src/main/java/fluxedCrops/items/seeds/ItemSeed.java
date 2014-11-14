@@ -15,8 +15,8 @@ public class ItemSeed extends SeedBase {
 	public Block crop;
 	private int color;
 
-	public ItemSeed(Block crop) {
-		super(crop);
+	public ItemSeed(Block crop, ItemStack drop) {
+		super(crop, drop);
 		this.crop = crop;
 	}
 

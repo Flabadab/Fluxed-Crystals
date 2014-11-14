@@ -87,7 +87,7 @@ public class ThaumcraftHandler {
 
 	private static void registerItems() {
 		for (int i = 0; i < essentiaSeeds.length; i++) {
-			essentiaSeeds[i] = new ItemSeed(essentiaCrops[i]);
+			essentiaSeeds[i] = new ItemSeed(essentiaCrops[i], essentia[i]);
 		}
 
 	}
@@ -101,16 +101,14 @@ public class ThaumcraftHandler {
 	private static void registerOthers() {
 		int i = 0;
 		for (Aspect as : aspects) {
-			registerCrop(essentiaCrops[i], as.getName() + " Crop", as.getName() + "_crop", CreativeTabs.tabBlock, as.getName(), new ItemStack(essentiaSeeds[i]), essentia[i]);
+			registerCrop(essentiaCrops[i], as.getName() + " Crop", as.getName() + "_crop", CreativeTabs.tabBlock, as.getName());
 			registerSeed(essentiaSeeds[i], as.getName() + " Seed", as.getName() + "_seed", as.getColor());
 			i++;
 		}
 	}
 
-	private static void registerCrop(Block block, String name, String key, CreativeTabs tab, String material, ItemStack seed, ItemStack drop) {
+	private static void registerCrop(Block block, String name, String key, CreativeTabs tab, String material) {
 		((CropBase) block).setMaterial(material);
-		((BlockCrop) block).setSeed(seed);
-		((BlockCrop) block).setDrop(drop);
 		block.setBlockName(name).setCreativeTab(tab);
 		GameRegistry.registerBlock(block, key);
 	}

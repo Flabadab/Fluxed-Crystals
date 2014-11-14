@@ -66,8 +66,6 @@ public class FCBlocks {
 
 	private static void registerCrop(Block block, String name, String key, CreativeTabs tab, String material, ItemStack seed, ItemStack drop) {
 		((CropBase) block).setMaterial(material);
-		((BlockCrop) block).setSeed(seed);
-		((BlockCrop) block).setDrop(drop);
 		block.setBlockName(name).setCreativeTab(tab);
 		GameRegistry.registerBlock(block, key);
 	}

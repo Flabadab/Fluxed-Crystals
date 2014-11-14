@@ -1,6 +1,8 @@
 package fluxedCrops.api;
 
 import fluxedCrops.blocks.FCBlocks;
+import fluxedCrops.blocks.crops.BlockCrop;
+import fluxedCrops.tileEntity.TileEntityCrop;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -14,9 +16,11 @@ import net.minecraftforge.common.IPlantable;
 public abstract class SeedBase extends Item implements ISeed, IPlantable {
 
 	private Block crop;
+	private ItemStack drop;
 
-	public SeedBase(Block crop) {
+	public SeedBase(Block crop, ItemStack drop) {
 		this.crop = crop;
+		this.drop = drop;
 	}
 
 	/**
@@ -30,6 +34,8 @@ public abstract class SeedBase extends Item implements ISeed, IPlantable {
 		if (world.getBlock(x, y, z) == FCBlocks.powerBlock) {
 			if (hitY == 1.0F) {
 				world.setBlock(x, y + 1, z, crop);
+				((BlockCrop)world.getBlock(x, y+1, z)).setOthers(stack, drop, world, x, y, z);
+				
 				--stack.stackSize;
 				return true;
 			}

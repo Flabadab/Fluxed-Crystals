@@ -1,34 +1,34 @@
 package fluxedCrops.blocks.crops;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import fluxedCrops.api.CropBase;
-import fluxedCrops.items.FCItems;
 import fluxedCrops.tileEntity.TileEntityCrop;
-import fluxedCrops.tileEntity.TileEntitySeedInfuser;
 
 public class BlockCrop extends CropBase implements ITileEntityProvider {
 
-	protected ItemStack seed;
-	protected ItemStack drop;
+	private TileEntityCrop tile;
 
 	public BlockCrop() {
+
 	}
 
-
-	public void setSeed(ItemStack seed) {
-		this.seed = seed;
+	public void setOthers(ItemStack seed, ItemStack drop, IBlockAccess world, int x, int y, int z) {
+		TileEntityCrop tile = (TileEntityCrop) world.getTileEntity(x, y, z);
+		if (tile != null) {
+			tile.setSeed(seed);
+			tile.setDrop(drop);
+		}
 	}
 
-	public void setDrop(ItemStack drop) {
-		this.drop = drop;
+	public void onBlockAdded(World world, int x, int y, int z) {
+		super.onBlockAdded(world, x, y, z);
+		world.setTileEntity(x, y, z, tile);
 	}
 
 	@Override
@@ -45,6 +45,6 @@ public class BlockCrop extends CropBase implements ITileEntityProvider {
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityCrop(seed, drop);
+		return new TileEntityCrop();
 	}
 }

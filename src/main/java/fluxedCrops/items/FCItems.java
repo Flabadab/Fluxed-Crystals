@@ -12,6 +12,7 @@ import fluxedCrops.items.seeds.ItemSeed;
 public class FCItems {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	public static Item ironSeed = new ItemSeed(FCBlocks.ironCrop, TFItems.dustIron);
 	public static Item goldSeed = new ItemSeed(FCBlocks.goldCrop, TFItems.dustIron);
 	public static Item coalSeed = new ItemSeed(FCBlocks.coalCrop, TFItems.dustIron);
@@ -19,6 +20,8 @@ public class FCItems {
 	public static Item copperSeed = new ItemSeed(FCBlocks.copperCrop, TFItems.dustIron);
 	
 =======
+=======
+>>>>>>> parent of aa4966c... thaumcraft support still WIP
 	public static Item ironShard = new ItemShard();
 	public static Item ironSeed = new ItemSeed(FCBlocks.ironCrop);
 
@@ -31,6 +34,9 @@ public class FCItems {
 	public static Item charcoalShard = new ItemShard();
 	public static Item charcoalSeed = new ItemSeed(FCBlocks.charcoalCrop);
 
+<<<<<<< HEAD
+>>>>>>> parent of aa4966c... thaumcraft support still WIP
+=======
 >>>>>>> parent of aa4966c... thaumcraft support still WIP
 	public static void init() {
 		registerItems();

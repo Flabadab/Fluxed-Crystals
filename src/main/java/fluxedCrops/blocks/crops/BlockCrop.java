@@ -12,24 +12,20 @@ import fluxedCrops.tileEntity.TileEntityCrop;
 
 public class BlockCrop extends CropBase implements ITileEntityProvider {
 
-	private TileEntityCrop tile;
 
 	public BlockCrop() {
 
 	}
 
 	public void setOthers(ItemStack seed, ItemStack drop, IBlockAccess world, int x, int y, int z) {
-		TileEntityCrop tile = (TileEntityCrop) world.getTileEntity(x, y, z);
+		TileEntityCrop tile = (TileEntityCrop) world.getTileEntity(x, y+1, z);
 		if (tile != null) {
 			tile.setSeed(seed);
 			tile.setDrop(drop);
+			System.out.println(seed + " " + drop);
 		}
 	}
 
-	public void onBlockAdded(World world, int x, int y, int z) {
-		super.onBlockAdded(world, x, y, z);
-		world.setTileEntity(x, y, z, tile);
-	}
 
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {

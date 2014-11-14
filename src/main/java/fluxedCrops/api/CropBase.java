@@ -7,9 +7,11 @@ import thermalfoundation.item.TFItems;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -19,8 +21,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fluxedCrops.ModProps;
 import fluxedCrops.blocks.FCBlocks;
+import fluxedCrops.tileEntity.TileEntityCrop;
 
-public abstract class CropBase extends BlockCrops {
+public abstract class CropBase extends BlockCrops implements ITileEntityProvider {
 	private IIcon[] icons;
 	private String material;
 
@@ -107,20 +110,6 @@ public abstract class CropBase extends BlockCrops {
 		return world.getBlock(x, y, z) == FCBlocks.powerBlock;
 	}
 
-	public abstract ItemStack getSeed();
-
-	public abstract ItemStack getDrop();
-
-	@Override
-	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
-		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-		ret.add(getSeed());
-		if (metadata >= 7)
-			ret.add(getDrop());
-
-		return ret;
-	}
-
 	public boolean func_149851_a(World p_149851_1_, int p_149851_2_, int p_149851_3_, int p_149851_4_, boolean p_149851_5_) {
 		return false;
 	}
@@ -135,5 +124,10 @@ public abstract class CropBase extends BlockCrops {
 	 */
 	public boolean canBlockStay(World world, int x, int y, int z) {
 		return world.getBlock(x, y - 1, z) == FCBlocks.powerBlock;
+	}
+
+	@Override
+	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+		return new TileEntityCrop();
 	}
 }

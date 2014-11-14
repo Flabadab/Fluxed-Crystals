@@ -13,7 +13,6 @@ import fluxedCrops.tileEntity.TileEntityCrop;
 public class BlockCrop extends CropBase implements ITileEntityProvider {
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 
 	public BlockCrop() {
 
@@ -45,24 +44,6 @@ public class BlockCrop extends CropBase implements ITileEntityProvider {
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityCrop();
 	}
-=======
-	private Item seed;
-	private Item drop;
-
-	public BlockCrop(Item seed, Item drop) {
-		this.seed = seed;
-		this.drop = drop;
-	}
-
-	public Item getSeed() {
-		return seed;
-	}
-
-	public Item getDrop() {
-		return drop;
-	}
-
->>>>>>> parent of aa4966c... thaumcraft support still WIP
 =======
 	private Item seed;
 	private Item drop;

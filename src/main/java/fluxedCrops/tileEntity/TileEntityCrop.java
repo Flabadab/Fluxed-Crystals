@@ -8,6 +8,11 @@ public class TileEntityCrop extends TileEntity {
 	private ItemStack seed;
 	private ItemStack drop;
 
+	public TileEntityCrop(ItemStack seed, ItemStack drop){
+		this.seed = seed;
+		this.drop = drop;
+		
+	}
 	public ItemStack getSeed() {
 		return seed;
 	}

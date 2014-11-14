@@ -126,8 +126,4 @@ public abstract class CropBase extends BlockCrops implements ITileEntityProvider
 		return world.getBlock(x, y - 1, z) == FCBlocks.powerBlock;
 	}
 
-	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityCrop();
-	}
 }

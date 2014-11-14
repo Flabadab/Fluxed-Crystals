@@ -22,12 +22,6 @@ public class BlockCrop extends CropBase implements ITileEntityProvider {
 	public BlockCrop() {
 	}
 
-	public void onBlockAdded(World world, int x, int y, int z) {
-		super.onBlockAdded(world, x, y, z);
-		TileEntityCrop tile = (TileEntityCrop) world.getTileEntity(x, y, z);
-		tile.setSeed(seed);
-		tile.setDrop(drop);
-	}
 
 	public void setSeed(ItemStack seed) {
 		this.seed = seed;
@@ -51,6 +45,6 @@ public class BlockCrop extends CropBase implements ITileEntityProvider {
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityCrop();
+		return new TileEntityCrop(seed, drop);
 	}
 }

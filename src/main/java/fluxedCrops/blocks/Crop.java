@@ -1,31 +1,29 @@
-package fluxedCrops.api;
+package fluxedCrops.blocks;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import thermalfoundation.item.TFItems;
-import net.minecraft.block.BlockCrops;
-import net.minecraft.block.BlockFlower;
-import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.item.Item;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidTankInfo;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fluxedCrops.ModProps;
-import fluxedCrops.blocks.FCBlocks;
+import fluxedCrops.api.CropBase;
 import fluxedCrops.tileEntity.TileEntityCrop;
 
-public abstract class CropBase extends BlockCrops {
+public class Crop extends CropBase implements ITileEntityProvider {
 	private IIcon[] icons;
 	private String material;
+
+	public Crop() {
+		
+	}
 
 	public boolean growCrop(World world, int x, int y, int z, Random rand) {
 		if (world.getBlockLightValue(x, y + 1, z) >= 9) {
@@ -42,17 +40,6 @@ public abstract class CropBase extends BlockCrops {
 			}
 		}
 		return false;
-	}
-
-	public void setMaterial(String material) {
-		this.material = material;
-	}
-
-	/**
-	 * The type of render function that is called for this block
-	 */
-	public int getRenderType() {
-		return 1;
 	}
 
 	/**
@@ -110,20 +97,22 @@ public abstract class CropBase extends BlockCrops {
 		return world.getBlock(x, y, z) == FCBlocks.powerBlock;
 	}
 
-	public boolean func_149851_a(World p_149851_1_, int p_149851_2_, int p_149851_3_, int p_149851_4_, boolean p_149851_5_) {
-		return false;
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+		world.setBlock(x, y + 1, z, Blocks.diamond_ore);
+
+		TileEntityCrop tile = (TileEntityCrop) world.getTileEntity(x, y, z);
+		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+		if (tile != null) {
+			ret.add(tile.getSeed());
+			if (metadata >= 7)
+				ret.add(tile.getDrop());
+		}
+		return ret;
 	}
 
-	public boolean func_149852_a(World p_149852_1_, Random p_149852_2_, int p_149852_3_, int p_149852_4_, int p_149852_5_) {
-		return false;
+	@Override
+	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+		return new TileEntityCrop();
 	}
-
-	/**
-	 * Can this block stay at this position. Similar to canPlaceBlockAt except
-	 * gets checked often with plants.
-	 */
-	public boolean canBlockStay(World world, int x, int y, int z) {
-		return world.getBlock(x, y - 1, z) == FCBlocks.powerBlock;
-	}
-
 }

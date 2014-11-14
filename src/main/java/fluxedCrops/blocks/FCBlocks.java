@@ -13,6 +13,7 @@ import fluxedCrops.ModProps;
 import fluxedCrops.api.CropBase;
 import fluxedCrops.blocks.crops.BlockCrop;
 import fluxedCrops.items.FCItems;
+import fluxedCrops.tileEntity.TileEntityCrop;
 import fluxedCrops.tileEntity.TileEntityManagerBlock;
 import fluxedCrops.tileEntity.TileEntityPowerBlock;
 import fluxedCrops.tileEntity.TileEntitySeedInfuser;
@@ -25,7 +26,8 @@ public class FCBlocks {
 	public static Block charcoalCrop = new BlockCrop();
 	public static Block copperCrop = new BlockCrop();
 	
-
+	public static Block crop = new BlockCrop();
+	
 	public static Block powerBlock = new BlockPowerBlock();
 	public static Block managerBlock = new BlockManagerBlock();
 	public static Block seedInfuser = new BlockSeedInfuser();
@@ -41,6 +43,8 @@ public class FCBlocks {
 		GameRegistry.registerTileEntity(TileEntityManagerBlock.class, "managerBlock");
 		GameRegistry.registerTileEntity(TileEntityPowerBlock.class, "powerBlock");
 		GameRegistry.registerTileEntity(TileEntitySeedInfuser.class, "seedInfuser");
+		GameRegistry.registerTileEntity(TileEntityCrop.class, "crop");
+		
 	}
 
 	private static void registerBlocks() {

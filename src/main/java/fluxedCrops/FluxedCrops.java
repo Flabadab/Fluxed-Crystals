@@ -37,6 +37,7 @@ public class FluxedCrops {
 		ThaumcraftHandler.init();
 		PacketHandler.init();
 		new GUIHandler();
+		RecipeRegistry.registerSeedInfuserRecipe(new RecipeSeedInfuser(new ItemStack(Blocks.dirt), "dirt"));
 	}
 
 	@EventHandler

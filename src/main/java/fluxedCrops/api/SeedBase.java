@@ -34,7 +34,7 @@ public abstract class SeedBase extends Item implements ISeed, IPlantable {
 		if (world.getBlock(x, y, z) == FCBlocks.powerBlock) {
 			if (hitY == 1.0F) {
 				world.setBlock(x, y + 1, z, crop);
-				((BlockCrop)world.getBlock(x, y+1, z)).setOthers(stack, drop, world, x, y, z);
+				world.setTileEntity(x, y+1, z, new TileEntityCrop(stack, drop));
 				
 				--stack.stackSize;
 				return true;

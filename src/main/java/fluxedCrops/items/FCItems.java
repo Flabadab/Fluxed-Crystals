@@ -16,12 +16,14 @@ public class FCItems {
 	public static Item coalSeed = new ItemSeed(FCBlocks.coalCrop, TFItems.dustIron);
 	public static Item charcoalSeed = new ItemSeed(FCBlocks.charcoalCrop, TFItems.dustIron);
 	public static Item copperSeed = new ItemSeed(FCBlocks.copperCrop, TFItems.dustIron);
-	
+
+	public static Item seed = new Seeds();
+
 	public static void init() {
 		registerItems();
 		registerNBT();
 		registerRecipes();
-		
+
 	}
 
 	private static void registerRecipes() {
@@ -29,12 +31,13 @@ public class FCItems {
 	}
 
 	private static void registerItems() {
-		registerSeed(ironSeed, "Iron Seed", "seedIron", ConfigProps.ironColor);
-		registerSeed(goldSeed, "Gold Seed", "seedGold", ConfigProps.goldColor);
-		registerSeed(coalSeed, "Coal Seed", "seedCoal", ConfigProps.coalColor);
-		registerSeed(charcoalSeed, "Charcoal Seed", "seedCharcoal", ConfigProps.charcoalColor);
-		registerSeed(copperSeed, "Copper Seed", "seedCopper", ConfigProps.copperColor);
+//		registerSeed(ironSeed, "Iron Seed", "seedIron", ConfigProps.ironColor);
+//		registerSeed(goldSeed, "Gold Seed", "seedGold", ConfigProps.goldColor);
+//		registerSeed(coalSeed, "Coal Seed", "seedCoal", ConfigProps.coalColor);
+//		registerSeed(charcoalSeed, "Charcoal Seed", "seedCharcoal", ConfigProps.charcoalColor);
+//		registerSeed(copperSeed, "Copper Seed", "seedCopper", ConfigProps.copperColor);
 
+		registerSeed(seed, "Seed", "seed");
 	}
 
 	private static void registerNBT() {
@@ -57,8 +60,7 @@ public class FCItems {
 		GameRegistry.registerItem(item, name);
 	}
 
-	private static void registerSeed(Item item, String name, String key, int color) {
-		((ItemSeed) item).setColor(color);
+	private static void registerSeed(Item item, String name, String key) {
 		item.setUnlocalizedName(key).setTextureName(ModProps.modid + ":" + "seed").setCreativeTab(CreativeTabs.tabBlock);
 		GameRegistry.registerItem(item, name);
 	}

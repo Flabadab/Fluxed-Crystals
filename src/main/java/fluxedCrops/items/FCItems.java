@@ -11,17 +11,17 @@ import fluxedCrops.items.seeds.ItemSeed;
 
 public class FCItems {
 
-	public static Item ironSeed = new ItemSeed(FCBlocks.ironCrop, TFItems.dustIron);
-	public static Item goldSeed = new ItemSeed(FCBlocks.goldCrop, TFItems.dustIron);
-	public static Item coalSeed = new ItemSeed(FCBlocks.coalCrop, TFItems.dustIron);
-	public static Item charcoalSeed = new ItemSeed(FCBlocks.charcoalCrop, TFItems.dustIron);
-	public static Item copperSeed = new ItemSeed(FCBlocks.copperCrop, TFItems.dustIron);
-	
+	public static Item ironSeed = new ItemSeed();
+	public static Item goldSeed = new ItemSeed();
+	public static Item coalSeed = new ItemSeed();
+	public static Item charcoalSeed = new ItemSeed();
+	public static Item copperSeed = new ItemSeed();
+
 	public static void init() {
 		registerItems();
 		registerNBT();
 		registerRecipes();
-		
+
 	}
 
 	private static void registerRecipes() {

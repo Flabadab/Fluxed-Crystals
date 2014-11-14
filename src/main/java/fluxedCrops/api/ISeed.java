@@ -7,7 +7,6 @@ import net.minecraft.block.Block;
  */
 public interface ISeed {
 
-    public Block getCrop();
 
 
 }

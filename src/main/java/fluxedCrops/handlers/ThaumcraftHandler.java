@@ -8,7 +8,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import thaumcraft.api.ItemApi;
 import thaumcraft.api.aspects.Aspect;
-import thaumcraft.api.aspects.AspectList;
 import cpw.mods.fml.common.registry.GameRegistry;
 import fluxedCrops.ModProps;
 import fluxedCrops.api.CropBase;
@@ -87,7 +86,7 @@ public class ThaumcraftHandler {
 
 	private static void registerItems() {
 		for (int i = 0; i < essentiaSeeds.length; i++) {
-			essentiaSeeds[i] = new ItemSeed(essentiaCrops[i], essentia[i]);
+			essentiaSeeds[i] = new ItemSeed();
 		}
 
 	}

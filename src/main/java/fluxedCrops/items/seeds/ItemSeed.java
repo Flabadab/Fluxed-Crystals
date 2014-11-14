@@ -1,6 +1,8 @@
 package fluxedCrops.items.seeds;
 
+import fluxedCrops.api.RecipeRegistry;
 import fluxedCrops.api.SeedBase;
+import fluxedCrops.api.recipe.SeedCropRecipe;
 import fluxedCrops.blocks.FCBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -12,12 +14,9 @@ import net.minecraftforge.common.EnumPlantType;
  */
 public class ItemSeed extends SeedBase {
 
-	public Block crop;
 	private int color;
 
-	public ItemSeed(Block crop, ItemStack drop) {
-		super(crop, drop);
-		this.crop = crop;
+	public ItemSeed() {
 	}
 
 	public void setColor(int color) {
@@ -33,10 +32,6 @@ public class ItemSeed extends SeedBase {
 		return color;
 	}
 
-	@Override
-	public Block getCrop() {
-		return crop;
-	}
 
 	@Override
 	public EnumPlantType getPlantType(IBlockAccess world, int x, int y, int z) {
@@ -45,7 +40,13 @@ public class ItemSeed extends SeedBase {
 
 	@Override
 	public Block getPlant(IBlockAccess world, int x, int y, int z) {
-		return crop;
+		for(SeedCropRecipe recipe : RecipeRegistry.getSeedCropRecipes()){
+			if(recipe.matches(new ItemStack(this))){
+				return recipe.getCrop();
+			}
+		}
+		
+		return null;
 	}
 
 	@Override

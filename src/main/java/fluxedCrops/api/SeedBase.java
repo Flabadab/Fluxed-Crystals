@@ -1,5 +1,6 @@
 package fluxedCrops.api;
 
+import fluxedCrops.api.recipe.SeedCropRecipe;
 import fluxedCrops.blocks.FCBlocks;
 import fluxedCrops.blocks.crops.BlockCrop;
 import fluxedCrops.tileEntity.TileEntityCrop;
@@ -15,12 +16,7 @@ import net.minecraftforge.common.IPlantable;
  */
 public abstract class SeedBase extends Item implements ISeed, IPlantable {
 
-	private Block crop;
-	private ItemStack drop;
-
-	public SeedBase(Block crop, ItemStack drop) {
-		this.crop = crop;
-		this.drop = drop;
+	public SeedBase() {
 	}
 
 	/**
@@ -30,14 +26,20 @@ public abstract class SeedBase extends Item implements ISeed, IPlantable {
 	 */
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int meta, float hitX, float hitY, float hitZ) {
-
+		ItemStack seeds = stack.copy();
+		seeds.stackSize = 1;
 		if (world.getBlock(x, y, z) == FCBlocks.powerBlock) {
 			if (hitY == 1.0F) {
-				world.setBlock(x, y + 1, z, crop);
-				((BlockCrop)world.getBlock(x, y+1, z)).setOthers(stack, drop, world, x, y, z);
-				
-				--stack.stackSize;
-				return true;
+				for (SeedCropRecipe recipe : RecipeRegistry.getSeedCropRecipes()) {
+					if (recipe.matches(seeds)) {
+						System.out.println(recipe);
+						world.setBlock(x, y + 1, z, recipe.getCrop());
+						((BlockCrop) world.getBlock(x, y + 1, z)).setOthers(recipe.getSeed(), recipe.getDrop(), world, x, y, z);
+						--stack.stackSize;
+						return true;
+					}
+				}
+
 			}
 		}
 		return false;

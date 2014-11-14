@@ -1,6 +1,7 @@
 package fluxedCrops;
 
 import thermalfoundation.ThermalFoundation;
+import thermalfoundation.item.TFItems;
 import cofh.api.modhelpers.ThermalExpansionHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -13,6 +14,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import fluxedCrops.api.RecipeRegistry;
 import fluxedCrops.api.recipe.RecipeSeedInfuser;
+import fluxedCrops.api.recipe.SeedCropRecipe;
 import fluxedCrops.blocks.FCBlocks;
 import fluxedCrops.client.gui.GUIHandler;
 import fluxedCrops.config.ConfigHandler;
@@ -37,6 +39,7 @@ public class FluxedCrops {
 		ThaumcraftHandler.init();
 		PacketHandler.init();
 		new GUIHandler();
+		RecipeRegistry.addCrop(new SeedCropRecipe(new ItemStack(FCItems.ironSeed), FCBlocks.ironCrop, TFItems.dustIron));
 	}
 
 	@EventHandler

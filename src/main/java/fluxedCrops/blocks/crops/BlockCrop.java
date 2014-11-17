@@ -24,8 +24,8 @@ public class BlockCrop extends CropBase implements ITileEntityProvider {
 		for (SeedCropRecipe recipe : RecipeRegistry.getSeedCropRecipes()) {
 			if (recipe.matches(((TileEntityCrop) world.getTileEntity(x, y, z)).getSeed().copy())) {
 				if (metadata >= 7)
-					world.spawnEntityInWorld(new EntityItem(world, x, y, z, ((TileEntityCrop) world.getTileEntity(x, y, z)).getDrop().copy()));
-				world.spawnEntityInWorld(new EntityItem(world, x, y, z, ((TileEntityCrop) world.getTileEntity(x, y, z)).getSeed().copy()));
+					dropBlockAsItem(world, x, y, z, ((TileEntityCrop) world.getTileEntity(x, y, z)).getDrop().copy());
+				dropBlockAsItem(world, x, y, z, ((TileEntityCrop) world.getTileEntity(x, y, z)).getSeed().copy());
 			}
 		}
 	}

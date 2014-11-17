@@ -86,7 +86,7 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 							if (!worldObj.isRemote)
 								PacketHandler.INSTANCE.sendToServer(new MessageEnergyUpdate(xCoord, yCoord, zCoord, storage.getEnergyStored() - 250));
 
-						} else if (getStackInSlot(1) != null && items >= 0 && getStackInSlot(0) == null) {
+						} else if (getStackInSlot(1) != null && items >= 0) {
 							decrStackSize(1, 1);
 							worldObj.setBlock(xCoord + x, yCoord, zCoord + z, FCBlocks.powerBlock);
 							((TileEntityPowerBlock) worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z)).setManager(this);

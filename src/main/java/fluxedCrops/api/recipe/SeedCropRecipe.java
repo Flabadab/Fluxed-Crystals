@@ -27,7 +27,7 @@ public class SeedCropRecipe {
 	}
 
 	public ItemStack getSeed() {
-		return seed;
+		return seed.copy();
 	}
 
 	public Block getCrop() {
@@ -35,7 +35,7 @@ public class SeedCropRecipe {
 	}
 
 	public ItemStack getDrop() {
-		return drop;
+		return drop.copy();
 	}
 
 }

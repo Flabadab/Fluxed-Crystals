@@ -1,26 +1,24 @@
 package fluxedCrops.items.seeds;
 
+import java.util.List;
+
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
+import fluxedCrops.FluxedCrops;
 import fluxedCrops.api.RecipeRegistry;
 import fluxedCrops.api.SeedBase;
 import fluxedCrops.api.recipe.SeedCropRecipe;
-import fluxedCrops.blocks.FCBlocks;
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.EnumPlantType;
 
 /**
  * Created by Jared on 11/2/2014.
  */
 public class ItemSeed extends SeedBase {
 
-	private int color;
-
 	public ItemSeed() {
-	}
-
-	public void setColor(int color) {
-		this.color = color;
+		setUnlocalizedName("fluxedCrops.seed");
+		setTextureName("fluxedcrops:seed");
 	}
 
 	public int getRenderPasses(int metadata) {
@@ -29,28 +27,20 @@ public class ItemSeed extends SeedBase {
 
 	@Override
 	public int getColorFromItemStack(ItemStack par1ItemStack, int par2) {
-		return color;
+		return RecipeRegistry.getColor(par1ItemStack.getItemDamage());
 	}
-
-
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public EnumPlantType getPlantType(IBlockAccess world, int x, int y, int z) {
-		return EnumPlantType.Crop;
-	}
-
-	@Override
-	public Block getPlant(IBlockAccess world, int x, int y, int z) {
-		for(SeedCropRecipe recipe : RecipeRegistry.getSeedCropRecipes()){
-			if(recipe.matches(new ItemStack(this))){
-				return recipe.getCrop();
-			}
+	public void getSubItems(Item p_150895_1_, CreativeTabs p_150895_2_, List list) {
+		int numSeeds = RecipeRegistry.getSeedCropRecipes().size();
+		for (int i = 0; i < numSeeds; i++) {
+			list.add(new ItemStack(this, 1, i));
 		}
-		
-		return null;
 	}
-
+	
 	@Override
-	public int getPlantMetadata(IBlockAccess world, int x, int y, int z) {
-		return 0;
+	public String getItemStackDisplayName(ItemStack stack) {
+		return String.format(StatCollector.translateToLocal(getUnlocalizedName() + ".name"), RecipeRegistry.getName(stack.getItemDamage()));
 	}
 }

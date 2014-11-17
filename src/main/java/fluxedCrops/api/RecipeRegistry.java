@@ -1,44 +1,46 @@
 package fluxedCrops.api;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
+import java.util.List;
 
-import thaumcraft.api.aspects.Aspect;
-import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+
+import com.google.common.collect.ImmutableList;
+
 import fluxedCrops.api.recipe.RecipeSeedInfuser;
 import fluxedCrops.api.recipe.SeedCropRecipe;
 
 public class RecipeRegistry {
 
-	public static ArrayList<RecipeSeedInfuser> seedRecipes = new ArrayList<RecipeSeedInfuser>();
+	public static List<RecipeSeedInfuser> seedRecipes = new ArrayList<RecipeSeedInfuser>();
 
-	public static ArrayList<SeedCropRecipe> crops = new ArrayList<SeedCropRecipe>();
+	public static List<SeedCropRecipe> crops = new ArrayList<SeedCropRecipe>();
 
-	public static ArrayList<RecipeSeedInfuser> getSeedRecipes() {
-		return seedRecipes;
-
+	public static List<RecipeSeedInfuser> getSeedRecipes() {
+		return ImmutableList.copyOf(seedRecipes);
 	}
 
 	public static void registerSeedInfuserRecipe(RecipeSeedInfuser recipe) {
-		getSeedRecipes().add(recipe);
+		seedRecipes.add(recipe);
 	}
 
-	public static void addCrop(SeedCropRecipe recipe) {
-		crops.add(recipe);
+	public static void addCrop(SeedCropRecipe type) {
+		crops.add(type);
 	}
 
-	public static ArrayList<SeedCropRecipe> getSeedCropRecipes() {
-		return crops;
+	public static List<SeedCropRecipe> getSeedCropRecipes() {
+		return ImmutableList.copyOf(crops);
 	}
 
-	public static Block getCrop(ItemStack seed) {
-		for (SeedCropRecipe recipe : getSeedCropRecipes()) {
-			if (recipe.matches(seed)) {
-				return recipe.getCrop();
-			}
-		}
-		return null;
+	public static int getColor(int itemDamage) {
+		return crops.get(itemDamage).getColor();
+	}
+	
+	public static ItemStack getDrop(int itemDamage) {
+		return crops.get(itemDamage).getDrop().copy();
+	}
+
+	public static String getName(int itemDamage) {
+		return crops.get(itemDamage).getName();
 	}
 }

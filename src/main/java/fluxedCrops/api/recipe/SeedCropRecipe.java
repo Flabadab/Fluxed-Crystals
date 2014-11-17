@@ -1,41 +1,18 @@
 package fluxedCrops.api.recipe;
 
-import java.util.ArrayList;
-
-import net.minecraft.block.Block;
+import lombok.Getter;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
+@Getter
 public class SeedCropRecipe {
 
-	public ItemStack seed;
-	public Block crop;
-	public ItemStack drop;
+	private String name;
+	private ItemStack drop;
+	private int color;
 
-	public SeedCropRecipe(ItemStack seed, Block crop, ItemStack drop) {
-		this.seed = seed;
-		this.crop = crop;
+	public SeedCropRecipe(String name, ItemStack drop, int color) {
+		this.name = name;
 		this.drop = drop;
+		this.color = color;
 	}
-
-	public boolean matches(ItemStack seed) {
-		return getSeed().isItemEqual(seed);
-	}
-
-	public boolean matches(Block crop) {
-		return Block.isEqualTo(getCrop(), crop);
-	}
-
-	public ItemStack getSeed() {
-		return seed.copy();
-	}
-
-	public Block getCrop() {
-		return crop;
-	}
-
-	public ItemStack getDrop() {
-		return drop.copy();
-	}
-
 }

@@ -1,10 +1,8 @@
 package fluxedCrops;
 
-import thermalfoundation.ThermalFoundation;
-import thermalfoundation.item.TFItems;
-import cofh.api.modhelpers.ThermalExpansionHelper;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
+import java.io.File;
+
+import tterrag.core.common.Lang;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -12,9 +10,6 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import fluxedCrops.api.RecipeRegistry;
-import fluxedCrops.api.recipe.RecipeSeedInfuser;
-import fluxedCrops.api.recipe.SeedCropRecipe;
 import fluxedCrops.blocks.FCBlocks;
 import fluxedCrops.client.gui.GUIHandler;
 import fluxedCrops.config.ConfigHandler;
@@ -31,10 +26,12 @@ public class FluxedCrops {
 	public static FluxedCrops instance;
 	@SidedProxy(clientSide = "fluxedCrops.proxy.ClientProxy", serverSide = "fluxedCrops.proxy.CommonProxy")
 	public static CommonProxy proxy;
+	
+	public static final Lang lang = new Lang("fluxedCrops");
 
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {
-		ConfigHandler.init(event.getSuggestedConfigurationFile());
+		ConfigHandler.init(new File(event.getSuggestedConfigurationFile().getParentFile() + "/fluxedCrops/fluxedCrops.cfg"));
 		FCItems.init();
 		FCBlocks.init();
 		ThaumcraftHandler.init();

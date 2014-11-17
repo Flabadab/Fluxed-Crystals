@@ -1,39 +1,39 @@
 package fluxedCrops.tileEntity;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import fluxedCrops.api.RecipeRegistry;
 
 public class TileEntityCrop extends TileEntity {
 
-	private ItemStack seed;
-	private ItemStack drop;
+	private int idx = 0;
 
 	public TileEntityCrop() {
 
 	}
-
-	public TileEntityCrop(ItemStack seed, ItemStack drop) {
-		this.seed = seed;
-		this.drop = drop;
-
-	}
-
-	public ItemStack getSeed() {
-		return seed;
-	}
-
+	
 	public ItemStack getDrop() {
-		return drop;
+		return RecipeRegistry.getDrop(idx);
+	}
+	
+	public int getIndex() {
+		return idx;
 	}
 
-	public void setSeed(ItemStack seed) {
-		this.seed = seed;
+	public void init(int itemDamage) {
+		this.idx = itemDamage;
 	}
-
-	public void setDrop(ItemStack drop) {
-		this.drop = drop;
+	
+	@Override
+	public void writeToNBT(NBTTagCompound tag) {
+		super.writeToNBT(tag);
+		tag.setInteger("index", idx);
 	}
-
+	
+	@Override
+	public void readFromNBT(NBTTagCompound tag) {
+		super.readFromNBT(tag);
+		this.idx = tag.getInteger("index");
+	}
 }

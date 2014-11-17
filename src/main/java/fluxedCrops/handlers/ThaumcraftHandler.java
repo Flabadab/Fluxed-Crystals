@@ -348,7 +348,7 @@ public class ThaumcraftHandler {
 	}
 
 	private static void registerSeed(Item item, String name, String key, int color) {
-		((ItemSeed) item).setColor(color);
+//		((ItemSeed) item).setColor(color);
 		item.setUnlocalizedName(key).setTextureName(ModProps.modid + ":" + "seed").setCreativeTab(CreativeTabs.tabBlock);
 		GameRegistry.registerItem(item, name);
 	}
@@ -356,7 +356,7 @@ public class ThaumcraftHandler {
 	private static void registerSeedCrop(Item seed, Block crop, Aspect aspect, ItemStack drop) {
 		registerCrop(crop, aspect.getName() + " Crop", aspect.getName() + "_crop", aspect.getName());
 		registerSeed(seed, aspect.getName() + " Seed", aspect.getName() + "_seed", aspect.getColor());
-		RecipeRegistry.addCrop(new SeedCropRecipe(new ItemStack(seed), crop, drop));
+//		RecipeRegistry.addCrop(new SeedCropRecipe(new ItemStack(seed), crop, drop));
 	}
 
 }

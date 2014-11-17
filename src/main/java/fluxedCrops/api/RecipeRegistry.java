@@ -33,4 +33,12 @@ public class RecipeRegistry {
 		return crops;
 	}
 
+	public static Block getCrop(ItemStack seed) {
+		for (SeedCropRecipe recipe : getSeedCropRecipes()) {
+			if (recipe.matches(seed)) {
+				return recipe.getCrop();
+			}
+		}
+		return null;
+	}
 }

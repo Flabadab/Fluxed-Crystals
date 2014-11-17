@@ -23,6 +23,8 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 
 	public boolean placedBlocks = false;
 
+	public boolean shouldPlaceBlocks = false;
+
 	private int size = 0;
 
 	private ArrayList<TileEntityPowerBlock> powerBlocks = new ArrayList<TileEntityPowerBlock>();
@@ -42,10 +44,26 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 		return new ForgeDirection[] { ForgeDirection.UNKNOWN };
 	}
 
+	public void updateEntity() {
+		if(shouldPlaceBlocks){
+			
+		}
+		
+
+		if (worldObj.getWorldTime() % 1 == 0) {
+			for (TileEntityPowerBlock power : powerBlocks) {
+				if (this.storage.getEnergyStored() > 250)
+					if (power.growPlant(worldObj)) {
+						this.storage.extractEnergy(250, false);
+					}
+			}
+
+		}
+	}
+
 	public void placePowerBlocks(int size) {
 		for (int x = (size - (size * 2)); x <= size; x++) {
 			for (int z = (size - (size * 2)); z <= size; z++) {
-
 				if (worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == FCBlocks.managerBlock) {
 					// NO-OP
 				} else {
@@ -68,7 +86,7 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 							if (!worldObj.isRemote)
 								PacketHandler.INSTANCE.sendToServer(new MessageEnergyUpdate(xCoord, yCoord, zCoord, storage.getEnergyStored() - 250));
 
-						} else if (getStackInSlot(1) != null && items >= 0 && getStackInSlot(0).stackSize == 0) {
+						} else if (getStackInSlot(1) != null && items >= 0 && getStackInSlot(0) == null) {
 							decrStackSize(1, 1);
 							worldObj.setBlock(xCoord + x, yCoord, zCoord + z, FCBlocks.powerBlock);
 							((TileEntityPowerBlock) worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z)).setManager(this);
@@ -120,19 +138,6 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 	public boolean canPlacePowerBlocks() {
 		return canPlacePowerBlocks(size);
 
-	}
-
-	public void updateEntity() {
-
-		if (worldObj.getWorldTime() % 12 == 0) {
-			for (TileEntityPowerBlock power : powerBlocks) {
-				if (this.storage.getEnergyStored() > 250)
-					if (power.growPlant(worldObj)) {
-						this.storage.extractEnergy(250, false);
-					}
-			}
-
-		}
 	}
 
 	public void invalidatePowerBlocks() {

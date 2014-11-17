@@ -19,6 +19,12 @@ public abstract class SeedBase extends Item implements ISeed, IPlantable {
 	public SeedBase() {
 	}
 
+	private int color;
+
+	public void setColor(int color) {
+		this.color = color;
+	}
+
 	/**
 	 * Callback for item usage. If the item does something special on right
 	 * clicking, he will have one of those. Return True if something happen and
@@ -32,7 +38,6 @@ public abstract class SeedBase extends Item implements ISeed, IPlantable {
 			if (hitY == 1.0F) {
 				for (SeedCropRecipe recipe : RecipeRegistry.getSeedCropRecipes()) {
 					if (recipe.matches(seeds)) {
-						System.out.println(recipe);
 						world.setBlock(x, y + 1, z, recipe.getCrop());
 						((BlockCrop) world.getBlock(x, y + 1, z)).setOthers(recipe.getSeed(), recipe.getDrop(), world, x, y, z);
 						--stack.stackSize;

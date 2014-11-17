@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
@@ -19,8 +20,13 @@ public class BlockCrop extends CropBase implements ITileEntityProvider {
 	}
 
 	public void onBlockPreDestroy(World world, int x, int y, int z, int metadata) {
-		for (ItemStack stack : getDrop(world, x, y, z, metadata, (TileEntityCrop) world.getTileEntity(x, y, z))) {
-			world.spawnEntityInWorld(new EntityItem(world, x, y, z, stack));
+
+		for (SeedCropRecipe recipe : RecipeRegistry.getSeedCropRecipes()) {
+			if (recipe.matches(((TileEntityCrop) world.getTileEntity(x, y, z)).getSeed().copy())) {
+				if (metadata >= 7)
+					world.spawnEntityInWorld(new EntityItem(world, x, y, z, ((TileEntityCrop) world.getTileEntity(x, y, z)).getDrop().copy()));
+				world.spawnEntityInWorld(new EntityItem(world, x, y, z, ((TileEntityCrop) world.getTileEntity(x, y, z)).getSeed().copy()));
+			}
 		}
 	}
 
@@ -34,21 +40,6 @@ public class BlockCrop extends CropBase implements ITileEntityProvider {
 
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
-
-		return null;
-	}
-
-	public ArrayList<ItemStack> getDrop(World world, int x, int y, int z, int metadata, TileEntityCrop tile) {
-		for (SeedCropRecipe recipe : RecipeRegistry.getSeedCropRecipes()) {
-			if (recipe.matches(this)) {
-				ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-				ret.add(recipe.getSeed());
-				if (metadata >= 7)
-					ret.add(recipe.getDrop());
-
-				return ret;
-			}
-		}
 		return null;
 	}
 

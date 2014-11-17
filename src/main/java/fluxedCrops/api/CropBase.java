@@ -9,6 +9,7 @@ import net.minecraft.block.BlockFlower;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -23,7 +24,7 @@ import fluxedCrops.ModProps;
 import fluxedCrops.blocks.FCBlocks;
 import fluxedCrops.tileEntity.TileEntityCrop;
 
-public abstract class CropBase extends BlockCrops implements ITileEntityProvider {
+public abstract class CropBase extends BlockCrops {
 	private IIcon[] icons;
 	private String material;
 
@@ -129,4 +130,5 @@ public abstract class CropBase extends BlockCrops implements ITileEntityProvider
 	public void dropBlockAsItemWithChance(World p_149690_1_, int p_149690_2_, int p_149690_3_, int p_149690_4_, int p_149690_5_, float p_149690_6_, int p_149690_7_) {
 
 	}
+
 }

@@ -2,7 +2,6 @@ package fluxedCrops.api.recipe;
 
 import java.util.ArrayList;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -29,7 +28,13 @@ public class RecipeSeedInfuser {
 	}
 
 	public boolean matchesInput(ItemStack stack) {
-		return OreDictionary.getOreName(OreDictionary.getOreID(stack)).equals(getInput());
+		int[] ids = OreDictionary.getOreIDs(stack);
+		for (int id : ids) {
+			if (OreDictionary.getOreName(id).equals(getInput())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public ItemStack getInput() {

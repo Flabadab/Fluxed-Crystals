@@ -15,16 +15,4 @@ public class SeedCropRecipe {
 		this.drop = drop;
 		this.color = color;
 	}
-
-	public String getName() {
-		return name;
-	}
-
-	public ItemStack getDrop() {
-		return drop;
-	}
-
-	public int getColor() {
-		return color;
-	}
 }

@@ -1,28 +1,16 @@
 package fluxedCrops.api;
 
-import java.util.ArrayList;
 import java.util.Random;
 
-import thermalfoundation.item.TFItems;
 import net.minecraft.block.BlockCrops;
-import net.minecraft.block.BlockFlower;
-import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidTankInfo;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fluxedCrops.ModProps;
 import fluxedCrops.blocks.FCBlocks;
-import fluxedCrops.tileEntity.TileEntityCrop;
 
 public abstract class CropBase extends BlockCrops {
 	private IIcon[] icons;

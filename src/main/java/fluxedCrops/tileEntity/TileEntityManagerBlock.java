@@ -261,7 +261,6 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 	public void readPowerBlocksFromNBT(NBTTagCompound tags) {
 		NBTTagList nbttaglist = tags.getTagList("powerBlocks", Constants.NBT.TAG_COMPOUND);
 		for (int iter = 0; iter < nbttaglist.tagCount(); iter++) {
-			NBTTagCompound tagList = (NBTTagCompound) nbttaglist.getCompoundTagAt(iter);
 			TileEntityPowerBlock tile = new TileEntityPowerBlock();
 			tile.readFromNBT(nbttaglist.getCompoundTagAt(iter));
 			powerBlocks.add(tile);

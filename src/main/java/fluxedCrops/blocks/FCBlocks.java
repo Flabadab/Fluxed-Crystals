@@ -2,17 +2,9 @@ package fluxedCrops.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import thermalfoundation.item.TFItems;
-import tterrag.core.TTCore;
-import tterrag.core.common.compat.CompatabilityRegistry;
-import tterrag.core.common.util.RegisterTime;
 import cpw.mods.fml.common.registry.GameRegistry;
 import fluxedCrops.ModProps;
-import fluxedCrops.api.CropBase;
 import fluxedCrops.blocks.crops.BlockCrop;
-import fluxedCrops.items.FCItems;
 import fluxedCrops.tileEntity.TileEntityCrop;
 import fluxedCrops.tileEntity.TileEntityManagerBlock;
 import fluxedCrops.tileEntity.TileEntityPowerBlock;

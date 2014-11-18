@@ -4,17 +4,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ContainerFurnace;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
 import fluxedCrops.ModProps;
-import fluxedCrops.client.gui.manager.ContainerManagerBlock;
-import fluxedCrops.network.MessageManagerBlock;
 import fluxedCrops.network.MessageSeedInfuser;
 import fluxedCrops.network.PacketHandler;
-import fluxedCrops.tileEntity.TileEntityManagerBlock;
 import fluxedCrops.tileEntity.TileEntitySeedInfuser;
 
 public class GUISeedInfuser extends GuiContainer {

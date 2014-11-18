@@ -1,23 +1,5 @@
 package fluxedCrops.utils;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.PixelGrabber;
-
-import org.apache.commons.compress.archivers.zip.GeneralPurposeBit;
-
-import thaumcraft.api.aspects.Aspect;
-import thaumcraft.api.aspects.IAspectContainer;
-import thermalfoundation.item.TFItems;
-import net.minecraft.block.Block;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import fluxedCrops.api.RecipeRegistry;
-import fluxedCrops.api.recipe.RecipeSeedInfuser;
-import fluxedCrops.api.recipe.SeedCropRecipe;
-import fluxedCrops.blocks.FCBlocks;
-import fluxedCrops.handlers.ThaumcraftHandler;
-import fluxedCrops.items.FCItems;
 
 public class RecipeHandler {
 

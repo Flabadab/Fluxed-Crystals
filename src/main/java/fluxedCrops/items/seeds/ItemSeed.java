@@ -6,10 +6,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
-import fluxedCrops.FluxedCrops;
 import fluxedCrops.api.RecipeRegistry;
 import fluxedCrops.api.SeedBase;
-import fluxedCrops.api.recipe.SeedCropRecipe;
 
 /**
  * Created by Jared on 11/2/2014.

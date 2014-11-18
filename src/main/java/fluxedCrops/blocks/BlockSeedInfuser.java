@@ -1,13 +1,13 @@
 package fluxedCrops.blocks;
 
-import fluxedCrops.FluxedCrops;
-import fluxedCrops.tileEntity.TileEntitySeedInfuser;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import fluxedCrops.FluxedCrops;
+import fluxedCrops.tileEntity.TileEntitySeedInfuser;
 
 /**
  * Created by Jared on 11/2/2014.

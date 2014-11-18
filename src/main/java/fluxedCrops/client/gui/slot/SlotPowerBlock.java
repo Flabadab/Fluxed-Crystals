@@ -1,9 +1,9 @@
 package fluxedCrops.client.gui.slot;
 
-import fluxedCrops.blocks.FCBlocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import fluxedCrops.blocks.FCBlocks;
 
 public class SlotPowerBlock extends Slot {
 

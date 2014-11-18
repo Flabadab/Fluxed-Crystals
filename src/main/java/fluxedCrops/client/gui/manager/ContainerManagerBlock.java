@@ -1,14 +1,12 @@
 package fluxedCrops.client.gui.manager;
 
-import fluxedCrops.blocks.BlockPowerBlock;
-import fluxedCrops.blocks.FCBlocks;
-import fluxedCrops.client.gui.slot.SlotPowerBlock;
-import fluxedCrops.tileEntity.TileEntityManagerBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import fluxedCrops.client.gui.slot.SlotPowerBlock;
+import fluxedCrops.tileEntity.TileEntityManagerBlock;
 
 public class ContainerManagerBlock extends Container {
 

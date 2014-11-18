@@ -1,6 +1,5 @@
 package fluxedCrops.blocks;
 
-import fluxedCrops.tileEntity.TileEntityPowerBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -9,6 +8,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
+import fluxedCrops.tileEntity.TileEntityPowerBlock;
 
 public class BlockPowerBlock extends Block implements ITileEntityProvider{
 

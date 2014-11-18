@@ -2,6 +2,9 @@ package fluxedCrops;
 
 import java.io.File;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import tterrag.core.common.Lang;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -27,7 +30,9 @@ public class FluxedCrops {
 	@SidedProxy(clientSide = "fluxedCrops.proxy.ClientProxy", serverSide = "fluxedCrops.proxy.CommonProxy")
 	public static CommonProxy proxy;
 	
-	public static final Lang lang = new Lang("fluxedCrops");
+	public static final Lang lang = new Lang(ModProps.modid);
+	
+	public static final Logger logger = LogManager.getLogger(ModProps.name);
 
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {

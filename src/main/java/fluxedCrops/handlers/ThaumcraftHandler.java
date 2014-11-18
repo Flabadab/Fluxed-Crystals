@@ -6,12 +6,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import thaumcraft.api.ItemApi;
 import thaumcraft.api.aspects.Aspect;
-import thaumcraft.api.aspects.AspectList;
 import cpw.mods.fml.common.registry.GameRegistry;
 import fluxedCrops.ModProps;
 import fluxedCrops.api.CropBase;
-import fluxedCrops.api.RecipeRegistry;
-import fluxedCrops.api.recipe.SeedCropRecipe;
 import fluxedCrops.blocks.crops.BlockCrop;
 import fluxedCrops.items.seeds.ItemSeed;
 

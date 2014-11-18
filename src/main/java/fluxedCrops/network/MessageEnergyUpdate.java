@@ -1,10 +1,10 @@
 package fluxedCrops.network;
 
+import fluxedCrops.utils.ClientUtils;
+import io.netty.buffer.ByteBuf;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import fluxedCrops.utils.ClientUtils;
-import io.netty.buffer.ByteBuf;
 
 public class MessageEnergyUpdate implements IMessage, IMessageHandler<MessageEnergyUpdate, IMessage>
 {

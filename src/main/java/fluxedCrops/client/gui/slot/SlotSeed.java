@@ -1,11 +1,9 @@
 package fluxedCrops.client.gui.slot;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import fluxedCrops.api.ISeed;
-import fluxedCrops.tileEntity.TileEntitySeedInfuser;
 
 public class SlotSeed extends Slot {
 

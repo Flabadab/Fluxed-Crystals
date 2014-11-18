@@ -1,9 +1,9 @@
 package fluxedCrops.utils;
 
-import fluxedCrops.network.MessageEnergyUpdate;
-import fluxedCrops.tileEntity.TileEnergyBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
+import fluxedCrops.network.MessageEnergyUpdate;
+import fluxedCrops.tileEntity.TileEnergyBase;
 
 public class ClientUtils {
 

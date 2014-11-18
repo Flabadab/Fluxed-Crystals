@@ -1,21 +1,14 @@
 package fluxedCrops.tileEntity;
 
-import java.util.ArrayList;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.oredict.OreDictionary;
 import fluxedCrops.api.RecipeRegistry;
 import fluxedCrops.api.recipe.RecipeSeedInfuser;
-import fluxedCrops.blocks.FCBlocks;
-import fluxedCrops.network.MessageEnergyUpdate;
-import fluxedCrops.network.PacketHandler;
 
 /**
  * Created by Jared on 11/2/2014.
@@ -161,8 +154,7 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 		if (getStackInSlot(0) != null) {
 			if (getStackInSlot(1) != null) {
 				if (getStackInSlot(1).stackSize >= 36) {
-					RecipeRegistry recipes = new RecipeRegistry();
-					for (RecipeSeedInfuser recipe : recipes.getSeedRecipes()) {
+					for (RecipeSeedInfuser recipe : RecipeRegistry.getSeedRecipes()) {
 						if (recipe.matchesInput(getStackInSlot(1)))
 								decrStackSize(1, 36);
 								setInventorySlotContents(0, recipe.getOutput());

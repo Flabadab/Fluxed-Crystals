@@ -1,13 +1,15 @@
 package fluxedCrops.tileEntity;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import org.apache.commons.lang3.ArrayUtils;
+
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 import fluxedCrops.network.MessageEnergyUpdate;
 import fluxedCrops.network.PacketHandler;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
-import org.apache.commons.lang3.ArrayUtils;
 
 public abstract class TileEnergyBase extends TileEntity implements IEnergyHandler {
     protected EnergyStorage storage;

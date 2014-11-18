@@ -4,14 +4,15 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import tterrag.core.common.json.JsonUtils;
 import net.minecraftforge.common.config.Configuration;
+import tterrag.core.common.json.JsonUtils;
+import tterrag.core.common.util.IOUtils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import fluxedCrops.api.RecipeRegistry;
+import fluxedCrops.FluxedCrops;
 import fluxedCrops.config.json.SeedType;
 
 /**
@@ -27,6 +28,11 @@ public class ConfigHandler {
 		config.load();
 
 		File cropJson = new File(file.getParentFile().getAbsolutePath() + "/crops.json");
+		
+		if (!cropJson.exists()) {
+	            file.getParentFile().mkdirs();
+	            IOUtils.copyFromJar(FluxedCrops.class, "fluxedtrinkets/misc/" + cropJson.getName(), file);
+		}
 
 		JsonParser parser = new JsonParser();
 

@@ -1,20 +1,12 @@
 package fluxedCrops.client.gui.seedInfuser;
 
-import fluxedCrops.api.ISeed;
-import fluxedCrops.blocks.BlockPowerBlock;
-import fluxedCrops.blocks.FCBlocks;
-import fluxedCrops.client.gui.slot.SlotPowerBlock;
-import fluxedCrops.client.gui.slot.SlotSeed;
-import fluxedCrops.tileEntity.TileEntityManagerBlock;
-import fluxedCrops.tileEntity.TileEntitySeedInfuser;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ContainerFurnace;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.tileentity.TileEntityFurnace;
+import fluxedCrops.client.gui.slot.SlotSeed;
+import fluxedCrops.tileEntity.TileEntitySeedInfuser;
 
 public class ContainerSeedInfuser extends Container {
 

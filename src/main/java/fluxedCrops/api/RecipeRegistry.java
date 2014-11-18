@@ -3,6 +3,8 @@ package fluxedCrops.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import net.minecraft.item.ItemStack;
 
 import com.google.common.collect.ImmutableList;
@@ -10,6 +12,7 @@ import com.google.common.collect.ImmutableList;
 import fluxedCrops.api.recipe.RecipeSeedInfuser;
 import fluxedCrops.api.recipe.SeedCropRecipe;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RecipeRegistry {
 
 	public static List<RecipeSeedInfuser> seedRecipes = new ArrayList<RecipeSeedInfuser>();

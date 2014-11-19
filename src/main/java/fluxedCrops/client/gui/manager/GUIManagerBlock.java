@@ -17,7 +17,6 @@ public class GUIManagerBlock extends GuiContainer {
 
 	private TileEntityManagerBlock tile;
 
-
 	public GUIManagerBlock(InventoryPlayer invPlayer, TileEntityManagerBlock tile2) {
 		super(new ContainerManagerBlock(invPlayer, tile2));
 
@@ -38,6 +37,7 @@ public class GUIManagerBlock extends GuiContainer {
 		buttonList.add(new GuiButton(1, guiLeft + 78, guiTop + 50, 23, 20, "5x5"));
 		buttonList.add(new GuiButton(2, guiLeft + 106, guiTop + 50, 23, 20, "7x7"));
 		buttonList.add(new GuiButton(3, guiLeft + 134, guiTop + 50, 23, 20, "9x9"));
+
 	}
 
 	public void actionPerformed(GuiButton button) {
@@ -45,7 +45,7 @@ public class GUIManagerBlock extends GuiContainer {
 
 		case 0:
 			if (!tile.canPlacePowerBlocks()) {
-				
+
 			} else if (tile.canPlacePowerBlocks(1)) {
 				tile.placePowerBlocks(1);
 				PacketHandler.INSTANCE.sendToServer(new MessageManagerBlock(tile.xCoord, tile.yCoord, tile.zCoord, 1));
@@ -59,10 +59,10 @@ public class GUIManagerBlock extends GuiContainer {
 				PacketHandler.INSTANCE.sendToServer(new MessageManagerBlock(tile.xCoord, tile.yCoord, tile.zCoord, 2));
 			}
 			break;
-			
+
 		case 2:
 			if (!tile.canPlacePowerBlocks()) {
-				
+
 			} else if (tile.canPlacePowerBlocks(3)) {
 				tile.placePowerBlocks(3);
 				PacketHandler.INSTANCE.sendToServer(new MessageManagerBlock(tile.xCoord, tile.yCoord, tile.zCoord, 3));
@@ -77,6 +77,7 @@ public class GUIManagerBlock extends GuiContainer {
 			}
 			break;
 
+
 		}
 	}
 
@@ -88,8 +89,6 @@ public class GUIManagerBlock extends GuiContainer {
 
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-
-		}
-
 	}
 
+}

@@ -45,10 +45,9 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 	}
 
 	public void updateEntity() {
-		if(shouldPlaceBlocks){
-			
+		if (shouldPlaceBlocks) {
+
 		}
-		
 
 		if (worldObj.getWorldTime() % 1 == 0) {
 			for (TileEntityPowerBlock power : powerBlocks) {

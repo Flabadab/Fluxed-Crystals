@@ -17,6 +17,7 @@ public class ItemSeed extends SeedBase {
 	public ItemSeed() {
 		setUnlocalizedName("fluxedCrops.seed");
 		setTextureName("fluxedcrops:seed");
+		setHasSubtypes(true);
 	}
 
 	public int getRenderPasses(int metadata) {

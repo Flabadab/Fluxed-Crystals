@@ -29,9 +29,9 @@ public class FluxedCrops {
 	public static FluxedCrops instance;
 	@SidedProxy(clientSide = "fluxedCrops.proxy.ClientProxy", serverSide = "fluxedCrops.proxy.CommonProxy")
 	public static CommonProxy proxy;
-	
+
 	public static final Lang lang = new Lang(ModProps.modid);
-	
+
 	public static final Logger logger = LogManager.getLogger(ModProps.name);
 
 	@EventHandler

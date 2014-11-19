@@ -34,6 +34,7 @@ public class GUISeedInfuser extends GuiContainer {
 	public void initGui() {
 		super.initGui();
 		buttonList.add(new GuiButton(0, guiLeft + 50, guiTop + 50, 46, 20, "Infuse"));
+		
 	}
 
 	public void actionPerformed(GuiButton button) {

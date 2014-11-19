@@ -6,9 +6,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import thaumcraft.api.ItemApi;
 import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectList;
+import thaumcraft.api.aspects.IEssentiaContainerItem;
 import cpw.mods.fml.common.registry.GameRegistry;
 import fluxedCrops.ModProps;
 import fluxedCrops.api.CropBase;
+import fluxedCrops.api.RecipeRegistry;
+import fluxedCrops.api.recipe.SeedCropRecipe;
 import fluxedCrops.blocks.crops.BlockCrop;
 import fluxedCrops.items.seeds.ItemSeed;
 
@@ -19,10 +23,6 @@ public class ThaumcraftHandler {
 		registerOthers();
 
 	}
-
-	public static ItemStack[] essentia = new ItemStack[Aspect.aspects.size()];
-	public static Block[] essentiaCrops = new BlockCrop[Aspect.aspects.size()];
-	public static Item[] essentiaSeeds = new Item[Aspect.aspects.size()];
 
 	public static ItemStack podAir;
 	public static ItemStack podEarth;
@@ -125,57 +125,6 @@ public class ThaumcraftHandler {
 	public static ItemSeed seedCloth;
 	public static ItemSeed seedMechanism;
 	public static ItemSeed seedTrap;
-
-	public static Block cropAir;
-	public static Block cropEarth;
-	public static Block cropFire;
-	public static Block cropWater;
-	public static Block cropOrder;
-	public static Block cropEntropy;
-
-	public static Block cropVoid;
-	public static Block cropLight;
-	public static Block cropWeather;
-	public static Block cropMotion;
-	public static Block cropCold;
-	public static Block cropCrystal;
-	public static Block cropLife;
-	public static Block cropPoison;
-	public static Block cropEnergy;
-	public static Block cropExchange;
-
-	public static Block cropMetal;
-	public static Block cropDeath;
-	public static Block cropFlight;
-	public static Block cropDarkness;
-	public static Block cropSoul;
-	public static Block cropHeal;
-	public static Block cropTravel;
-	public static Block cropEldritch;
-	public static Block cropMagic;
-	public static Block cropAura;
-	public static Block cropTaint;
-	public static Block cropSlime;
-	public static Block cropPlant;
-	public static Block cropTree;
-	public static Block cropBeast;
-	public static Block cropFlesh;
-	public static Block cropUndead;
-	public static Block cropMind;
-	public static Block cropSenses;
-	public static Block cropMan;
-	public static Block cropCrop;
-	public static Block cropMine;
-	public static Block cropTool;
-	public static Block cropHarvest;
-	public static Block cropWeapon;
-	public static Block cropArmor;
-	public static Block cropHunger;
-	public static Block cropGreed;
-	public static Block cropCraft;
-	public static Block cropCloth;
-	public static Block cropMechanism;
-	public static Block cropTrap;
 
 	private static void registerAspects() {
 		podAir = ItemApi.getItem("itemCrystalEssence", 0);
@@ -280,61 +229,57 @@ public class ThaumcraftHandler {
 		seedMechanism = new ItemSeed();
 		seedTrap = new ItemSeed();
 
-		cropAir = new BlockCrop();
-		cropEarth = new BlockCrop();
-		cropFire = new BlockCrop();
-		cropWater = new BlockCrop();
-		cropOrder = new BlockCrop();
-		cropEntropy = new BlockCrop();
-
-		cropVoid = new BlockCrop();
-		cropLight = new BlockCrop();
-		cropWeather = new BlockCrop();
-		cropMotion = new BlockCrop();
-		cropCold = new BlockCrop();
-		cropCrystal = new BlockCrop();
-		cropLife = new BlockCrop();
-		cropPoison = new BlockCrop();
-		cropEnergy = new BlockCrop();
-		cropExchange = new BlockCrop();
-
-		cropMetal = new BlockCrop();
-		cropDeath = new BlockCrop();
-		cropFlight = new BlockCrop();
-		cropDarkness = new BlockCrop();
-		cropSoul = new BlockCrop();
-		cropHeal = new BlockCrop();
-		cropTravel = new BlockCrop();
-		cropEldritch = new BlockCrop();
-		cropMagic = new BlockCrop();
-		cropAura = new BlockCrop();
-		cropTaint = new BlockCrop();
-		cropSlime = new BlockCrop();
-		cropPlant = new BlockCrop();
-		cropTree = new BlockCrop();
-		cropBeast = new BlockCrop();
-		cropFlesh = new BlockCrop();
-		cropUndead = new BlockCrop();
-		cropMind = new BlockCrop();
-		cropSenses = new BlockCrop();
-		cropMan = new BlockCrop();
-		cropCrop = new BlockCrop();
-		cropMine = new BlockCrop();
-		cropTool = new BlockCrop();
-		cropHarvest = new BlockCrop();
-		cropWeapon = new BlockCrop();
-		cropArmor = new BlockCrop();
-		cropHunger = new BlockCrop();
-		cropGreed = new BlockCrop();
-		cropCraft = new BlockCrop();
-		cropCloth = new BlockCrop();
-		cropMechanism = new BlockCrop();
-		cropTrap = new BlockCrop();
-
 	}
 
 	private static void registerOthers() {
-		registerSeedCrop(seedAir, cropAir, Aspect.AIR, podAir);
+		registerSeedCrop(seedAir, Aspect.AIR);
+		registerSeedCrop(seedArmor, Aspect.ARMOR);
+		registerSeedCrop(seedAura, Aspect.AURA);
+		registerSeedCrop(seedBeast, Aspect.BEAST);
+		registerSeedCrop(seedCloth, Aspect.CLOTH);
+		registerSeedCrop(seedCold, Aspect.COLD);
+		registerSeedCrop(seedCraft, Aspect.CRAFT);
+		registerSeedCrop(seedCrop, Aspect.CROP);
+		registerSeedCrop(seedCrystal, Aspect.CRYSTAL);
+		registerSeedCrop(seedDarkness, Aspect.DARKNESS);
+		registerSeedCrop(seedDeath, Aspect.DEATH);
+		registerSeedCrop(seedEarth, Aspect.EARTH);
+		registerSeedCrop(seedEldritch, Aspect.ELDRITCH);
+		registerSeedCrop(seedEnergy, Aspect.ENERGY);
+		registerSeedCrop(seedEntropy, Aspect.ENTROPY);
+		registerSeedCrop(seedExchange, Aspect.EXCHANGE);
+		registerSeedCrop(seedFire, Aspect.FIRE);
+		registerSeedCrop(seedFlesh, Aspect.FLESH);
+		registerSeedCrop(seedFlight, Aspect.FLIGHT);
+		registerSeedCrop(seedGreed, Aspect.GREED);
+		registerSeedCrop(seedHarvest, Aspect.HARVEST);
+		registerSeedCrop(seedHeal, Aspect.HEAL);
+		registerSeedCrop(seedHunger, Aspect.HUNGER);
+		registerSeedCrop(seedLife, Aspect.LIFE);
+		registerSeedCrop(seedLight, Aspect.LIGHT);
+		registerSeedCrop(seedMagic, Aspect.MAGIC);
+		registerSeedCrop(seedMan, Aspect.MAN);
+		registerSeedCrop(seedMechanism, Aspect.MECHANISM);
+		registerSeedCrop(seedMetal, Aspect.METAL);
+		registerSeedCrop(seedMind, Aspect.MIND);
+		registerSeedCrop(seedMine, Aspect.MINE);
+		registerSeedCrop(seedMotion, Aspect.MOTION);
+		registerSeedCrop(seedOrder, Aspect.ORDER);
+		registerSeedCrop(seedPlant, Aspect.PLANT);
+		registerSeedCrop(seedPoison, Aspect.POISON);
+		registerSeedCrop(seedSenses, Aspect.SENSES);
+		registerSeedCrop(seedSlime, Aspect.SLIME);
+		registerSeedCrop(seedSoul, Aspect.SOUL);
+		registerSeedCrop(seedTaint, Aspect.TAINT);
+		registerSeedCrop(seedTool, Aspect.TOOL);
+		registerSeedCrop(seedTrap, Aspect.TRAP);
+		registerSeedCrop(seedTravel, Aspect.TRAVEL);
+		registerSeedCrop(seedTree, Aspect.TREE);
+		registerSeedCrop(seedUndead, Aspect.UNDEAD);
+		registerSeedCrop(seedVoid, Aspect.VOID);
+		registerSeedCrop(seedWater, Aspect.WATER);
+		registerSeedCrop(seedWeapon, Aspect.WEAPON);
+		registerSeedCrop(seedWeather, Aspect.WEATHER);
 
 	}
 
@@ -345,15 +290,17 @@ public class ThaumcraftHandler {
 	}
 
 	private static void registerSeed(Item item, String name, String key, int color) {
-//		((ItemSeed) item).setColor(color);
+		// ((ItemSeed) item).setColor(color);
 		item.setUnlocalizedName(key).setTextureName(ModProps.modid + ":" + "seed").setCreativeTab(CreativeTabs.tabBlock);
 		GameRegistry.registerItem(item, name);
 	}
 
-	private static void registerSeedCrop(Item seed, Block crop, Aspect aspect, ItemStack drop) {
-		registerCrop(crop, aspect.getName() + " Crop", aspect.getName() + "_crop", aspect.getName());
-		registerSeed(seed, aspect.getName() + " Seed", aspect.getName() + "_seed", aspect.getColor());
-//		RecipeRegistry.addCrop(new SeedCropRecipe(new ItemStack(seed), crop, drop));
+	private static void registerSeedCrop(Item seed, Aspect aspect) {
+		ItemStack drop = ItemApi.getItem("itemCrystalEssence", 0).copy();
+		if (drop.getItem() instanceof IEssentiaContainerItem) {
+			((IEssentiaContainerItem) drop.getItem()).setAspects(drop, new AspectList().add(aspect, 1));
+		}
+		RecipeRegistry.addCrop(new SeedCropRecipe(new ItemStack(seed).getDisplayName(), drop, aspect.getColor(), drop));
 	}
 
 }

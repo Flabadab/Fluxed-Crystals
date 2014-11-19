@@ -6,7 +6,6 @@ import lombok.Getter;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-@Getter
 public class RecipeSeedInfuser {
 
 	private ItemStack input;
@@ -18,18 +17,31 @@ public class RecipeSeedInfuser {
 	}
 
 	public boolean matches(ItemStack stack) {
-		return input.isItemEqual(stack);
+		int[] ids = OreDictionary.getOreIDs(stack);
+		for (int id : ids) {
+			String name = OreDictionary.getOreName(id);
+			if (matches(name)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public boolean matches(String oreDict) {
 		ArrayList<ItemStack> stacks = OreDictionary.getOres(oreDict);
 		for (ItemStack stack : stacks) {
-			return input.isItemEqual(stack);
+			if (OreDictionary.itemMatches(stack, input, false)) {
+				return true;
+			}
 		}
 		return false;
 	}
-
-	public boolean matchesInput(ItemStack stack) {
-		return OreDictionary.getOreName(OreDictionary.getOreID(stack)).equals(getInput());
+	
+	public ItemStack getInput() {
+		return input.copy();
+	}
+	
+	public ItemStack getOutput() {
+		return output.copy();
 	}
 }

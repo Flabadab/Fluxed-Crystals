@@ -49,7 +49,7 @@ public class FluxedCrops {
 		ThaumcraftHandler.init();
 		for (int i = 0; i < recipes.size(); i++) {
 			SeedCropRecipe r = recipes.get(i);
-			RecipeRegistry.registerSeedInfuserRecipe(new RecipeSeedInfuser(r.getRecipeIngredient(), new ItemStack(FCItems.seed, 1, i)));
+			RecipeRegistry.registerSeedInfuserRecipe(new RecipeSeedInfuser(r.getIngredient(), new ItemStack(FCItems.seed, 1, i)));
 		}
 		PacketHandler.init();
 		new GUIHandler();

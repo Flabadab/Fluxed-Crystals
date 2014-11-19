@@ -31,6 +31,7 @@ public class GUISeedInfuser extends GuiContainer {
 
 	private static final ResourceLocation texture = new ResourceLocation(ModProps.modid, "textures/gui/SeedInfuser.png");
 
+	@SuppressWarnings("unchecked")
 	public void initGui() {
 		super.initGui();
 		buttonList.add(new GuiButton(0, guiLeft + 50, guiTop + 50, 46, 20, "Infuse"));
@@ -41,7 +42,6 @@ public class GUISeedInfuser extends GuiContainer {
 		switch (button.id) {
 
 		case 0:
-			tile.infuseSeed();
 			PacketHandler.INSTANCE.sendToServer(new MessageSeedInfuser(tile.xCoord, tile.yCoord, tile.zCoord));
 			break;
 

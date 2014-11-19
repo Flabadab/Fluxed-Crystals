@@ -10,11 +10,11 @@ public class SeedType {
 	public String name = "null";
 	public String drop = "minecraft:diamond";
 	public int color = 0xFFFFFF;
-	public String recipeIngredient = "minecraft:diamond";
+	public String ingredient = "minecraft:diamond";
 
 	public void register() {
 		try {
-			RecipeRegistry.addCrop(new SeedCropRecipe(name, JsonUtils.parseStringIntoItemStack(drop), color, JsonUtils.parseStringIntoItemStack(recipeIngredient)));
+			RecipeRegistry.addCrop(new SeedCropRecipe(name, JsonUtils.parseStringIntoItemStack(drop), color, JsonUtils.parseStringIntoItemStack(ingredient)));
 		} catch (IllegalArgumentException e) {
 			FluxedCrops.logger.info("Skipping seed type with name {} as its drop was not found.", name);
 		}

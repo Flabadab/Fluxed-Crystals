@@ -155,7 +155,7 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 			if (getStackInSlot(1) != null) {
 				if (getStackInSlot(1).stackSize >= 36) {
 					for (RecipeSeedInfuser recipe : RecipeRegistry.getSeedRecipes()) {
-						if (recipe.matchesInput(getStackInSlot(1))) {
+						if (recipe.matches(getStackInSlot(1))) {
 							decrStackSize(1, 36);
 							setInventorySlotContents(0, recipe.getOutput());
 						}

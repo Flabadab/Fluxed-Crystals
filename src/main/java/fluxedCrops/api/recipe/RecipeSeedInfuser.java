@@ -30,12 +30,6 @@ public class RecipeSeedInfuser {
 	}
 
 	public boolean matchesInput(ItemStack stack) {
-		int[] ids = OreDictionary.getOreIDs(stack);
-		for (int id : ids) {
-			if (OreDictionary.getOreName(id).equals(getInput())) {
-				return true;
-			}
-		}
-		return false;
+		return OreDictionary.getOreName(OreDictionary.getOreID(stack)).equals(getInput());
 	}
 }

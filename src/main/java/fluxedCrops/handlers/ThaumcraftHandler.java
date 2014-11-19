@@ -9,11 +9,14 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.aspects.IEssentiaContainerItem;
 import cpw.mods.fml.common.registry.GameRegistry;
+import fluxedCrops.FluxedCrops;
 import fluxedCrops.ModProps;
 import fluxedCrops.api.CropBase;
 import fluxedCrops.api.RecipeRegistry;
+import fluxedCrops.api.recipe.RecipeSeedInfuser;
 import fluxedCrops.api.recipe.SeedCropRecipe;
 import fluxedCrops.blocks.crops.BlockCrop;
+import fluxedCrops.items.FCItems;
 import fluxedCrops.items.seeds.ItemSeed;
 
 public class ThaumcraftHandler {
@@ -301,6 +304,9 @@ public class ThaumcraftHandler {
 			((IEssentiaContainerItem) drop.getItem()).setAspects(drop, new AspectList().add(aspect, 1));
 		}
 		RecipeRegistry.addCrop(new SeedCropRecipe(new ItemStack(seed).getDisplayName(), drop, aspect.getColor(), drop));
+		RecipeRegistry.registerSeedInfuserRecipe(new RecipeSeedInfuser(drop, new ItemStack(seed)));
+		FluxedCrops.instance.logger.info("Registering Crop Recipe for " + aspect.getName());
+		
 	}
 
 }

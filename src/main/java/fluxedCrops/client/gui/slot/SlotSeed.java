@@ -4,6 +4,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import fluxedCrops.api.ISeed;
+import fluxedCrops.items.FCItems;
 
 public class SlotSeed extends Slot {
 
@@ -16,8 +17,6 @@ public class SlotSeed extends Slot {
 	}
 
 	public boolean isItemValid(ItemStack stack) {
-		if (stack.getItem() instanceof ISeed)
-			return true;
-		return false;
+		return stack.getItem() == FCItems.universalSeed;
 	}
 }

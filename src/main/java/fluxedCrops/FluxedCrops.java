@@ -1,6 +1,9 @@
 package fluxedCrops;
 
 import java.io.File;
+import java.util.List;
+
+import net.minecraft.item.ItemStack;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +16,9 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import fluxedCrops.api.RecipeRegistry;
+import fluxedCrops.api.recipe.RecipeSeedInfuser;
+import fluxedCrops.api.recipe.SeedCropRecipe;
 import fluxedCrops.blocks.FCBlocks;
 import fluxedCrops.client.gui.GUIHandler;
 import fluxedCrops.config.ConfigHandler;
@@ -36,15 +42,22 @@ public class FluxedCrops {
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {
 		ConfigHandler.init(new File(event.getSuggestedConfigurationFile().getParentFile() + "/fluxedCrops/fluxedCrops.cfg"));
+		List<SeedCropRecipe> recipes = RecipeRegistry.getSeedCropRecipes();
+
 		FCItems.init();
 		FCBlocks.init();
 		ThaumcraftHandler.init();
+		for (int i = 0; i < recipes.size(); i++) {
+			SeedCropRecipe r = recipes.get(i);
+			RecipeRegistry.registerSeedInfuserRecipe(new RecipeSeedInfuser(r.getRecipeIngredient(), new ItemStack(FCItems.seed, 1, i)));
+		}
 		PacketHandler.init();
 		new GUIHandler();
 	}
 
 	@EventHandler
 	public static void Init(FMLInitializationEvent event) {
+
 	}
 
 	@EventHandler

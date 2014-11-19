@@ -2,7 +2,6 @@ package fluxedCrops.api.recipe;
 
 import java.util.ArrayList;
 
-import lombok.Getter;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -24,7 +23,7 @@ public class RecipeSeedInfuser {
 				return true;
 			}
 		}
-		return false;
+		return stack != null && OreDictionary.itemMatches(stack, input, false);
 	}
 
 	public boolean matches(String oreDict) {

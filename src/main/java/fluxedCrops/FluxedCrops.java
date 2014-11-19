@@ -20,7 +20,6 @@ import fluxedCrops.handlers.ThaumcraftHandler;
 import fluxedCrops.items.FCItems;
 import fluxedCrops.network.PacketHandler;
 import fluxedCrops.proxy.CommonProxy;
-import fluxedCrops.utils.RecipeHandler;
 
 @Mod(modid = ModProps.modid, name = ModProps.name, version = ModProps.version, dependencies = "required-after:ThermalFoundation;required-after:CoFHCore;after:Thaumcraft")
 public class FluxedCrops {
@@ -41,7 +40,6 @@ public class FluxedCrops {
 		FCBlocks.init();
 		ThaumcraftHandler.init();
 		PacketHandler.init();
-		RecipeHandler.init();
 		new GUIHandler();
 	}
 

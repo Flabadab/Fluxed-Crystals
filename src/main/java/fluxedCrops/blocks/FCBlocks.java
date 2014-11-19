@@ -13,15 +13,7 @@ import fluxedCrops.tileEntity.TileEntitySeedInfuser;
 public class FCBlocks {
 
 	public static Block crop = new BlockCrop();
-//	public static Block cropIron = new BlockCrop();
-//	public static Block cropGold = new BlockCrop();
-//	public static Block cropCoal = new BlockCrop();
-//	public static Block cropCharcoal = new BlockCrop();
-//	public static Block cropRedstone = new BlockCrop();
-//	public static Block cropDiamond = new BlockCrop();
-//
-//	public static Block cropCopper = new BlockCrop();
-//
+
 	public static Block powerBlock = new BlockPowerBlock();
 	public static Block managerBlock = new BlockManagerBlock();
 	public static Block seedInfuser = new BlockSeedInfuser();

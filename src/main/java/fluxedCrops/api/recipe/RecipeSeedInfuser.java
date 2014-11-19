@@ -2,13 +2,15 @@ package fluxedCrops.api.recipe;
 
 import java.util.ArrayList;
 
+import lombok.Getter;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
+@Getter
 public class RecipeSeedInfuser {
 
-	public ItemStack input;
-	public ItemStack output;
+	private ItemStack input;
+	private ItemStack output;
 
 	public RecipeSeedInfuser(ItemStack input, ItemStack output) {
 		this.input = input;
@@ -36,13 +38,4 @@ public class RecipeSeedInfuser {
 		}
 		return false;
 	}
-
-	public ItemStack getInput() {
-		return input;
-	}
-
-	public ItemStack getOutput() {
-		return output;
-	}
-
 }

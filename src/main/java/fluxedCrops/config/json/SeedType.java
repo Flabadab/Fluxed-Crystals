@@ -1,10 +1,8 @@
 package fluxedCrops.config.json;
 
-import net.minecraft.item.ItemStack;
 import tterrag.core.common.json.JsonUtils;
 import fluxedCrops.FluxedCrops;
 import fluxedCrops.api.RecipeRegistry;
-import fluxedCrops.api.recipe.RecipeSeedInfuser;
 import fluxedCrops.api.recipe.SeedCropRecipe;
 
 public class SeedType {

@@ -15,7 +15,7 @@ import fluxedCrops.api.SeedBase;
 public class ItemSeed extends SeedBase {
 
 	public ItemSeed() {
-		setUnlocalizedName("fluxedCrops.seed");
+		setUnlocalizedName("fluxedcrops.seed");
 		setTextureName("fluxedcrops:seed");
 		setHasSubtypes(true);
 	}

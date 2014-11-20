@@ -32,7 +32,7 @@ public class ConfigHandler {
 		
 		if (!cropJson.exists()) {
 	            file.getParentFile().mkdirs();
-	            IOUtils.copyFromJar(FluxedCrops.class, ModProps.modid + "/misc/" + cropJson.getName(), file);
+	            IOUtils.copyFromJar(FluxedCrops.class, ModProps.modid + "/misc/" + cropJson.getName(), cropJson);
 		}
 
 		JsonParser parser = new JsonParser();

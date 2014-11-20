@@ -13,6 +13,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import fluxedCrops.FluxedCrops;
+import fluxedCrops.ModProps;
 import fluxedCrops.config.json.SeedType;
 
 /**
@@ -31,7 +32,7 @@ public class ConfigHandler {
 		
 		if (!cropJson.exists()) {
 	            file.getParentFile().mkdirs();
-	            IOUtils.copyFromJar(FluxedCrops.class, "fluxedtrinkets/misc/" + cropJson.getName(), file);
+	            IOUtils.copyFromJar(FluxedCrops.class, ModProps.modid + "/misc/" + cropJson.getName(), file);
 		}
 
 		JsonParser parser = new JsonParser();

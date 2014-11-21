@@ -9,6 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import fluxedCrops.api.CropBase;
+import fluxedCrops.api.RecipeRegistry;
 import fluxedCrops.items.FCItems;
 import fluxedCrops.tileEntity.TileEntityCrop;
 

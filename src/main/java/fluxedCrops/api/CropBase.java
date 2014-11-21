@@ -5,10 +5,12 @@ import java.util.Random;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import fluxedCrops.FluxedCrops;
 import fluxedCrops.ModProps;
 import fluxedCrops.blocks.FCBlocks;
 
@@ -32,14 +34,12 @@ public abstract class CropBase extends BlockCrops {
 		return false;
 	}
 
-
 	/**
 	 * The type of render function that is called for this block
 	 */
 	public int getRenderType() {
-		return 1;
+		return FluxedCrops.cropRenderID;
 	}
-
 	/**
 	 * Ticks the block if it's been scheduled
 	 */
@@ -65,12 +65,17 @@ public abstract class CropBase extends BlockCrops {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister p_149651_1_) {
-		this.icons = new IIcon[8];
+	public void registerBlockIcons(IIconRegister icon) {
+		this.icons = new IIcon[9];
 
-		for (int i = 0; i < this.icons.length; ++i) {
-			this.icons[i] = p_149651_1_.registerIcon(ModProps.modid + ":crop_stage_" + i);
+		for (int i = 0; i < this.icons.length - 1; ++i) {
+			this.icons[i] = icon.registerIcon(ModProps.modid + ":crop_stage_" + i);
 		}
+		this.icons[8] = icon.registerIcon(ModProps.modid + ":crop_overlay");
+	}
+
+	public IIcon getFlowerTexture() {
+		return icons[8];
 	}
 
 	/**

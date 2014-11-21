@@ -38,7 +38,9 @@ public class FluxedCrops {
 	public static final Lang lang = new Lang(ModProps.modid);
 
 	public static final Logger logger = LogManager.getLogger(ModProps.name);
-
+	
+	public static final CreativeTabFluxedCrops tab = new CreativeTabFluxedCrops();
+	public static int cropRenderID;
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {
 		logger.info("Starting Pre Init.");
@@ -54,6 +56,7 @@ public class FluxedCrops {
 		}
 		PacketHandler.init();
 		new GUIHandler();
+		proxy.initRenderers();
 	}
 
 	@EventHandler

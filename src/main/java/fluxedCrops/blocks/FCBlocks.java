@@ -3,6 +3,7 @@ package fluxedCrops.blocks;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import cpw.mods.fml.common.registry.GameRegistry;
+import fluxedCrops.FluxedCrops;
 import fluxedCrops.ModProps;
 import fluxedCrops.blocks.crops.BlockCrop;
 import fluxedCrops.tileEntity.TileEntityCrop;
@@ -49,7 +50,7 @@ public class FCBlocks {
 	}
 
 	private static void registerBlock(Block block, String name, String key) {
-		block.setBlockName(name).setBlockTextureName(ModProps.modid + ":" + key).setCreativeTab(CreativeTabs.tabBlock);
+		block.setBlockName(name).setBlockTextureName(ModProps.modid + ":" + key).setCreativeTab(FluxedCrops.tab);
 		GameRegistry.registerBlock(block, key);
 	}
 

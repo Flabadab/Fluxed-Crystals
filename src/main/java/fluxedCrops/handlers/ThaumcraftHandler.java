@@ -28,7 +28,7 @@ public class ThaumcraftHandler {
 	private static void registerPages() {
 		registerResearchPages();
 
-		ResearchItem research = new ResearchItem(category, category, new AspectList().add(Aspect.AIR, 1), 50, 50, 0, new ItemStack(FCItems.dustDiamond));
+		ResearchItem research = new ResearchItem(category, category, new AspectList().add(Aspect.AIR, 1), 50, 50, 0, new ItemStack(FCItems.seed));
 		research.setPages(new ResearchPage("hello")).setAutoUnlock().registerResearchItem();
 		ResearchCategories.addResearch(research);
 	}

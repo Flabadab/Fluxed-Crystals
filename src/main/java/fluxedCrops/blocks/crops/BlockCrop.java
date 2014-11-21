@@ -9,7 +9,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import fluxedCrops.api.CropBase;
-import fluxedCrops.api.RecipeRegistry;
 import fluxedCrops.items.FCItems;
 import fluxedCrops.tileEntity.TileEntityCrop;
 
@@ -20,8 +19,10 @@ public class BlockCrop extends CropBase implements ITileEntityProvider {
 
 	public void onBlockPreDestroy(World world, int x, int y, int z, int metadata) {
 		TileEntityCrop crop = (TileEntityCrop) world.getTileEntity(x, y, z);
-		dropBlockAsItem(world, x, y, z, crop.getDrop());
 		dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.seed, 1, crop.getIndex()));
+		if (metadata >= 7) {
+			dropBlockAsItem(world, x, y, z, crop.getDrop());
+		}
 	}
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float hitX, float hitY, float hitZ) {

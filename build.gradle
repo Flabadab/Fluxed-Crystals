@@ -60,7 +60,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 	compile "codechicken:CodeChickenLib:${config.mc_version}-${config.ccl_version}:dev"
 	compile "codechicken:NotEnoughItems:${config.mc_version}-${config.nei_version}:dev"
-	compile "tterrag.core:ttCore:MC1.7.10-0.0.3-32:deobf"
+	compile "tterrag.core:ttCore:MC1.7.10-0.0.3-35:deobf"
 	
 }
 

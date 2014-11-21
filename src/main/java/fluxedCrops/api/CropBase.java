@@ -14,7 +14,6 @@ import fluxedCrops.blocks.FCBlocks;
 
 public abstract class CropBase extends BlockCrops {
 	private IIcon[] icons;
-	private String material;
 
 	public boolean growCrop(World world, int x, int y, int z, Random rand) {
 		if (world.getBlockLightValue(x, y + 1, z) >= 9) {
@@ -33,9 +32,6 @@ public abstract class CropBase extends BlockCrops {
 		return false;
 	}
 
-	public void setMaterial(String material) {
-		this.material = material;
-	}
 
 	/**
 	 * The type of render function that is called for this block
@@ -75,7 +71,6 @@ public abstract class CropBase extends BlockCrops {
 		for (int i = 0; i < this.icons.length; ++i) {
 			this.icons[i] = p_149651_1_.registerIcon(ModProps.modid + ":crop_stage_" + i);
 		}
-		this.icons[7] = p_149651_1_.registerIcon(ModProps.modid + ":" + material + "_stage_" + 7);
 	}
 
 	/**

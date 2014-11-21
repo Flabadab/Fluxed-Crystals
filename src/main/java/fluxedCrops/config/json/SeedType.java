@@ -15,6 +15,7 @@ public class SeedType {
 	public void register() {
 		try {
 			RecipeRegistry.addCrop(new SeedCropRecipe(name, JsonUtils.parseStringIntoItemStack(drop), color, JsonUtils.parseStringIntoItemStack(ingredient)));
+			FluxedCrops.instance.logger.info("Registering Seed for " + name + ", that drops " + drop + ", whose color is " + color + " and that is crafted with " + ingredient);
 		} catch (IllegalArgumentException e) {
 			FluxedCrops.logger.info("Skipping seed type with name {} as its drop was not found.", name);
 		}

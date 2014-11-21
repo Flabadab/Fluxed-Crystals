@@ -15,6 +15,7 @@ import com.google.gson.JsonParser;
 import fluxedCrops.FluxedCrops;
 import fluxedCrops.ModProps;
 import fluxedCrops.config.json.SeedType;
+import fluxedCrops.config.json.ThaumcraftSeedType;
 
 /**
  * Created by Jared on 11/2/2014.
@@ -29,10 +30,15 @@ public class ConfigHandler {
 		config.load();
 
 		File cropJson = new File(file.getParentFile().getAbsolutePath() + "/crops.json");
-		
+		File cropJsonThaumcraft = new File(file.getParentFile().getAbsolutePath() + "/thaumcraftCrops.json");
+
 		if (!cropJson.exists()) {
-	            file.getParentFile().mkdirs();
-	            IOUtils.copyFromJar(FluxedCrops.class, ModProps.modid + "/misc/" + cropJson.getName(), cropJson);
+			file.getParentFile().mkdirs();
+			IOUtils.copyFromJar(FluxedCrops.class, ModProps.modid + "/misc/" + cropJson.getName(), cropJson);
+		}
+		if (!cropJsonThaumcraft.exists()) {
+			file.getParentFile().mkdirs();
+			IOUtils.copyFromJar(FluxedCrops.class, ModProps.modid + "/misc/" + cropJsonThaumcraft.getName(), cropJsonThaumcraft);
 		}
 
 		JsonParser parser = new JsonParser();
@@ -42,6 +48,16 @@ public class ConfigHandler {
 			JsonArray arr = ele.getAsJsonObject().get("crops").getAsJsonArray();
 			for (int i = 0; i < arr.size(); i++) {
 				JsonUtils.gson.fromJson(arr.get(i), SeedType.class).register();
+			}
+		} catch (IOException e) {
+
+			throw new RuntimeException(e);
+		}
+		try {
+			JsonElement ele = parser.parse(new FileReader(cropJsonThaumcraft));
+			JsonArray arr = ele.getAsJsonObject().get("crops").getAsJsonArray();
+			for (int i = 0; i < arr.size(); i++) {
+				JsonUtils.gson.fromJson(arr.get(i), ThaumcraftSeedType.class).register();
 			}
 		} catch (IOException e) {
 

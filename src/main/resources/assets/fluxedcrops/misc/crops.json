@@ -1,8 +1,16 @@
-{"crops":[
-    {
-        "name":"Iron",
-        "drop":"minecraft:iron_ingot",
-        "color":14071681,
-		"ingredient":"nuggetIron"
-    }
-]}
+{
+    "crops":[
+        {
+            "name":"Iron",
+            "drop":"nuggetIron",
+            "color":14071681,
+            "ingredient":"ingotIron"
+        },
+        {
+            "name":"Gold",
+            "drop":"nuggetGold",
+            "color":11904556,
+            "ingredient":"ingotGold"
+        }
+    ]
+}

@@ -36,9 +36,11 @@ public class RecipeRegistry {
 	}
 
 	public static int getColor(int itemDamage) {
-		return crops.get(itemDamage).getColor();
+		if (itemDamage >= 0 && itemDamage < crops.size())
+			return crops.get(itemDamage).getColor();
+		return 0;
 	}
-	
+
 	public static ItemStack getDrop(int itemDamage) {
 		return crops.get(itemDamage).getDrop().copy();
 	}

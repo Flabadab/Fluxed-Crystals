@@ -41,6 +41,7 @@ public class FluxedCrops {
 
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {
+		logger.info("Starting Pre Init.");
 		ConfigHandler.init(new File(event.getSuggestedConfigurationFile().getParentFile() + "/fluxedCrops/fluxedCrops.cfg"));
 		List<SeedCropRecipe> recipes = RecipeRegistry.getSeedCropRecipes();
 
@@ -57,12 +58,13 @@ public class FluxedCrops {
 
 	@EventHandler
 	public static void Init(FMLInitializationEvent event) {
-
+		logger.info("Starting Init.");
 	}
 
 	@EventHandler
 	public static void postInit(FMLPostInitializationEvent event) {
-
+		logger.info("Starting Post Init.");
+		ThaumcraftHandler.postInit();
 	}
 
 }

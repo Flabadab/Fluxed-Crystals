@@ -12,6 +12,7 @@ import org.apache.commons.io.filefilter.FileFilterUtils;
 import tterrag.core.common.config.AbstractConfigHandler;
 import tterrag.core.common.config.JsonConfigReader;
 import tterrag.core.common.config.JsonConfigReader.ModToken;
+import tterrag.core.common.util.IOUtils;
 import fluxedCrops.FluxedCrops;
 import fluxedCrops.ModProps;
 import fluxedCrops.api.RecipeRegistry;
@@ -49,10 +50,24 @@ public class ConfigHandler extends AbstractConfigHandler {
 
 		String basePath = FluxedCrops.configDir.getAbsolutePath();
 		File[] cropFiles = FluxedCrops.configDir.listFiles((FileFilter) FileFilterUtils.suffixFileFilter(".json"));
+		File crops = new File(basePath + "/crops.json");
+		if (!crops.exists()) {
+			IOUtils.copyFromJar(FluxedCrops.class, ModProps.modid + "/misc/" + "crops.json", crops);
+		}
+		File thaumcraftCrops = new File(basePath + "/thaumcraftCrops.json");
+		if (!thaumcraftCrops.exists()) {
+			IOUtils.copyFromJar(FluxedCrops.class, ModProps.modid + "/misc/" + "thaumcraftCrops.json", thaumcraftCrops);
+		}
+		JsonConfigReader<SeedType> cropReader;
+		cropReader = new JsonConfigReader<SeedType>(token, crops, SeedType.class);
+		registerAll(cropReader.getElements());
+
+		cropReader = new JsonConfigReader<SeedType>(token, thaumcraftCrops, SeedType.class);
+		registerAll(cropReader.getElements());
 
 		for (int i = 0; i < cropFiles.length; i++) {
 			if (cropFiles[i] != null) {
-				JsonConfigReader<SeedType> cropReader = new JsonConfigReader<SeedType>(token, cropFiles[i], SeedType.class);
+				cropReader = new JsonConfigReader<SeedType>(token, cropFiles[i], SeedType.class);
 				registerAll(cropReader.getElements());
 			}
 		}

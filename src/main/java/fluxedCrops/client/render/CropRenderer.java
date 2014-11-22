@@ -20,15 +20,12 @@ public class CropRenderer implements ISimpleBlockRenderingHandler {
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
 		int meta = world.getBlockMetadata(x, y, z);
-		renderer.renderCrossedSquares(block, x, y, z);
-		if (meta >= 7) {
-			TileEntityCrop tile = (TileEntityCrop) world.getTileEntity(x, y, z);
-			int color = RecipeRegistry.getColor(tile.getIndex());
-			Tessellator tess = Tessellator.instance;
-	        tess.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
-			tess.setColorOpaque_I(color);
-			renderer.drawCrossedSquares(((BlockCrop)block).getFlowerTexture(), x, y, z, 1.0f);
-		}
+		TileEntityCrop tile = (TileEntityCrop) world.getTileEntity(x, y, z);
+		int color = RecipeRegistry.getColor(tile.getIndex());
+		Tessellator tess = Tessellator.instance;
+		tess.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
+		tess.setColorOpaque_I(color);
+		renderer.drawCrossedSquares(((BlockCrop) block).getIcon(world, x, y, z, meta), x, y, z, 1.0f);
 		return true;
 	}
 

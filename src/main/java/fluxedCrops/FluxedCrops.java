@@ -27,7 +27,7 @@ import fluxedCrops.items.FCItems;
 import fluxedCrops.network.PacketHandler;
 import fluxedCrops.proxy.CommonProxy;
 
-@Mod(modid = ModProps.modid, name = ModProps.name, version = ModProps.version, dependencies = "required-after:ThermalFoundation;required-after:CoFHCore;after:Thaumcraft")
+@Mod(modid = ModProps.modid, name = ModProps.name, version = ModProps.version, dependencies = "required-after:ThermalFoundation;after:Thaumcraft;required-after:ttCore")
 public class FluxedCrops {
 
 	@Instance("fluxedcrops")

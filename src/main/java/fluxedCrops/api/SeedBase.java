@@ -1,9 +1,14 @@
 package fluxedCrops.api;
 
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import fluxedCrops.ModProps;
 import fluxedCrops.blocks.FCBlocks;
 import fluxedCrops.blocks.crops.BlockCrop;
 
@@ -11,7 +16,12 @@ import fluxedCrops.blocks.crops.BlockCrop;
  * Created by Jared on 11/2/2014.
  */
 public abstract class SeedBase extends Item implements ISeed {
-	
+	private static IIcon overlay;
+
+	public void registerIcons(IIconRegister icon) {
+		this.itemIcon = icon.registerIcon(ModProps.modid + ":seed");
+	}
+
 	/**
 	 * Callback for item usage. If the item does something special on right
 	 * clicking, he will have one of those. Return True if something happen and

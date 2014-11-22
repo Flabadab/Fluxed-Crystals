@@ -49,11 +49,8 @@ public class FluxedCrops {
 		logger.info("Starting Pre Init.");
 		configDir = new File(event.getSuggestedConfigurationFile().getParentFile().getAbsolutePath() + "/fluxedCrops");
 		ConfigHandler.INSTANCE.initialize(new File(configDir.getAbsolutePath() + "/fluxedCrops.cfg"));
-
 		FCItems.init();
 		FCBlocks.init();
-		ThaumcraftHandler.init();
-
 		PacketHandler.init();
 		new GUIHandler();
 		proxy.initRenderers();
@@ -67,7 +64,6 @@ public class FluxedCrops {
 	@EventHandler
 	public static void postInit(FMLPostInitializationEvent event) {
 		logger.info("Starting Post Init.");
-		ThaumcraftHandler.postInit();
 	}
 
 }

@@ -27,7 +27,10 @@ public class BlockCrop extends CropBase implements ITileEntityProvider {
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float hitX, float hitY, float hitZ) {
 		if (world.getBlockMetadata(x, y, z) >= 7) {
-			world.getBlock(x, y, z).onBlockPreDestroy(world, x, y, z, world.getBlockMetadata(x, y, z));
+			TileEntityCrop crop = (TileEntityCrop) world.getTileEntity(x, y, z);
+			if (world.getBlockMetadata(x, y, z) >= 7) {
+				dropBlockAsItem(world, x, y, z, crop.getDrop());
+			}
 			world.setBlockMetadataWithNotify(x, y, z, 0, 3);
 			return true;
 		}

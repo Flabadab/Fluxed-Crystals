@@ -9,11 +9,8 @@ public class ThaumcraftSeedType implements ISeedType {
 
 	public String name = "null";
 	public String aspect = "aer";
-
 	public void register() {
 		try {
-			RecipeRegistry.addCrop(new SeedCropRecipe(name, Aspect.getAspect(aspect)));
-			FluxedCrops.logger.info("Registering Seed for " + name + " and whose Aspect is " + aspect);
 		} catch (IllegalArgumentException e) {
 			FluxedCrops.logger.info("Skipping seed type with name {} as its drop was not found.", name);
 		}

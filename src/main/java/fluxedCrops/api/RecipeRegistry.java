@@ -30,7 +30,7 @@ public class RecipeRegistry {
 	public static void addCrop(SeedCropRecipe type) {
 		crops.add(type);
 	}
-	
+
 	public static void addCrops(Collection<SeedCropRecipe> types) {
 		for (SeedCropRecipe r : types) {
 			addCrop(r);
@@ -48,11 +48,15 @@ public class RecipeRegistry {
 	}
 
 	public static ItemStack getDrop(int itemDamage) {
-		return crops.get(itemDamage).getDrop().copy();
+		if (itemDamage >= 0 && itemDamage < crops.size())
+			return crops.get(itemDamage).getDrop().copy();
+		return null;
 	}
 
 	public static String getName(int itemDamage) {
-		return crops.get(itemDamage).getName();
+		if (itemDamage >= 0 && itemDamage < crops.size())
+			return crops.get(itemDamage).getName();
+		return null;
 	}
 
 	public static void reset() {

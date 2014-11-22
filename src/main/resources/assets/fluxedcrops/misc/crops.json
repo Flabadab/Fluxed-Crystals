@@ -11,6 +11,18 @@
             "drop":"nuggetGold",
             "color":11904556,
             "ingredient":"ingotGold"
+        },
+        {
+            "name":"Coal",
+            "drop":"dustCoal",
+            "color":11904556,
+            "ingredient":"itemCoal"
+        },
+        {
+            "name":"Charcoal",
+            "drop":"dustCharcoal",
+            "color":11904556,
+            "ingredient":"itemCharcoal"
         }
     ]
 }

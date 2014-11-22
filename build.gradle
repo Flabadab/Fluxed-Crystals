@@ -17,32 +17,23 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.0"
-group= "com.yourname.modid" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "modid"
+version = "0.0.1"
+group= "fluxedCrops"
+archivesBaseName = "fluxedCrops"
 
 minecraft {
     version = "1.7.10-10.13.2.1236"
     runDir = "eclipse"
 }
 repositories{
-    	maven { // ttCore
-			name 'tterrag Repo'
-			url "http://maven.tterrag.com/"
-		}
-		maven {
+    maven { // ttCore
+		name 'tterrag Repo'
+		url "http://maven.tterrag.com/"
+	}
+	maven {
         name = "chickenbones"
         url = "http://chickenbones.net/maven"
     }
-}
-// Define properties file
-ext.configFile = file "build.properties"
-
-configFile.withReader {
-    // Load config. It shall from now be referenced as simply config or project.config
-    def prop = new Properties()
-    prop.load(it)
-    project.ext.config = new ConfigSlurper().parse prop
 }
 
 dependencies {
@@ -58,9 +49,9 @@ dependencies {
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-	compile "codechicken:CodeChickenLib:${config.mc_version}-${config.ccl_version}:dev"
-	compile "codechicken:NotEnoughItems:${config.mc_version}-${config.nei_version}:dev"
-	compile "tterrag.core:ttCore:MC1.7.10-0.0.3-35:deobf"
+	compile "codechicken:CodeChickenLib:${mc_version}-${ccl_version}:dev"
+	compile "codechicken:NotEnoughItems:${mc_version}-${nei_version}:dev"
+	compile "tterrag.core:ttCore:MC${mc_version}-${ttCore_version}:deobf"
 	
 }
 

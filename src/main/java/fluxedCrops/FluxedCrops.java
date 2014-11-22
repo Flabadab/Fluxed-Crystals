@@ -41,19 +41,19 @@ public class FluxedCrops {
 	
 	public static final CreativeTabFluxedCrops tab = new CreativeTabFluxedCrops();
 	public static int cropRenderID;
+	
+	public static File configDir = null;
+	
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {
 		logger.info("Starting Pre Init.");
-		ConfigHandler.init(new File(event.getSuggestedConfigurationFile().getParentFile() + "/fluxedCrops/fluxedCrops.cfg"));
-		List<SeedCropRecipe> recipes = RecipeRegistry.getSeedCropRecipes();
+		configDir = new File(event.getSuggestedConfigurationFile().getParentFile().getAbsolutePath() + "/fluxedCrops");
+		ConfigHandler.INSTANCE.initialize(new File(configDir.getAbsolutePath() + "/fluxedCrops.cfg"));
 
 		FCItems.init();
 		FCBlocks.init();
 		ThaumcraftHandler.init();
-		for (int i = 0; i < recipes.size(); i++) {
-			SeedCropRecipe r = recipes.get(i);
-			RecipeRegistry.registerSeedInfuserRecipe(new RecipeSeedInfuser(r.getIngredient(), new ItemStack(FCItems.seed, 1, i)));
-		}
+
 		PacketHandler.init();
 		new GUIHandler();
 		proxy.initRenderers();

@@ -1,6 +1,7 @@
 package fluxedCrops.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import lombok.AccessLevel;
@@ -15,9 +16,8 @@ import fluxedCrops.api.recipe.SeedCropRecipe;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RecipeRegistry {
 
-	public static List<RecipeSeedInfuser> seedRecipes = new ArrayList<RecipeSeedInfuser>();
-
-	public static List<SeedCropRecipe> crops = new ArrayList<SeedCropRecipe>();
+	private static List<RecipeSeedInfuser> seedRecipes = new ArrayList<RecipeSeedInfuser>();
+	private static List<SeedCropRecipe> crops = new ArrayList<SeedCropRecipe>();
 
 	public static List<RecipeSeedInfuser> getSeedRecipes() {
 		return ImmutableList.copyOf(seedRecipes);
@@ -29,6 +29,12 @@ public class RecipeRegistry {
 
 	public static void addCrop(SeedCropRecipe type) {
 		crops.add(type);
+	}
+	
+	public static void addCrops(Collection<SeedCropRecipe> types) {
+		for (SeedCropRecipe r : types) {
+			addCrop(r);
+		}
 	}
 
 	public static List<SeedCropRecipe> getSeedCropRecipes() {
@@ -47,5 +53,15 @@ public class RecipeRegistry {
 
 	public static String getName(int itemDamage) {
 		return crops.get(itemDamage).getName();
+	}
+
+	public static void reset() {
+		String caller = Thread.currentThread().getStackTrace()[2].getClassName();
+		if (caller.contains("fluxedCrops.config")) {
+			crops.clear();
+			seedRecipes.clear();
+		} else {
+			throw new RuntimeException(caller + " tried to clear the FluxedCrops recipe registry. They can't do that!");
+		}
 	}
 }

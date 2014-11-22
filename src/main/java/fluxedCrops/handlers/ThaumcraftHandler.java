@@ -1,15 +1,14 @@
 package fluxedCrops.handlers;
 
-import fluxedCrops.ModProps;
-import fluxedCrops.items.FCItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchCategories;
-import thaumcraft.api.research.ResearchCategoryList;
 import thaumcraft.api.research.ResearchItem;
 import thaumcraft.api.research.ResearchPage;
+import fluxedCrops.ModProps;
+import fluxedCrops.items.FCItems;
 
 public class ThaumcraftHandler {
 

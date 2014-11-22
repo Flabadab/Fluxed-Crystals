@@ -5,7 +5,7 @@ import fluxedCrops.FluxedCrops;
 import fluxedCrops.api.RecipeRegistry;
 import fluxedCrops.api.recipe.SeedCropRecipe;
 
-public class SeedType {
+public class SeedType implements ISeedType {
 
 	public String name = "null";
 	public String drop = "minecraft:diamond";

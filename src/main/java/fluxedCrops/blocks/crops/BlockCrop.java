@@ -1,5 +1,6 @@
 package fluxedCrops.blocks.crops;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import net.minecraft.block.ITileEntityProvider;
@@ -9,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import fluxedCrops.api.CropBase;
+import fluxedCrops.api.RecipeRegistry;
 import fluxedCrops.items.FCItems;
 import fluxedCrops.tileEntity.TileEntityCrop;
 
@@ -23,6 +25,7 @@ public class BlockCrop extends CropBase implements ITileEntityProvider {
 		if (metadata >= 7) {
 			dropBlockAsItem(world, x, y, z, crop.getDrop());
 		}
+
 	}
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float hitX, float hitY, float hitZ) {
@@ -32,6 +35,7 @@ public class BlockCrop extends CropBase implements ITileEntityProvider {
 				dropBlockAsItem(world, x, y, z, crop.getDrop());
 			}
 			world.setBlockMetadataWithNotify(x, y, z, 0, 3);
+
 			return true;
 		}
 		return false;

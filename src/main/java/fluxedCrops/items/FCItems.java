@@ -26,7 +26,7 @@ public class FCItems {
 
 	private static void registerItems() {
 		seed.setCreativeTab(FluxedCrops.tab);
-		universalSeed.setCreativeTab(FluxedCrops.tab);
+		universalSeed.setCreativeTab(FluxedCrops.tab).setTextureName(ModProps.modid + ":seed").setUnlocalizedName("Universal Seed");
 		GameRegistry.registerItem(seed, "seed");
 		GameRegistry.registerItem(universalSeed, "universalSeed");
 	}

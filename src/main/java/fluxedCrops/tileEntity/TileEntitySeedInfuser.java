@@ -9,6 +9,7 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 import fluxedCrops.api.RecipeRegistry;
 import fluxedCrops.api.recipe.RecipeSeedInfuser;
+import fluxedCrops.items.FCItems;
 
 /**
  * Created by Jared on 11/2/2014.
@@ -155,7 +156,7 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 			if (getStackInSlot(1) != null) {
 				if (getStackInSlot(1).stackSize >= 36) {
 					for (RecipeSeedInfuser recipe : RecipeRegistry.getSeedRecipes()) {
-						if (recipe.matches(getStackInSlot(1))) {
+						if (recipe.matches(getStackInSlot(1)) && getStackInSlot(0).getItem() == FCItems.universalSeed) {
 							decrStackSize(1, 36);
 							setInventorySlotContents(0, recipe.getOutput());
 						}

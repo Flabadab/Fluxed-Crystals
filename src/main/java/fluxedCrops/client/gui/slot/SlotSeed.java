@@ -17,6 +17,6 @@ public class SlotSeed extends Slot {
 	}
 
 	public boolean isItemValid(ItemStack stack) {
-		return stack.getItem() == FCItems.universalSeed;
+		return stack.getItem() instanceof ISeed || stack.getItem() == FCItems.universalSeed;
 	}
 }

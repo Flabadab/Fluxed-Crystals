@@ -5,6 +5,7 @@ import tterrag.core.common.json.JsonUtils;
 import fluxedCrops.FluxedCrops;
 import fluxedCrops.api.RecipeRegistry;
 import fluxedCrops.api.recipe.SeedCropRecipe;
+import fluxedCrops.utils.ModUtils;
 
 public class SeedType implements ISeedType {
 
@@ -19,7 +20,7 @@ public class SeedType implements ISeedType {
 			if (aspect ==null) {
 				RecipeRegistry.addCrop(new SeedCropRecipe(name, JsonUtils.parseStringIntoItemStack(drop), color, JsonUtils.parseStringIntoItemStack(ingredient)));
 				FluxedCrops.logger.info("Registering Seed for " + name + ", that drops " + drop + ", whose color is " + color + " and that is crafted with " + ingredient);
-			} else {
+			} else if(ModUtils.isModLoaded("Thaumcraft")){
 				RecipeRegistry.addCrop(new SeedCropRecipe(name, Aspect.getAspect(aspect)));
 				FluxedCrops.logger.info("Registering Seed for " + name + " and whose Aspect is " + aspect);
 			

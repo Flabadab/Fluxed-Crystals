@@ -22,6 +22,7 @@ import fluxedCrops.config.json.ISeedType;
 import fluxedCrops.config.json.SeedType;
 import fluxedCrops.config.json.ThaumcraftSeedType;
 import fluxedCrops.items.FCItems;
+import fluxedCrops.utils.ModUtils;
 
 public class ConfigHandler extends AbstractConfigHandler {
 
@@ -46,6 +47,10 @@ public class ConfigHandler extends AbstractConfigHandler {
 
 		RecipeRegistry.reset();
 
+		addSection(ConfigProps.addonCategory, "en_US");
+		ConfigProps.thaumcraftAddon = getProperty(ConfigProps.addonCategory, true).getBoolean(true);
+		ConfigProps.enderioAddon = getProperty(ConfigProps.addonCategory, true).getBoolean(true);
+
 		ModToken token = new ModToken(FluxedCrops.class, ModProps.modid + "/misc/");
 
 		String basePath = FluxedCrops.configDir.getAbsolutePath();
@@ -54,16 +59,20 @@ public class ConfigHandler extends AbstractConfigHandler {
 		if (!crops.exists()) {
 			IOUtils.copyFromJar(FluxedCrops.class, ModProps.modid + "/misc/" + "crops.json", crops);
 		}
-		File thaumcraftCrops = new File(basePath + "/thaumcraftCrops.json");
-		if (!thaumcraftCrops.exists()) {
-			IOUtils.copyFromJar(FluxedCrops.class, ModProps.modid + "/misc/" + "thaumcraftCrops.json", thaumcraftCrops);
+		if (ModUtils.isModLoaded("Thaumcraft") && ConfigProps.thaumcraftAddon) {
+			File thaumcraftCrops = new File(basePath + "/thaumcraftCrops.json");
+			if (!thaumcraftCrops.exists()) {
+				IOUtils.copyFromJar(FluxedCrops.class, ModProps.modid + "/misc/" + "thaumcraftCrops.json", thaumcraftCrops);
+			}
 		}
-		JsonConfigReader<SeedType> cropReader;
-		cropReader = new JsonConfigReader<SeedType>(token, crops, SeedType.class);
-		registerAll(cropReader.getElements());
+		if (ModUtils.isModLoaded("EnderIO") && ConfigProps.enderioAddon) {
+			File enderioCrops = new File(basePath + "/enderioCrops.json");
+			if (!enderioCrops.exists()) {
+				IOUtils.copyFromJar(FluxedCrops.class, ModProps.modid + "/misc/" + "enderioCrops.json", enderioCrops);
+			}
+		}
 
-		cropReader = new JsonConfigReader<SeedType>(token, thaumcraftCrops, SeedType.class);
-		registerAll(cropReader.getElements());
+		JsonConfigReader<SeedType> cropReader;
 
 		for (int i = 0; i < cropFiles.length; i++) {
 			if (cropFiles[i] != null) {

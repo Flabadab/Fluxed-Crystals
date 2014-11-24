@@ -12,19 +12,23 @@ import net.minecraftforge.common.util.ForgeDirection;
 import fluxedCrops.api.RecipeRegistry;
 import fluxedCrops.api.recipe.RecipeSeedInfuser;
 import fluxedCrops.items.FCItems;
+import fluxedCrops.network.MessageSeedInfuser;
+import fluxedCrops.network.PacketHandler;
 
 /**
  * Created by Jared on 11/2/2014.
  */
 public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory {
+
 	public ItemStack[] items;
 
-	@Getter @Setter
-	private boolean infusing = false;
-	
-	private int infused = 0;
-	
 	@Getter
+	private boolean infusing = false;
+
+	private int infused = 0;
+
+	@Getter
+	@Setter
 	private int recipeIndex;
 
 	public TileEntitySeedInfuser() {
@@ -43,7 +47,8 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 	}
 
 	public void updateEntity() {
-		if (worldObj.getWorldTime() % 12 == 0) {
+		System.out.println(worldObj.isRemote + "  " + getRecipeIndex());
+		if (!worldObj.isRemote && worldObj.getTotalWorldTime() % 12 == 0) {
 			if (infusing) {
 				infuseSeed();
 			}
@@ -135,7 +140,7 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 		readInventoryFromNBT(tags);
 		infusing = tags.getBoolean("infusing");
 		infused = tags.getInteger("infused");
-		recipeIndex = tags.getInteger("outputNumber");
+		setRecipeIndex(tags.getInteger("recipeIndex"));
 	}
 
 	public void readInventoryFromNBT(NBTTagCompound tags) {
@@ -155,7 +160,7 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 		writeInventoryToNBT(tags);
 		tags.setBoolean("infusing", infusing);
 		tags.setInteger("infused", infused);
-		tags.setInteger("outputNumber", recipeIndex);
+		tags.setInteger("recipeIndex", getRecipeIndex());
 	}
 
 	public void writeInventoryToNBT(NBTTagCompound tags) {
@@ -173,34 +178,39 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 	}
 
 	public boolean infuseSeed() {
-		int number = 0;
+		if (getRecipeIndex() >= 0) {
+			RecipeSeedInfuser recipe = RecipeRegistry.getSeedRecipes().get(getRecipeIndex());
+			if (recipe.matches(getStackInSlot(1)) && getStackInSlot(0).getItem() == FCItems.universalSeed) {
+				decrStackSize(1, 1);
+				infused++;
+				if (infused == 32) {
+					setInventorySlotContents(0, recipe.getOutput());
+					infusing = false;
+					infused = 0;
+					setRecipeIndex(-1);
+					PacketHandler.INSTANCE.sendToDimension(new MessageSeedInfuser(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
+				}
+				return true;
+			}
+		}
+		infused = 0;
+		setRecipeIndex(-1);
+		infusing = false;
+		return false;
+	}
+	
+	public void setInfusing(boolean infusing) {
+		this.infusing = infusing;
+		int number = -1;
+		setRecipeIndex(number);
 		if (getStackInSlot(0) != null && getStackInSlot(1) != null) {
 			for (RecipeSeedInfuser recipe : RecipeRegistry.getSeedRecipes()) {
 				number++;
 				if (recipe.matches(getStackInSlot(1)) && getStackInSlot(0).getItem() == FCItems.universalSeed) {
-					decrStackSize(1, 1);
-					infused++;
-					recipeIndex = number;
-					if (infused == 32) {
-						setInventorySlotContents(0, recipe.getOutput());
-						infusing = false;
-						worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 3);
-						infused = 0;
-						recipeIndex = 0;
-
-						return true;
-					}
-					return true;
+					setRecipeIndex(number);
+					break;
 				}
 			}
 		}
-		infused = 0;
-		infusing = false;
-		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 3);
-		return false;
-	}
-
-	public int getColor() {
-		return RecipeRegistry.getColor(recipeIndex);
 	}
 }

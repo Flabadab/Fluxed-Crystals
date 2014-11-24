@@ -7,6 +7,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import fluxedCrops.FluxedCrops;
+import fluxedCrops.api.RecipeRegistry;
 import fluxedCrops.blocks.BlockSeedInfuser;
 import fluxedCrops.tileEntity.TileEntitySeedInfuser;
 
@@ -22,11 +23,11 @@ public class SeedInfuserRenderer implements ISimpleBlockRenderingHandler {
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
 
-		int meta = world.getBlockMetadata(x, y, z);
 		renderer.renderStandardBlock(block, x, y, z);
-		if (meta == 1) {
-			TileEntitySeedInfuser tile = (TileEntitySeedInfuser) world.getTileEntity(x, y, z);
-			int color = tile.getColor();
+		TileEntitySeedInfuser tile = (TileEntitySeedInfuser) world.getTileEntity(x, y, z);
+		int index = tile.getRecipeIndex();
+		if (index >= 0) {
+			int color = RecipeRegistry.getColor(index);
 			Tessellator tess = Tessellator.instance;
 			tess.setColorOpaque_I(color);
 			float red = (color >> 16 & 255) / 255.0F;

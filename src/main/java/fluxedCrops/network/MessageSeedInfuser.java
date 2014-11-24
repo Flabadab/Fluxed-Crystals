@@ -1,5 +1,6 @@
 package fluxedCrops.network;
 
+import fluxedCrops.FluxedCrops;
 import fluxedCrops.tileEntity.TileEntitySeedInfuser;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
@@ -9,6 +10,7 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class MessageSeedInfuser implements IMessage, IMessageHandler<MessageSeedInfuser, IMessage> {
 	public int x, y, z;
+	private int data;
 
 	public MessageSeedInfuser() {
 	}
@@ -19,10 +21,11 @@ public class MessageSeedInfuser implements IMessage, IMessageHandler<MessageSeed
 		this.z = z;
 	}
 
-	public MessageSeedInfuser(int x, int y, int z, int size) {
+	public MessageSeedInfuser(int x, int y, int z, int data) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		this.data = data;
 	}
 
 	@Override
@@ -30,6 +33,7 @@ public class MessageSeedInfuser implements IMessage, IMessageHandler<MessageSeed
 		this.x = buf.readInt();
 		this.y = buf.readInt();
 		this.z = buf.readInt();
+		this.data = buf.readInt();
 	}
 
 	@Override
@@ -37,15 +41,29 @@ public class MessageSeedInfuser implements IMessage, IMessageHandler<MessageSeed
 		buf.writeInt(x);
 		buf.writeInt(y);
 		buf.writeInt(z);
+		buf.writeInt(data);
 	}
 
 	@Override
 	public IMessage onMessage(MessageSeedInfuser message, MessageContext ctx) {
-		TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(message.x, message.y, message.z);
-		if (te instanceof TileEntitySeedInfuser) {
-			if (((TileEntitySeedInfuser) te).getStackInSlot(1) != null && ((TileEntitySeedInfuser) te).getStackInSlot(1).stackSize >= 32) {
-				((TileEntitySeedInfuser) te).setInfusing(true);
-				ctx.getServerHandler().playerEntity.worldObj.setBlockMetadataWithNotify(message.x, message.y, message.z, 1, 3);
+		int x = message.x, y = message.y, z = message.z;
+		if (ctx.side.isServer()) {
+			TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(x, y, z);
+			if (te instanceof TileEntitySeedInfuser) {
+				TileEntitySeedInfuser infuser = (TileEntitySeedInfuser) te;
+				if (infuser.getStackInSlot(1) != null && infuser.getStackInSlot(1).stackSize >= 32) {
+					infuser.setInfusing(true);
+				}
+				int index = infuser.getRecipeIndex();
+				if (index >= 0) {
+					return new MessageSeedInfuser(x, y, z, index);
+				}
+			}
+		} else {
+			TileEntity te = FluxedCrops.proxy.getClientWorld().getTileEntity(x, y, z);
+			if (te instanceof TileEntitySeedInfuser) {
+				((TileEntitySeedInfuser) te).setRecipeIndex(message.data);
+				te.getWorldObj().markBlockForUpdate(x, y, z);
 			}
 		}
 		return null;

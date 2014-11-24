@@ -43,7 +43,10 @@ public class MessageSeedInfuser implements IMessage, IMessageHandler<MessageSeed
 	public IMessage onMessage(MessageSeedInfuser message, MessageContext ctx) {
 		TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(message.x, message.y, message.z);
 		if (te instanceof TileEntitySeedInfuser) {
-			((TileEntitySeedInfuser) te).infuseSeed();
+			if (((TileEntitySeedInfuser) te).getStackInSlot(1) != null && ((TileEntitySeedInfuser) te).getStackInSlot(1).stackSize >= 32) {
+				((TileEntitySeedInfuser) te).infusing = true;
+				ctx.getServerHandler().playerEntity.worldObj.setBlockMetadataWithNotify(message.x, message.y, message.z, 1, 3);
+			}
 		}
 		return null;
 	}

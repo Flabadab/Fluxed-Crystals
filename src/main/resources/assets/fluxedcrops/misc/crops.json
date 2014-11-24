@@ -28,79 +28,79 @@
             "name":"Emerald",
             "drop":"minecraft:emerald",
             "color":6290199,
-            "ingredient":"minecraft:emerald"
+            "ingredient":"gemEmerald"
         },
         {
             "name":"Diamond",
             "drop":"minecraft:diamond",
             "color":5169900,
-            "ingredient":"minecraft:diamond"
+            "ingredient":"gemdiamond"
         },
         {
             "name":"Redstone",
             "drop":"minecraft:redstone",
             "color":16190746,
-            "ingredient":"minecraft:redstone"
+            "ingredient":"dustRedstone"
         },
         {
             "name":"Ender",
             "drop":"minecraft:ender_pearl",
             "color":5146997,
-            "ingredient":"minecraft:ender_pearl"
+            "ingredient":"pearlEnder"
         },
         {
             "name":"Glowstone",
             "drop":"minecraft:glowstone_dust",
             "color":16766977,
-            "ingredient":"minecraft:glowstone_dust"
+            "ingredient":"dustGlowstone"
         },
         {
             "name":"Blaze",
             "drop":"minecraft:blaze_rod",
             "color":15246103,
-            "ingredient":"minecraft:blaze_rod"
+            "ingredient":"itemBlazeRod"
         },
         {
             "name":"Clay",
             "drop":"minecraft:clay_ball",
             "color":15066338,
-            "ingredient":"minecraft:clay_ball"
+            "ingredient":"itemClayBall"
         },
         {
             "name":"Flint",
             "drop":"minecraft:flint",
             "color":7499373,
-            "ingredient":"minecraft:flint"
+            "ingredient":"itemFlint"
         },
         {
             "name":"Ghast",
             "drop":"minecraft:ghast_tear",
             "color":12371660,
-            "ingredient":"minecraft:ghast_tear"
+            "ingredient":"itemGhastTear"
         },
         {
             "name":"Gunpowder",
             "drop":"minecraft:gunpowder",
             "color":5656657,
-            "ingredient":"minecraft:gunpowder"
+            "ingredient":"itemGunpowder"
         },
         {
             "name":"Leather",
             "drop":"minecraft:leather",
             "color":16767832,
-            "ingredient":"minecraft:leather"
+            "ingredient":"itemLeather"
         },
         {
             "name":"Quartz",
             "drop":"minecraft:quartz",
             "color":16641780,
-            "ingredient":"minecraft:quartz"
+            "ingredient":"gemQuartz"
         },
         {
             "name":"Slime",
             "drop":"minecraft:slimeball",
             "color":12380500,
-            "ingredient":"minecraft:slimeball"
+            "ingredient":"slimeball"
         }
 		
 		

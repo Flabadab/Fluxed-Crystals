@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,6 +23,7 @@ import fluxedCrops.api.recipe.SeedCropRecipe;
 import fluxedCrops.blocks.FCBlocks;
 import fluxedCrops.client.gui.GUIHandler;
 import fluxedCrops.config.ConfigHandler;
+import fluxedCrops.handlers.RecipeHandler;
 import fluxedCrops.handlers.ThaumcraftHandler;
 import fluxedCrops.items.FCItems;
 import fluxedCrops.network.PacketHandler;
@@ -38,12 +40,14 @@ public class FluxedCrops {
 	public static final Lang lang = new Lang(ModProps.modid);
 
 	public static final Logger logger = LogManager.getLogger(ModProps.name);
-	
+
 	public static final CreativeTabFluxedCrops tab = new CreativeTabFluxedCrops();
 	public static int cropRenderID;
+	public static int seedInfuserRenderID;
 	
+
 	public static File configDir = null;
-	
+
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {
 		logger.info("Starting Pre Init.");
@@ -54,6 +58,7 @@ public class FluxedCrops {
 		PacketHandler.init();
 		new GUIHandler();
 		proxy.initRenderers();
+		RecipeHandler.init();
 	}
 
 	@EventHandler

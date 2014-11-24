@@ -3,8 +3,10 @@ package fluxedCrops.client.gui.manager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ContainerFurnace;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import fluxedCrops.api.ISeed;
 import fluxedCrops.client.gui.slot.SlotPowerBlock;
 import fluxedCrops.tileEntity.TileEntityManagerBlock;
 
@@ -31,7 +33,7 @@ public class ContainerManagerBlock extends Container {
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int slot) {
+	public ItemStack transferStackInSlot(EntityPlayer player, int slotNumber) {
 		return null;
 	}
 }

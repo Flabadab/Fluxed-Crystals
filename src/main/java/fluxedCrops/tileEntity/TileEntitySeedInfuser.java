@@ -17,6 +17,10 @@ import fluxedCrops.items.FCItems;
 public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory {
 	public ItemStack[] items;
 
+	public boolean infusing = false;
+	public int infused = 0;
+	public int outputNumber;
+
 	public TileEntitySeedInfuser() {
 		super(100000);
 		items = new ItemStack[3];
@@ -33,6 +37,11 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 	}
 
 	public void updateEntity() {
+		if (worldObj.getWorldTime() % 12 == 0) {
+			if (infusing) {
+				infuseSeed();
+			}
+		}
 	}
 
 	@Override
@@ -118,6 +127,9 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 	public void readFromNBT(NBTTagCompound tags) {
 		super.readFromNBT(tags);
 		readInventoryFromNBT(tags);
+		infusing = tags.getBoolean("infusing");
+		infused = tags.getInteger("infused");
+		outputNumber = tags.getInteger("outputNumber");
 	}
 
 	public void readInventoryFromNBT(NBTTagCompound tags) {
@@ -135,6 +147,9 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 	public void writeToNBT(NBTTagCompound tags) {
 		super.writeToNBT(tags);
 		writeInventoryToNBT(tags);
+		tags.setBoolean("infusing", infusing);
+		tags.setInteger("infused", infused);
+		tags.setInteger("outputNumber", outputNumber);
 	}
 
 	public void writeInventoryToNBT(NBTTagCompound tags) {
@@ -151,18 +166,50 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 		tags.setTag("Items", nbttaglist);
 	}
 
-	public void infuseSeed() {
+	public boolean infuseSeed() {
+		int number = 0;
 		if (getStackInSlot(0) != null) {
 			if (getStackInSlot(1) != null) {
-				if (getStackInSlot(1).stackSize >= 36) {
-					for (RecipeSeedInfuser recipe : RecipeRegistry.getSeedRecipes()) {
-						if (recipe.matches(getStackInSlot(1)) && getStackInSlot(0).getItem() == FCItems.universalSeed) {
-							decrStackSize(1, 36);
+				for (RecipeSeedInfuser recipe : RecipeRegistry.getSeedRecipes()) {
+					number++;
+					if (recipe.matches(getStackInSlot(1)) && getStackInSlot(0).getItem() == FCItems.universalSeed) {
+						decrStackSize(1, 1);
+						infused++;
+						outputNumber = number;
+						if (infused == 32) {
 							setInventorySlotContents(0, recipe.getOutput());
+							infusing = false;
+							worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 3);
+							infused = 0;
+							outputNumber = 0;
+
+							return true;
 						}
+						return true;
 					}
 				}
+				infused = 0;
+				infusing = false;
+				worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 3);
+				return false;
 			}
+			infused = 0;
+			infusing = false;
+			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 3);
+			return false;
 		}
+		infused = 0;
+		infusing = false;
+		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 3);
+		return false;
 	}
+
+	public boolean isInfusing() {
+		return infusing;
+	}
+
+	public int getOutputNumber() {
+		return outputNumber;
+	}
+
 }

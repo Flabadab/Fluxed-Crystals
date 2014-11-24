@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.config.Configuration;
 
 import org.apache.commons.io.filefilter.FileFilterUtils;
 
@@ -30,10 +31,16 @@ public class ConfigHandler extends AbstractConfigHandler {
 
 	private ConfigHandler() {
 		super(ModProps.modid);
+
 	}
 
 	@Override
 	protected void init() {
+		addSection(ConfigProps.cropCategory, "en_US", "Crops");
+		ConfigProps.thaumcraftAddon = getProperty("Thaumcraft Addon Support", true).getBoolean(true);
+		ConfigProps.enderioAddon = getProperty("EnderIO Addon Support", true).getBoolean(true);
+		ConfigProps.shardDrop = getProperty("Should crops drop shards or their ingredient", true).getBoolean(true);
+
 		; // add future sections here
 	}
 
@@ -46,10 +53,6 @@ public class ConfigHandler extends AbstractConfigHandler {
 	protected void reloadIngameConfigs() {
 
 		RecipeRegistry.reset();
-
-		addSection(ConfigProps.addonCategory, "en_US");
-		ConfigProps.thaumcraftAddon = getProperty(ConfigProps.addonCategory, true).getBoolean(true);
-		ConfigProps.enderioAddon = getProperty(ConfigProps.addonCategory, true).getBoolean(true);
 
 		ModToken token = new ModToken(FluxedCrops.class, ModProps.modid + "/misc/");
 

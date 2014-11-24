@@ -41,15 +41,13 @@ public class BlockSeedInfuser extends Block implements ITileEntityProvider {
 	}
 
 	public void registerBlockIcons(IIconRegister icon) {
-		textures = new IIcon[3];
+		textures = new IIcon[2];
 		textures[0] = icon.registerIcon(ModProps.modid + ":InfuserOff");
-		textures[1] = icon.registerIcon(ModProps.modid + ":InfuserOn");
-		textures[2] = icon.registerIcon(ModProps.modid + ":InfuserOnOverlay");
-
+		textures[1] = icon.registerIcon(ModProps.modid + ":InfuserOnOverlay");
 	}
 
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
-		return this.textures[meta];
+		return this.textures[0];
 	}
 }

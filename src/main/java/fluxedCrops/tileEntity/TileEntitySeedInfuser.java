@@ -1,5 +1,7 @@
 package fluxedCrops.tileEntity;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -17,9 +19,13 @@ import fluxedCrops.items.FCItems;
 public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory {
 	public ItemStack[] items;
 
-	public boolean infusing = false;
-	public int infused = 0;
-	public int outputNumber;
+	@Getter @Setter
+	private boolean infusing = false;
+	
+	private int infused = 0;
+	
+	@Getter
+	private int recipeIndex;
 
 	public TileEntitySeedInfuser() {
 		super(100000);
@@ -129,7 +135,7 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 		readInventoryFromNBT(tags);
 		infusing = tags.getBoolean("infusing");
 		infused = tags.getInteger("infused");
-		outputNumber = tags.getInteger("outputNumber");
+		recipeIndex = tags.getInteger("outputNumber");
 	}
 
 	public void readInventoryFromNBT(NBTTagCompound tags) {
@@ -149,7 +155,7 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 		writeInventoryToNBT(tags);
 		tags.setBoolean("infusing", infusing);
 		tags.setInteger("infused", infused);
-		tags.setInteger("outputNumber", outputNumber);
+		tags.setInteger("outputNumber", recipeIndex);
 	}
 
 	public void writeInventoryToNBT(NBTTagCompound tags) {
@@ -168,35 +174,25 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 
 	public boolean infuseSeed() {
 		int number = 0;
-		if (getStackInSlot(0) != null) {
-			if (getStackInSlot(1) != null) {
-				for (RecipeSeedInfuser recipe : RecipeRegistry.getSeedRecipes()) {
-					number++;
-					if (recipe.matches(getStackInSlot(1)) && getStackInSlot(0).getItem() == FCItems.universalSeed) {
-						decrStackSize(1, 1);
-						infused++;
-						outputNumber = number;
-						if (infused == 32) {
-							setInventorySlotContents(0, recipe.getOutput());
-							infusing = false;
-							worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 3);
-							infused = 0;
-							outputNumber = 0;
+		if (getStackInSlot(0) != null && getStackInSlot(1) != null) {
+			for (RecipeSeedInfuser recipe : RecipeRegistry.getSeedRecipes()) {
+				number++;
+				if (recipe.matches(getStackInSlot(1)) && getStackInSlot(0).getItem() == FCItems.universalSeed) {
+					decrStackSize(1, 1);
+					infused++;
+					recipeIndex = number;
+					if (infused == 32) {
+						setInventorySlotContents(0, recipe.getOutput());
+						infusing = false;
+						worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 3);
+						infused = 0;
+						recipeIndex = 0;
 
-							return true;
-						}
 						return true;
 					}
+					return true;
 				}
-				infused = 0;
-				infusing = false;
-				worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 3);
-				return false;
 			}
-			infused = 0;
-			infusing = false;
-			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 3);
-			return false;
 		}
 		infused = 0;
 		infusing = false;
@@ -204,12 +200,7 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 		return false;
 	}
 
-	public boolean isInfusing() {
-		return infusing;
+	public int getColor() {
+		return RecipeRegistry.getColor(recipeIndex);
 	}
-
-	public int getOutputNumber() {
-		return outputNumber;
-	}
-
 }

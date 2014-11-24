@@ -1,24 +1,22 @@
 package fluxedCrops.client.render;
 
-import java.awt.Color;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import fluxedCrops.FluxedCrops;
-import fluxedCrops.api.RecipeRegistry;
 import fluxedCrops.blocks.BlockSeedInfuser;
-import fluxedCrops.blocks.crops.BlockCrop;
-import fluxedCrops.tileEntity.TileEntityCrop;
 import fluxedCrops.tileEntity.TileEntitySeedInfuser;
 
 public class SeedInfuserRenderer implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
-
+		renderer.setOverrideBlockTexture(block.getIcon(0, metadata));
+		renderer.renderBlockAsItem(Blocks.stone, 0, 1.0f);
+		renderer.clearOverrideBlockTexture();
 	}
 
 	@Override
@@ -28,12 +26,15 @@ public class SeedInfuserRenderer implements ISimpleBlockRenderingHandler {
 		renderer.renderStandardBlock(block, x, y, z);
 		if (meta == 1) {
 			TileEntitySeedInfuser tile = (TileEntitySeedInfuser) world.getTileEntity(x, y, z);
-			int color = RecipeRegistry.getColor(tile.getOutputNumber());
+			int color = tile.getColor();
 			Tessellator tess = Tessellator.instance;
-			tess.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
 			tess.setColorOpaque_I(color);
-			renderer.setOverrideBlockTexture(((BlockSeedInfuser) block).textures[2]);
-			renderer.renderStandardBlockWithColorMultiplier(block, x, y, z, new Color(color).getRed(), new Color(color).getGreen(), new Color(color).getBlue());
+			float red = (color >> 16 & 255) / 255.0F;
+	        float green = (color >> 8 & 255) / 255.0F;
+	        float blue = (color & 255) / 255.0F;
+			renderer.setOverrideBlockTexture(((BlockSeedInfuser)block).textures[1]);
+			renderer.renderStandardBlockWithColorMultiplier(block, x, y, z, red, green, blue);
+			renderer.clearOverrideBlockTexture();
 		}
 		return true;
 	}

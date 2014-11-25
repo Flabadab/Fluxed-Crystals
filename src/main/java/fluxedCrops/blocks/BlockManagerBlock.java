@@ -19,7 +19,6 @@ public class BlockManagerBlock extends Block implements ITileEntityProvider{
     }
 
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int meta, float par7, float par8, float par9) {
-
 		player.openGui(FluxedCrops.instance, 0, world, x, y, z);
 		return true;
 	}

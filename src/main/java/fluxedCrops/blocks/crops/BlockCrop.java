@@ -11,6 +11,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import fluxedCrops.api.CropBase;
 import fluxedCrops.api.RecipeRegistry;
+import fluxedCrops.config.ConfigProps;
 import fluxedCrops.items.FCItems;
 import fluxedCrops.tileEntity.TileEntityCrop;
 
@@ -23,7 +24,11 @@ public class BlockCrop extends CropBase implements ITileEntityProvider {
 		TileEntityCrop crop = (TileEntityCrop) world.getTileEntity(x, y, z);
 		dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.seed, 1, crop.getIndex()));
 		if (metadata >= 7) {
-			dropBlockAsItem(world, x, y, z, crop.getDrop());
+			if (ConfigProps.shardDrop) {
+				dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.shard, 1, crop.getIndex()));
+			} else {
+				dropBlockAsItem(world, x, y, z, crop.getDrop());
+			}
 		}
 
 	}
@@ -32,7 +37,11 @@ public class BlockCrop extends CropBase implements ITileEntityProvider {
 		if (world.getBlockMetadata(x, y, z) >= 7) {
 			TileEntityCrop crop = (TileEntityCrop) world.getTileEntity(x, y, z);
 			if (world.getBlockMetadata(x, y, z) >= 7) {
-				dropBlockAsItem(world, x, y, z, crop.getDrop());
+				if (ConfigProps.shardDrop) {
+					dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.shard, 1, crop.getIndex()));
+				} else {
+					dropBlockAsItem(world, x, y, z, crop.getDrop());
+				}
 			}
 			world.setBlockMetadataWithNotify(x, y, z, 0, 3);
 

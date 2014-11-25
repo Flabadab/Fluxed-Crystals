@@ -1,10 +1,6 @@
 package fluxedCrops;
 
 import java.io.File;
-import java.util.List;
-
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,14 +13,10 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import fluxedCrops.api.RecipeRegistry;
-import fluxedCrops.api.recipe.RecipeSeedInfuser;
-import fluxedCrops.api.recipe.SeedCropRecipe;
 import fluxedCrops.blocks.FCBlocks;
 import fluxedCrops.client.gui.GUIHandler;
 import fluxedCrops.config.ConfigHandler;
 import fluxedCrops.handlers.RecipeHandler;
-import fluxedCrops.handlers.ThaumcraftHandler;
 import fluxedCrops.items.FCItems;
 import fluxedCrops.network.PacketHandler;
 import fluxedCrops.proxy.CommonProxy;
@@ -32,21 +24,30 @@ import fluxedCrops.proxy.CommonProxy;
 @Mod(modid = ModProps.modid, name = ModProps.name, version = ModProps.version, dependencies = "required-after:ThermalFoundation;after:Thaumcraft;required-after:ttCore;after:EnderIO")
 public class FluxedCrops {
 
+	public static File configDir = null;
+	public static int cropRenderID;
+
 	@Instance("fluxedcrops")
 	public static FluxedCrops instance;
-	@SidedProxy(clientSide = "fluxedCrops.proxy.ClientProxy", serverSide = "fluxedCrops.proxy.CommonProxy")
-	public static CommonProxy proxy;
 
 	public static final Lang lang = new Lang(ModProps.modid);
 
 	public static final Logger logger = LogManager.getLogger(ModProps.name);
+	@SidedProxy(clientSide = "fluxedCrops.proxy.ClientProxy", serverSide = "fluxedCrops.proxy.CommonProxy")
+	public static CommonProxy proxy;
+	public static int seedInfuserRenderID;
 
 	public static final CreativeTabFluxedCrops tab = new CreativeTabFluxedCrops();
-	public static int cropRenderID;
-	public static int seedInfuserRenderID;
-	
 
-	public static File configDir = null;
+	@EventHandler
+	public static void Init(FMLInitializationEvent event) {
+		logger.info("Starting Init.");
+	}
+
+	@EventHandler
+	public static void postInit(FMLPostInitializationEvent event) {
+		logger.info("Starting Post Init.");
+	}
 
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {
@@ -59,16 +60,6 @@ public class FluxedCrops {
 		new GUIHandler();
 		proxy.initRenderers();
 		RecipeHandler.init();
-	}
-
-	@EventHandler
-	public static void Init(FMLInitializationEvent event) {
-		logger.info("Starting Init.");
-	}
-
-	@EventHandler
-	public static void postInit(FMLPostInitializationEvent event) {
-		logger.info("Starting Post Init.");
 	}
 
 }

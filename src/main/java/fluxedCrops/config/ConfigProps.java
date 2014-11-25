@@ -7,12 +7,14 @@ package fluxedCrops.config;
 public class ConfigProps {
 	public static String addonCategory = "Addon Compatability";
 	public static String dropCategory = "Drops";
-	public static String cropCategory = "Crops";
 	
 
 	public static boolean thaumcraftAddon;
 	public static boolean enderioAddon;
 
 	public static boolean shardDrop;
+	public static boolean shard3x3;
+	
+	
 
 }

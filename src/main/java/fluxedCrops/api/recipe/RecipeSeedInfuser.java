@@ -35,11 +35,15 @@ public class RecipeSeedInfuser {
 		}
 		return false;
 	}
-	
+
+	public boolean matchesExact(ItemStack stack) {
+		return input.isItemEqual(stack);
+	}
+
 	public ItemStack getInput() {
 		return input.copy();
 	}
-	
+
 	public ItemStack getOutput() {
 		return output.copy();
 	}

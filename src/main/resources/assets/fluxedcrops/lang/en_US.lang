@@ -1,1 +1,6 @@
 item.fluxedcrops.seed.name=%s Seed
+item.fluxedcrops.shard.name=%s Shard
+item.Universal Seed.name=Blank Seed
+tile.Power Block.name=Powered Soil
+tile.Manager Block.name=Farm Manager
+tile.Seed Infuser.name=Seed Infuser

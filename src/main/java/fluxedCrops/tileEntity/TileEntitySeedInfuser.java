@@ -47,7 +47,6 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 	}
 
 	public void updateEntity() {
-		System.out.println(worldObj.isRemote + "  " + getRecipeIndex());
 		if (!worldObj.isRemote && worldObj.getTotalWorldTime() % 12 == 0) {
 			if (infusing) {
 				infuseSeed();

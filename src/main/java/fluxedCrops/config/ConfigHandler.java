@@ -31,26 +31,27 @@ public class ConfigHandler extends AbstractConfigHandler {
 
 	private ConfigHandler() {
 		super(ModProps.modid);
-
 	}
 
 	@Override
 	protected void init() {
-		addSection(ConfigProps.cropCategory, "en_US", "Crops");
-		ConfigProps.thaumcraftAddon = getProperty("Thaumcraft Addon Support", true).getBoolean(true);
-		ConfigProps.enderioAddon = getProperty("EnderIO Addon Support", true).getBoolean(true);
-		ConfigProps.shardDrop = getProperty("Should crops drop shards or their ingredient", true).getBoolean(true);
+		addSection(ConfigProps.addonCategory, "Addons");
+		addSection(ConfigProps.dropCategory, "Drops");
 
-		; // add future sections here
 	}
 
 	@Override
 	protected void reloadNonIngameConfigs() {
-		; // none yet
 	}
 
 	@Override
 	protected void reloadIngameConfigs() {
+		activateSection(ConfigProps.addonCategory);
+		ConfigProps.thaumcraftAddon = getProperty("Thaumcraft Addon Support", true).getBoolean(true);
+		ConfigProps.enderioAddon = getProperty("EnderIO Addon Support", true).getBoolean(true);
+		activateSection(ConfigProps.dropCategory);
+		ConfigProps.shardDrop = getProperty("Should crops drop shards or their ingredient", true).getBoolean(true);
+		ConfigProps.shard3x3 = getProperty("Should shards craft into the ingredients with 9 of the drops, or with 4 of the drop", true).getBoolean(true);
 
 		RecipeRegistry.reset();
 

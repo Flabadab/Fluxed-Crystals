@@ -1,10 +1,8 @@
 package fluxedCrops;
 
-import fluxedCrops.blocks.FCBlocks;
-import tterrag.core.common.util.CreativeTabsCustom;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import fluxedCrops.blocks.FCBlocks;
 
 public class CreativeTabFluxedCrops extends CreativeTabs {
 

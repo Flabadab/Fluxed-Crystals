@@ -12,7 +12,8 @@ public class FCItems {
 
 	public static Item universalSeed = new Item();
 	public static Item seed = new ItemSeed();
-	
+	public static Item shard = new ItemShard();
+
 	public static void init() {
 		registerItems();
 		registerNBT();
@@ -26,9 +27,11 @@ public class FCItems {
 
 	private static void registerItems() {
 		seed.setCreativeTab(FluxedCrops.tab);
+		shard.setCreativeTab(FluxedCrops.tab);
 		universalSeed.setCreativeTab(FluxedCrops.tab).setTextureName(ModProps.modid + ":seed").setUnlocalizedName("Universal Seed");
-		GameRegistry.registerItem(seed, "seed");
 		GameRegistry.registerItem(universalSeed, "universalSeed");
+		GameRegistry.registerItem(seed, "seed");
+		GameRegistry.registerItem(shard, "shard");
 	}
 
 	private static void registerNBT() {

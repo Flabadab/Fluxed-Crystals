@@ -70,6 +70,13 @@ public class RecipeRegistry {
 			return crops.get(itemDamage).getName();
 		return null;
 	}
+	
+	public static int getTier(int itemDamage){
+		if (itemDamage >= 0 && itemDamage < crops.size())
+			return crops.get(itemDamage).getTier();
+		return 0;
+		
+	}
 
 	public static void reset() {
 		String caller = Thread.currentThread().getStackTrace()[2].getClassName();

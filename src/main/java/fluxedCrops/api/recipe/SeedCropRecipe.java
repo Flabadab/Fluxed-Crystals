@@ -20,17 +20,19 @@ public class SeedCropRecipe {
 	private Aspect aspect;
 	private int dropAmount;
 	private int growthTime;
+	private int tier;
 
-	public SeedCropRecipe(String name, ItemStack drop, int color, ItemStack ingredient, int dropAmount, int growthTime) {
+	public SeedCropRecipe(String name, ItemStack drop, int color, ItemStack ingredient, int dropAmount, int growthTime, int tier) {
 		this.name = name;
 		this.drop = drop;
 		this.color = color;
 		this.ingredient = ingredient;
 		this.dropAmount = dropAmount;
 		this.growthTime = growthTime;
+		this.tier = tier;
 	}
 
-	public SeedCropRecipe(String name, Aspect aspect, int dropAmount, int growthTime) {
+	public SeedCropRecipe(String name, Aspect aspect, int dropAmount, int growthTime, int tier) {
 		ItemStack drop = ItemApi.getItem("itemWispEssence", 0);
 		ItemStack ingredient = ItemApi.getItem("itemWispEssence", 0);
 
@@ -47,6 +49,7 @@ public class SeedCropRecipe {
 		this.aspect = aspect;
 		this.dropAmount = dropAmount;
 		this.growthTime = growthTime;
+		this.tier = tier;
 	}
 
 }

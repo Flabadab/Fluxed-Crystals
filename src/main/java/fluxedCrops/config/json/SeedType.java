@@ -16,14 +16,15 @@ public class SeedType implements ISeedType {
 	public String aspect;
 	public int dropAmount = 1;
 	public int growthTime = 1200;
+	public int tier = 0;
 
 	public void register() {
 		try {
 			if (aspect == null) {
-				RecipeRegistry.addCrop(new SeedCropRecipe(name, JsonUtils.parseStringIntoItemStack(drop), color, JsonUtils.parseStringIntoItemStack(ingredient), dropAmount, growthTime));
+				RecipeRegistry.addCrop(new SeedCropRecipe(name, JsonUtils.parseStringIntoItemStack(drop), color, JsonUtils.parseStringIntoItemStack(ingredient), dropAmount, growthTime, tier));
 				FluxedCrops.logger.info("Registering Seed for " + name + ", that drops " + drop + ", whose color is " + color + " and that is crafted with " + ingredient);
 			} else if (ModUtils.isModLoaded("Thaumcraft")) {
-				RecipeRegistry.addCrop(new SeedCropRecipe(name, Aspect.getAspect(aspect), dropAmount, growthTime));
+				RecipeRegistry.addCrop(new SeedCropRecipe(name, Aspect.getAspect(aspect), dropAmount, growthTime, tier));
 				FluxedCrops.logger.info("Registering Seed for " + name + " and whose Aspect is " + aspect);
 
 			}

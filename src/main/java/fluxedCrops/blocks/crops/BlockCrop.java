@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
@@ -26,10 +27,23 @@ public class BlockCrop extends CropBase implements ITileEntityProvider {
 		if (metadata >= 7) {
 			if (ConfigProps.shardDrop) {
 				dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.shard, crop.getDropAmount(), crop.getIndex()));
+
 			} else {
-				dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.seed, crop.getDropAmount(), crop.getIndex()));
+				dropBlockAsItem(world, x, y, z, new ItemStack(RecipeRegistry.getDrop(crop.getIndex()).getItem(), crop.getDropAmount()));
 			}
 		}
+	}
+
+	public ItemStack getCropDrop(World world, int x, int y, int z) {
+		TileEntityCrop crop = (TileEntityCrop) world.getTileEntity(x, y, z);
+		if (world.getBlockMetadata(x, y, z) >= 7) {
+			if (ConfigProps.shardDrop) {
+				return new ItemStack(FCItems.shard, crop.getDropAmount(), crop.getIndex());
+			} else {
+				return new ItemStack(RecipeRegistry.getDrop(crop.getIndex()).getItem(), crop.getDropAmount());
+			}
+		}
+		return null;
 
 	}
 
@@ -40,8 +54,8 @@ public class BlockCrop extends CropBase implements ITileEntityProvider {
 				if (ConfigProps.shardDrop) {
 					dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.shard, crop.getDropAmount(), crop.getIndex()));
 				} else {
-					dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.seed, crop.getDropAmount(), crop.getIndex()));
-					}
+					dropBlockAsItem(world, x, y, z, new ItemStack(RecipeRegistry.getDrop(crop.getIndex()).getItem(), crop.getDropAmount()));
+				}
 			}
 			world.setBlockMetadataWithNotify(x, y, z, 0, 3);
 

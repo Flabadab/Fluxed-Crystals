@@ -1,5 +1,6 @@
 package fluxedCrops.tileEntity;
 
+import tterrag.core.common.util.BlockCoord;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import fluxedCrops.api.CropBase;

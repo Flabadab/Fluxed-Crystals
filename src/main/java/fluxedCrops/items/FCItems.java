@@ -16,6 +16,8 @@ public class FCItems {
 	public static Item upgradeEffeciency = new Upgrade();
 	public static Item upgradeNight = new Upgrade();
 	public static Item upgradeSpeed= new Upgrade();
+	public static Item upgradeAutomation= new Upgrade();
+	
 	
 
 	public static void init() {
@@ -36,11 +38,15 @@ public class FCItems {
 		upgradeEffeciency.setCreativeTab(FluxedCrops.tab).setTextureName(ModProps.modid + ":UpgradeEffeciency").setUnlocalizedName("UpgradeEffeciency");
 		upgradeNight.setCreativeTab(FluxedCrops.tab).setTextureName(ModProps.modid + ":UpgradeNight").setUnlocalizedName("UpgradeNight");
 		upgradeSpeed.setCreativeTab(FluxedCrops.tab).setTextureName(ModProps.modid + ":UpgradeSpeed").setUnlocalizedName("UpgradeSpeed");
+		upgradeAutomation.setCreativeTab(FluxedCrops.tab).setTextureName(ModProps.modid + ":UpgradeAutomation").setUnlocalizedName("UpgradeAutomation");
+		
 		
 
 		GameRegistry.registerItem(upgradeEffeciency, "UpgradeEffeciency");
 		GameRegistry.registerItem(upgradeNight, "UpgradeNight");
 		GameRegistry.registerItem(upgradeSpeed, "UpgradeSpeed");
+		GameRegistry.registerItem(upgradeAutomation, "UpgradeAutomation");
+		
 		
 
 		GameRegistry.registerItem(universalSeed, "universalSeed");

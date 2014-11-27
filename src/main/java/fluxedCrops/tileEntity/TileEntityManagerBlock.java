@@ -4,18 +4,23 @@ import java.util.ArrayList;
 
 import org.lwjgl.Sys;
 
+import com.mojang.authlib.GameProfile;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
 import fluxedCrops.ModProps;
 import fluxedCrops.api.IUpgrade;
 import fluxedCrops.api.RecipeRegistry;
 import fluxedCrops.blocks.FCBlocks;
+import fluxedCrops.blocks.crops.BlockCrop;
 import fluxedCrops.items.FCItems;
 import fluxedCrops.network.MessageEnergyUpdate;
 import fluxedCrops.network.PacketHandler;
@@ -50,16 +55,29 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 	}
 
 	public void updateEntity() {
+		ArrayList<ItemStack> list = new ArrayList<ItemStack>();
 		for (TileEntityPowerBlock power : powerBlocks) {
 			if (this.storage.getEnergyStored() > getUpgradeDrain())
-				if (power.getCropTile(worldObj) != null)
+				if (power.getCropTile(worldObj) != null) {
+					if (isUpgradeActive(new ItemStack(FCItems.upgradeAutomation))) {
+						EntityPlayer player = FakePlayerFactory.get((WorldServer) worldObj, new GameProfile(null, "[FluxedCrops]"));
+						if (worldObj.getBlockMetadata(power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord) >= 7)
+							list.add(power.getCrop(worldObj).getCropDrop(worldObj, power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord));
+						((BlockCrop) power.getCrop(worldObj)).onBlockActivated(worldObj, power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord, player, worldObj.getBlockMetadata(power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord), 0, 0, 0);
+					}
 					if (worldObj.getWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
 						if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)))) {
-							System.out.println(timer);
 							this.storage.extractEnergy(getUpgradeDrain(), false);
 						}
+				}
 		}
-
+		
+		if(isUpgradeActive(new ItemStack(FCItems.upgradeAutomation))){
+			if(worldObj.getTileEntity(xCoord, yCoord+1, zCoord) instanceof IInventory){
+				IInventory tile = (IInventory)worldObj.getTileEntity(xCoord, yCoord+1, zCoord);
+				tile.
+			}
+		}
 	}
 
 	public void placePowerBlocks(int size) {
@@ -356,15 +374,23 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 		int energy = 250;
 
 		for (ItemStack item : getUpgrades()) {
-			if (item != null)
+			if (item != null) {
 				if (item.isItemEqual(new ItemStack(FCItems.upgradeNight))) {
 					energy += energy / 15;
 				}
+				if (item.isItemEqual(new ItemStack(FCItems.upgradeSpeed))) {
+					energy += energy / 12;
+				}
+				if (item.isItemEqual(new ItemStack(FCItems.upgradeAutomation))) {
+					energy += energy / 8;
+				}
+			}
 		}
 
 		if (isUpgradeActive(new ItemStack(FCItems.upgradeEffeciency))) {
 			energy /= getEffeciency();
 		}
+
 		return energy;
 	}
 

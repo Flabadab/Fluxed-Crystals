@@ -8,6 +8,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import fluxedCrops.api.ISeed;
 import fluxedCrops.client.gui.slot.SlotPowerBlock;
+import fluxedCrops.client.gui.slot.SlotUpgrade;
 import fluxedCrops.tileEntity.TileEntityManagerBlock;
 
 public class ContainerManagerBlock extends Container {
@@ -25,7 +26,13 @@ public class ContainerManagerBlock extends Container {
 
 		addSlotToContainer(new SlotPowerBlock(manager, 0, 8, 62));
 		addSlotToContainer(new SlotPowerBlock(manager, 1, 26, 62));
-	}
+	
+		addSlotToContainer(new SlotUpgrade(manager, 2, 116, 62));
+		addSlotToContainer(new SlotUpgrade(manager, 3, 134, 62));
+		addSlotToContainer(new SlotUpgrade(manager, 4, 152, 62));
+		
+		
+		}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer p_75145_1_) {

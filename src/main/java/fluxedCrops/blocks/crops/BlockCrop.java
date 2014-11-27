@@ -25,9 +25,9 @@ public class BlockCrop extends CropBase implements ITileEntityProvider {
 		dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.seed, 1, crop.getIndex()));
 		if (metadata >= 7) {
 			if (ConfigProps.shardDrop) {
-				dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.shard, 1, crop.getIndex()));
+				dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.shard, crop.getDropAmount(), crop.getIndex()));
 			} else {
-				dropBlockAsItem(world, x, y, z, crop.getDrop());
+				dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.seed, crop.getDropAmount(), crop.getIndex()));
 			}
 		}
 
@@ -38,10 +38,10 @@ public class BlockCrop extends CropBase implements ITileEntityProvider {
 			TileEntityCrop crop = (TileEntityCrop) world.getTileEntity(x, y, z);
 			if (world.getBlockMetadata(x, y, z) >= 7) {
 				if (ConfigProps.shardDrop) {
-					dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.shard, 1, crop.getIndex()));
+					dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.shard, crop.getDropAmount(), crop.getIndex()));
 				} else {
-					dropBlockAsItem(world, x, y, z, crop.getDrop());
-				}
+					dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.seed, crop.getDropAmount(), crop.getIndex()));
+					}
 			}
 			world.setBlockMetadataWithNotify(x, y, z, 0, 3);
 

@@ -2,6 +2,8 @@ package fluxedCrops.tileEntity;
 
 import java.util.ArrayList;
 
+import org.lwjgl.Sys;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -10,7 +12,11 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
+import fluxedCrops.ModProps;
+import fluxedCrops.api.IUpgrade;
+import fluxedCrops.api.RecipeRegistry;
 import fluxedCrops.blocks.FCBlocks;
+import fluxedCrops.items.FCItems;
 import fluxedCrops.network.MessageEnergyUpdate;
 import fluxedCrops.network.PacketHandler;
 
@@ -23,15 +29,14 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 
 	public boolean placedBlocks = false;
 
-	public boolean shouldPlaceBlocks = false;
-
 	private int size = 0;
+	private int timer = 0;
 
 	private ArrayList<TileEntityPowerBlock> powerBlocks = new ArrayList<TileEntityPowerBlock>();
 
 	public TileEntityManagerBlock() {
 		super(100000);
-		items = new ItemStack[3];
+		items = new ItemStack[5];
 	}
 
 	@Override
@@ -45,19 +50,16 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 	}
 
 	public void updateEntity() {
-		if (shouldPlaceBlocks) {
-
+		for (TileEntityPowerBlock power : powerBlocks) {
+			if (this.storage.getEnergyStored() > getUpgradeDrain())
+				if (power.getCropTile(worldObj) != null)
+					if (worldObj.getWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
+						if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)))) {
+							System.out.println(timer);
+							this.storage.extractEnergy(getUpgradeDrain(), false);
+						}
 		}
 
-		if (worldObj.getWorldTime() % 1 == 0) {
-			for (TileEntityPowerBlock power : powerBlocks) {
-				if (this.storage.getEnergyStored() > 250)
-					if (power.growPlant(worldObj)) {
-						this.storage.extractEnergy(250, false);
-					}
-			}
-
-		}
 	}
 
 	public void placePowerBlocks(int size) {
@@ -298,4 +300,72 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 
 		tags.setTag("powerBlocks", nbtlist);
 	}
+
+	public ArrayList<ItemStack> getUpgrades() {
+		ArrayList<ItemStack> list = new ArrayList<ItemStack>();
+		list.add(getUpgradeOne());
+		list.add(getUpgradeTwo());
+		list.add(getUpgradeThree());
+		return list;
+	}
+
+	public ItemStack getUpgradeOne() {
+		return getStackInSlot(2);
+	}
+
+	public ItemStack getUpgradeTwo() {
+		return getStackInSlot(3);
+	}
+
+	public ItemStack getUpgradeThree() {
+		return getStackInSlot(4);
+	}
+
+	public int getSpeed() {
+		int speed = 7;
+		for (ItemStack item : getUpgrades()) {
+			if (item != null) {
+				if (item.isItemEqual(new ItemStack(FCItems.upgradeSpeed))) {
+					speed += 2;
+				}
+			}
+		}
+		return speed;
+	}
+
+	public int getEffeciency() {
+		int eff = 0;
+		for (ItemStack item : getUpgrades()) {
+			if (item != null) {
+				if (item.isItemEqual(new ItemStack(FCItems.upgradeEffeciency))) {
+					eff += 15;
+				}
+			}
+		}
+		if (eff == 0) {
+			eff = 1;
+		}
+		return eff;
+	}
+
+	public boolean isUpgradeActive(ItemStack stack) {
+		return (getUpgradeOne() != null && getUpgradeOne().isItemEqual(stack)) || (getUpgradeTwo() != null && getUpgradeTwo().isItemEqual(stack)) || (getUpgradeThree() != null && getUpgradeThree().isItemEqual(stack));
+	}
+
+	public int getUpgradeDrain() {
+		int energy = 250;
+
+		for (ItemStack item : getUpgrades()) {
+			if (item != null)
+				if (item.isItemEqual(new ItemStack(FCItems.upgradeNight))) {
+					energy += energy / 15;
+				}
+		}
+
+		if (isUpgradeActive(new ItemStack(FCItems.upgradeEffeciency))) {
+			energy /= getEffeciency();
+		}
+		return energy;
+	}
+
 }

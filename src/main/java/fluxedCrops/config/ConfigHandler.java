@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.config.Configuration;
 
 import org.apache.commons.io.filefilter.FileFilterUtils;
 
@@ -21,7 +20,6 @@ import fluxedCrops.api.recipe.RecipeSeedInfuser;
 import fluxedCrops.api.recipe.SeedCropRecipe;
 import fluxedCrops.config.json.ISeedType;
 import fluxedCrops.config.json.SeedType;
-import fluxedCrops.config.json.ThaumcraftSeedType;
 import fluxedCrops.items.FCItems;
 import fluxedCrops.utils.ModUtils;
 

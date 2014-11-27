@@ -33,10 +33,10 @@ public class GUIManagerBlock extends GuiContainer {
 
 	public void initGui() {
 		super.initGui();
-		buttonList.add(new GuiButton(0, guiLeft + 50, guiTop + 50, 23, 20, "3x3"));
-		buttonList.add(new GuiButton(1, guiLeft + 78, guiTop + 50, 23, 20, "5x5"));
-		buttonList.add(new GuiButton(2, guiLeft + 106, guiTop + 50, 23, 20, "7x7"));
-		buttonList.add(new GuiButton(3, guiLeft + 134, guiTop + 50, 23, 20, "9x9"));
+		buttonList.add(new GuiButton(0, guiLeft + 25, guiTop + 25, 23, 20, "3x3"));
+		buttonList.add(new GuiButton(1, guiLeft + 53, guiTop + 25, 23, 20, "5x5"));
+		buttonList.add(new GuiButton(2, guiLeft + 83, guiTop + 25, 23, 20, "7x7"));
+		buttonList.add(new GuiButton(3, guiLeft + 109, guiTop + 25, 23, 20, "9x9"));
 
 	}
 
@@ -76,7 +76,6 @@ public class GUIManagerBlock extends GuiContainer {
 				PacketHandler.INSTANCE.sendToServer(new MessageManagerBlock(tile.xCoord, tile.yCoord, tile.zCoord, 4));
 			}
 			break;
-
 
 		}
 	}

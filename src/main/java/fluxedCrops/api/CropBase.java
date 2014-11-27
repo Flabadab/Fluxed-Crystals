@@ -12,22 +12,22 @@ import cpw.mods.fml.relauncher.SideOnly;
 import fluxedCrops.FluxedCrops;
 import fluxedCrops.ModProps;
 import fluxedCrops.blocks.FCBlocks;
+import fluxedCrops.tileEntity.TileEntityCrop;
 
 public abstract class CropBase extends BlockCrops {
 	private IIcon[] icons;
 
-	public boolean growCrop(World world, int x, int y, int z, Random rand) {
-		if (world.getBlockLightValue(x, y + 1, z) >= 9) {
+	public boolean growCrop(World world, int x, int y, int z, Random rand, boolean night) {
+
+		if (world.getBlockLightValue(x, y + 1, z) >= 9 || night) {
 			int l = world.getBlockMetadata(x, y, z);
-
 			if (l < 7) {
-				float f = this.func_149864_n(world, x, y, z);
 
-				if (rand.nextInt((int) (25.0F / f) + 1) == 0) {
-					++l;
-					world.setBlockMetadataWithNotify(x, y, z, l, 2);
-					return true;
-				}
+				// if (rand.nextInt((int) (25.0F / f) + 1) == 0) {
+				++l;
+				world.setBlockMetadataWithNotify(x, y, z, l, 2);
+				return true;
+				// }
 			}
 		}
 		return false;
@@ -39,29 +39,13 @@ public abstract class CropBase extends BlockCrops {
 	public int getRenderType() {
 		return FluxedCrops.cropRenderID;
 	}
+
 	/**
 	 * Ticks the block if it's been scheduled
 	 */
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 	}
 
-	private float func_149864_n(World world, int x, int y, int z) {
-		float f = 1.0F;
-
-		for (int l = x - 1; l <= x + 1; ++l) {
-			for (int i1 = z - 1; i1 <= z + 1; ++i1) {
-				float f1 = 0.0F;
-
-				if (world.getBlock(l, y - 1, i1).canSustainPlant(world, l, y - 1, i1, ForgeDirection.UP, this)) {
-					f1 = 2.0F;
-				}
-
-				f += f1;
-			}
-		}
-
-		return f;
-	}
 
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister icon) {

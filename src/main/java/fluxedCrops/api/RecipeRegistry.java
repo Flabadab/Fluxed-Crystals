@@ -53,6 +53,18 @@ public class RecipeRegistry {
 		return null;
 	}
 
+	public static int getDropAmount(int itemDamage) {
+		if (itemDamage >= 0 && itemDamage < crops.size())
+			return crops.get(itemDamage).getDropAmount();
+		return 1;
+	}
+
+	public static int getGrowthTime(int itemDamage) {
+		if (itemDamage >= 0 && itemDamage < crops.size())
+			return crops.get(itemDamage).getGrowthTime();
+		return 0;
+	}
+
 	public static String getName(int itemDamage) {
 		if (itemDamage >= 0 && itemDamage < crops.size())
 			return crops.get(itemDamage).getName();

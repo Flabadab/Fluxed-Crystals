@@ -3,6 +3,7 @@ package fluxedCrops.api;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -53,9 +54,31 @@ public class RecipeRegistry {
 		return null;
 	}
 
-	public static int getDropAmount(int itemDamage) {
+	public static int getDropMin(int itemDamage) {
 		if (itemDamage >= 0 && itemDamage < crops.size())
-			return crops.get(itemDamage).getDropAmount();
+			return crops.get(itemDamage).getDropMin();
+		return 1;
+	}
+
+	public static int getDropMax(int itemDamage) {
+		if (itemDamage >= 0 && itemDamage < crops.size())
+			return crops.get(itemDamage).getDropMax();
+		return 1;
+	}
+
+	public static ItemStack getIngredient(int itemDamage) {
+		if (itemDamage >= 0 && itemDamage < crops.size())
+			return crops.get(itemDamage).getIngredient();
+		return null;
+	}
+
+	public static int getDropAmount(int itemDamage) {
+		if (itemDamage >= 0 && itemDamage < crops.size()) {
+			int dropAmount = new Random().nextInt(getDropMax(itemDamage)) + 1;
+			if (dropAmount <= getDropMin(itemDamage))
+				dropAmount = getDropMin(itemDamage);
+			return dropAmount;
+		}
 		return 1;
 	}
 
@@ -70,12 +93,23 @@ public class RecipeRegistry {
 			return crops.get(itemDamage).getName();
 		return null;
 	}
-	
-	public static int getTier(int itemDamage){
+
+	public static int getTier(int itemDamage) {
 		if (itemDamage >= 0 && itemDamage < crops.size())
 			return crops.get(itemDamage).getTier();
 		return 0;
-		
+	}
+
+	public static int getIngredientAmount(int itemDamage) {
+		if (itemDamage >= 0 && itemDamage < crops.size())
+			return crops.get(itemDamage).getIngredientAmount();
+		return 0;
+	}
+
+	public static int getPowerPerStage(int itemDamage) {
+		if (itemDamage >= 0 && itemDamage < crops.size())
+			return crops.get(itemDamage).getPowerPerStage();
+		return 0;
 	}
 
 	public static void reset() {

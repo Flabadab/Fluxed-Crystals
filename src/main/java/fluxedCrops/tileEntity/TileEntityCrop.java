@@ -9,7 +9,6 @@ import net.minecraft.tileentity.TileEntity;
 import fluxedCrops.api.RecipeRegistry;
 
 public class TileEntityCrop extends TileEntity {
-
 	private int idx = 0;
 
 	public TileEntityCrop() {

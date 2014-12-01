@@ -51,7 +51,7 @@ public class MessageSeedInfuser implements IMessage, IMessageHandler<MessageSeed
 			TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(x, y, z);
 			if (te instanceof TileEntitySeedInfuser) {
 				TileEntitySeedInfuser infuser = (TileEntitySeedInfuser) te;
-				if (infuser.getStackInSlot(1) != null && infuser.getStackInSlot(1).stackSize >= 32) {
+				if (infuser.getStackInSlot(1) != null && infuser.getStackInSlot(1).stackSize > 0) {
 					infuser.setInfusing(true);
 				}
 				int index = infuser.getRecipeIndex();

@@ -34,18 +34,18 @@ public class FCItems {
 	private static void registerItems() {
 		seed.setCreativeTab(FluxedCrops.tab);
 		shard.setCreativeTab(FluxedCrops.tab);
-		universalSeed.setCreativeTab(FluxedCrops.tab).setTextureName(ModProps.modid + ":seed").setUnlocalizedName("Universal Seed");
-		upgradeEffeciency.setCreativeTab(FluxedCrops.tab).setTextureName(ModProps.modid + ":UpgradeEffeciency").setUnlocalizedName("UpgradeEffeciency");
-		upgradeNight.setCreativeTab(FluxedCrops.tab).setTextureName(ModProps.modid + ":UpgradeNight").setUnlocalizedName("UpgradeNight");
-		upgradeSpeed.setCreativeTab(FluxedCrops.tab).setTextureName(ModProps.modid + ":UpgradeSpeed").setUnlocalizedName("UpgradeSpeed");
-		upgradeAutomation.setCreativeTab(FluxedCrops.tab).setTextureName(ModProps.modid + ":UpgradeAutomation").setUnlocalizedName("UpgradeAutomation");
+		universalSeed.setCreativeTab(FluxedCrops.tab).setTextureName(ModProps.modid + ":seed").setUnlocalizedName("universalSeed");
+		upgradeEffeciency.setCreativeTab(FluxedCrops.tab).setTextureName(ModProps.modid + ":UpgradeEffeciency").setUnlocalizedName("upgradeEfficiency");
+		upgradeNight.setCreativeTab(FluxedCrops.tab).setTextureName(ModProps.modid + ":UpgradeNight").setUnlocalizedName("upgradeNight");
+		upgradeSpeed.setCreativeTab(FluxedCrops.tab).setTextureName(ModProps.modid + ":UpgradeSpeed").setUnlocalizedName("upgradeSpeed");
+		upgradeAutomation.setCreativeTab(FluxedCrops.tab).setTextureName(ModProps.modid + ":UpgradeAutomation").setUnlocalizedName("upgradeAutomation");
 		
 		
 
-		GameRegistry.registerItem(upgradeEffeciency, "UpgradeEffeciency");
-		GameRegistry.registerItem(upgradeNight, "UpgradeNight");
-		GameRegistry.registerItem(upgradeSpeed, "UpgradeSpeed");
-		GameRegistry.registerItem(upgradeAutomation, "UpgradeAutomation");
+		GameRegistry.registerItem(upgradeEffeciency, "upgradeEffeciency");
+		GameRegistry.registerItem(upgradeNight, "upgradeNight");
+		GameRegistry.registerItem(upgradeSpeed, "upgradeSpeed");
+		GameRegistry.registerItem(upgradeAutomation, "upgradeAutomation");
 		
 		
 

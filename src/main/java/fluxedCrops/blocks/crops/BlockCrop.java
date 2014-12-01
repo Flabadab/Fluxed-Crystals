@@ -1,12 +1,13 @@
 package fluxedCrops.blocks.crops;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.projectile.EntityPotion;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -21,16 +22,32 @@ public class BlockCrop extends CropBase implements ITileEntityProvider {
 	public BlockCrop() {
 	}
 
-	public void onBlockPreDestroy(World world, int x, int y, int z, int metadata) {
+	public Item getItem(World world, int x, int y, int z) {
+		return new ItemStack(FCItems.seed, 1, ((TileEntityCrop) world.getTileEntity(x, y, z)).getIndex()).getItem();
+	}
+
+	public void dropCropDrops(World world, int x, int y, int z) {
 		TileEntityCrop crop = (TileEntityCrop) world.getTileEntity(x, y, z);
-		dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.seed, 1, crop.getIndex()));
-		if (metadata >= 7) {
+		if (world.getBlockMetadata(x, y, z) >= 7) {
 			if (ConfigProps.shardDrop) {
 				dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.shard, crop.getDropAmount(), crop.getIndex()));
 
 			} else {
 				dropBlockAsItem(world, x, y, z, new ItemStack(RecipeRegistry.getDrop(crop.getIndex()).getItem(), crop.getDropAmount()));
 			}
+		}
+	}
+
+	public void onBlockPreDestroy(World world, int x, int y, int z, int metadata) {
+		TileEntityCrop crop = (TileEntityCrop) world.getTileEntity(x, y, z);
+		dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.seed, 1, crop.getIndex()));
+		if (metadata >= 7) {
+			if (ConfigProps.shardDrop) {
+				dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.shard, crop.getDropAmount(), crop.getIndex()));
+			} else {
+				dropBlockAsItem(world, x, y, z, new ItemStack(RecipeRegistry.getDrop(crop.getIndex()).getItem(), crop.getDropAmount()));
+			}
+
 		}
 	}
 

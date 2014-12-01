@@ -182,7 +182,7 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 			if (recipe.matches(getStackInSlot(1)) && getStackInSlot(0).getItem() == FCItems.universalSeed) {
 				decrStackSize(1, 1);
 				infused++;
-				if (infused == 32) {
+				if (infused == RecipeRegistry.getIngredientAmount(recipeIndex)) {
 					setInventorySlotContents(0, recipe.getOutput());
 					infusing = false;
 					infused = 0;
@@ -197,7 +197,7 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 		infusing = false;
 		return false;
 	}
-	
+
 	public void setInfusing(boolean infusing) {
 		this.infusing = infusing;
 		int number = -1;

@@ -17,7 +17,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "0.0.1b3"
+version = "0.0.1b7"
 group= "fluxedCrops"
 archivesBaseName = "fluxedCrops"
 
@@ -49,8 +49,6 @@ dependencies {
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-	compile "codechicken:CodeChickenLib:${mc_version}-${ccl_version}:dev"
-	compile "codechicken:NotEnoughItems:${mc_version}-${nei_version}:dev"
 	compile "tterrag.core:ttCore:MC${mc_version}-${ttCore_version}:deobf"
 	
 }

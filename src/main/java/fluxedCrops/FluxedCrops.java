@@ -21,7 +21,7 @@ import fluxedCrops.items.FCItems;
 import fluxedCrops.network.PacketHandler;
 import fluxedCrops.proxy.CommonProxy;
 
-@Mod(modid = ModProps.modid, name = ModProps.name, version = ModProps.version, dependencies = "required-after:ThermalFoundation;after:Thaumcraft;required-after:ttCore;after:EnderIO")
+@Mod(modid = ModProps.modid, name = ModProps.name, version = ModProps.version, dependencies = "required-after:ThermalFoundation;required-after:ttCore;after:EnderIO")
 public class FluxedCrops {
 
 	public static File configDir = null;
@@ -40,16 +40,6 @@ public class FluxedCrops {
 	public static final CreativeTabFluxedCrops tab = new CreativeTabFluxedCrops();
 
 	@EventHandler
-	public static void Init(FMLInitializationEvent event) {
-		logger.info("Starting Init.");
-	}
-
-	@EventHandler
-	public static void postInit(FMLPostInitializationEvent event) {
-		logger.info("Starting Post Init.");
-	}
-
-	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {
 		logger.info("Starting Pre Init.");
 		configDir = new File(event.getSuggestedConfigurationFile().getParentFile().getAbsolutePath() + "/fluxedCrops");
@@ -60,6 +50,18 @@ public class FluxedCrops {
 		new GUIHandler();
 		proxy.initRenderers();
 		RecipeHandler.init();
+	}
+
+	@EventHandler
+	public static void Init(FMLInitializationEvent event) {
+		logger.info("Starting Init.");
+		
+		
+	}
+
+	@EventHandler
+	public static void postInit(FMLPostInitializationEvent event) {
+		logger.info("Starting Post Init.");
 	}
 
 }

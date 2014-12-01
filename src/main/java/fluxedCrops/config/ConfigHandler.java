@@ -7,6 +7,7 @@ import java.util.List;
 
 import net.minecraft.item.ItemStack;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 
 import tterrag.core.common.config.AbstractConfigHandler;
@@ -58,15 +59,23 @@ public class ConfigHandler extends AbstractConfigHandler {
 		String basePath = FluxedCrops.configDir.getAbsolutePath();
 		File[] cropFiles = FluxedCrops.configDir.listFiles((FileFilter) FileFilterUtils.suffixFileFilter(".json"));
 		File crops = new File(basePath + "/crops.json");
+		File thermalCrops = new File(basePath + "/thermalCrops.json");
+
+		
 		if (!crops.exists()) {
 			IOUtils.copyFromJar(FluxedCrops.class, ModProps.modid + "/misc/" + "crops.json", crops);
 		}
-		if (ModUtils.isModLoaded("Thaumcraft") && ConfigProps.thaumcraftAddon) {
-			File thaumcraftCrops = new File(basePath + "/thaumcraftCrops.json");
-			if (!thaumcraftCrops.exists()) {
-				IOUtils.copyFromJar(FluxedCrops.class, ModProps.modid + "/misc/" + "thaumcraftCrops.json", thaumcraftCrops);
-			}
+		if (!thermalCrops.exists()) {
+			IOUtils.copyFromJar(FluxedCrops.class, ModProps.modid + "/misc/thermalCrops.json", thermalCrops);
 		}
+		// if (ModUtils.isModLoaded("Thaumcraft") &&
+		// ConfigProps.thaumcraftAddon) {
+		// File thaumcraftCrops = new File(basePath + "/thaumcraftCrops.json");
+		// if (!thaumcraftCrops.exists()) {
+		// IOUtils.copyFromJar(FluxedCrops.class, ModProps.modid + "/misc/" +
+		// "thaumcraftCrops.json", thaumcraftCrops);
+		// }
+		// }
 		if (ModUtils.isModLoaded("EnderIO") && ConfigProps.enderioAddon) {
 			File enderioCrops = new File(basePath + "/enderioCrops.json");
 			if (!enderioCrops.exists()) {

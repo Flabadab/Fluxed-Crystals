@@ -4,107 +4,207 @@
             "name":"Iron",
             "drop":"nuggetIron",
             "color":14071681,
-            "ingredient":"ingotIron"
+            "ingredient":"ingotIron",
+            "dropMin":1,
+            "dropMax":1,
+            "growthTime":2400,
+            "tier":1,
+            "ingredientAmount":32,
+            "powerPerStage":4000
         },
         {
             "name":"Gold",
             "drop":"nuggetGold",
             "color":11904556,
-            "ingredient":"ingotGold"
+            "ingredient":"ingotGold",
+            "dropMin":1,
+            "dropMax":1,
+            "growthTime":2400,
+            "tier":1,
+            "ingredientAmount":32,
+            "powerPerStage":4000
         },
         {
             "name":"Coal",
-            "drop":"dustCoal",
+            "drop":"itemCoal",
             "color":788746,
-            "ingredient":"itemCoal"
+            "ingredient":"itemCoal",
+            "dropMin":1,
+            "dropMax":4,
+            "growthTime":1200,
+            "tier":0,
+            "ingredientAmount":32,
+            "powerPerStage":2000
         },
         {
             "name":"Charcoal",
-            "drop":"dustCharcoal",
+            "drop":"itemCharcoal",
             "color":3418156,
-            "ingredient":"itemCharcoal"
+            "ingredient":"itemCharcoal",
+            "dropMin":1,
+            "dropMax":4,
+            "growthTime":1200,
+            "tier":0,
+            "ingredientAmount":32,
+            "powerPerStage":2000
         },
         {
             "name":"Emerald",
             "drop":"minecraft:emerald",
             "color":6290199,
-            "ingredient":"gemEmerald"
+            "ingredient":"gemEmerald",
+            "dropMin":1,
+            "dropMax":1,
+            "growthTime":4800,
+            "tier":4,
+            "ingredientAmount":32,
+            "powerPerStage":10000
         },
         {
             "name":"Diamond",
             "drop":"minecraft:diamond",
             "color":5169900,
-            "ingredient":"gemdiamond"
+            "ingredient":"gemDiamond",
+            "dropMin":1,
+            "dropMax":1,
+            "growthTime":4800,
+            "tier":4,
+            "ingredientAmount":32,
+            "powerPerStage":10000
         },
         {
             "name":"Redstone",
             "drop":"minecraft:redstone",
             "color":16190746,
-            "ingredient":"dustRedstone"
+            "ingredient":"dustRedstone",
+            "dropMin":4,
+            "dropMax":8,
+            "growthTime":3600,
+            "tier":3,
+            "ingredientAmount":32,
+            "powerPerStage":8000
         },
         {
             "name":"Ender",
             "drop":"minecraft:ender_pearl",
             "color":5146997,
-            "ingredient":"pearlEnder"
+            "ingredient":"pearlEnder",
+            "dropMin":1,
+            "dropMax":1,
+            "growthTime":3600,
+            "tier":3,
+            "ingredientAmount":16,
+            "powerPerStage":8000
         },
         {
             "name":"Glowstone",
             "drop":"minecraft:glowstone_dust",
             "color":16766977,
-            "ingredient":"dustGlowstone"
+            "ingredient":"dustGlowstone",
+            "dropMin":1,
+            "dropMax":2,
+            "growthTime":1200,
+            "tier":0,
+            "ingredientAmount":32,
+            "powerPerStage":2000
         },
         {
             "name":"Blaze",
             "drop":"minecraft:blaze_rod",
             "color":15246103,
-            "ingredient":"itemBlazeRod"
+            "ingredient":"itemBlazeRod",
+            "dropMin":1,
+            "dropMax":1,
+            "growthTime":2400,
+            "tier":1,
+            "ingredientAmount":32,
+            "powerPerStage":4000
         },
         {
             "name":"Clay",
             "drop":"minecraft:clay_ball",
             "color":15066338,
-            "ingredient":"itemClayBall"
+            "ingredient":"itemClayBall",
+            "dropMin":1,
+            "dropMax":4,
+            "growthTime":1200,
+            "tier":0,
+            "ingredientAmount":32,
+            "powerPerStage":2000
         },
         {
             "name":"Flint",
             "drop":"minecraft:flint",
             "color":7499373,
-            "ingredient":"itemFlint"
+            "ingredient":"itemFlint",
+            "dropMin":1,
+            "dropMax":1,
+            "growthTime":1200,
+            "tier":1,
+            "ingredientAmount":32,
+            "powerPerStage":4000
         },
         {
             "name":"Ghast",
             "drop":"minecraft:ghast_tear",
             "color":12371660,
-            "ingredient":"itemGhastTear"
+            "ingredient":"itemGhastTear",
+            "dropMin":1,
+            "dropMax":1,
+            "growthTime":2400,
+            "tier":2,
+            "ingredientAmount":32,
+            "powerPerStage":4000
         },
         {
             "name":"Gunpowder",
             "drop":"minecraft:gunpowder",
             "color":5656657,
-            "ingredient":"itemGunpowder"
+            "ingredient":"itemGunpowder",
+            "dropMin":1,
+            "dropMax":1,
+            "growthTime":1200,
+            "tier":0,
+            "ingredientAmount":32,
+            "powerPerStage":4000
         },
         {
             "name":"Leather",
             "drop":"minecraft:leather",
             "color":16767832,
-            "ingredient":"itemLeather"
+            "ingredient":"itemLeather",
+            "dropMin":1,
+            "dropMax":1,
+            "growthTime":1200,
+            "tier":0,
+            "ingredientAmount":32,
+            "powerPerStage":2000
         },
         {
             "name":"Quartz",
             "drop":"minecraft:quartz",
             "color":16641780,
-            "ingredient":"gemQuartz"
+            "ingredient":"gemQuartz",
+            "dropMin":1,
+            "dropMax":4,
+            "growthTime":3600,
+            "tier":3,
+            "ingredientAmount":32,
+            "powerPerStage":8000
         },
         {
             "name":"Slime",
             "drop":"minecraft:slimeball",
             "color":12380500,
-            "ingredient":"slimeball"
+            "ingredient":"slimeball",
+            "dropMin":1,
+            "dropMax":1,
+            "growthTime":1200,
+            "tier":0,
+            "ingredientAmount":32,
+            "powerPerStage":2000
         }
-		
-		
-		
-		
+        
+        
     ]
 }

@@ -1,7 +1,7 @@
 package fluxedCrops.proxy;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.world.World;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import fluxedCrops.FluxedCrops;
 import fluxedCrops.client.render.CropRenderer;
@@ -20,6 +20,6 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public World getClientWorld() {
-		return Minecraft.getMinecraft().theWorld;
+		return FMLClientHandler.instance().getClient().theWorld;
 	}
 }

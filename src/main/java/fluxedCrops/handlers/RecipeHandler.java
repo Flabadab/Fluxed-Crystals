@@ -31,7 +31,7 @@ public class RecipeHandler {
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.managerBlock, "tie", "srs", "eit", 's', Blocks.soul_sand, 'i', "ingotIron", 't', Blocks.stone, 'e', Items.wheat_seeds, 'r', Items.redstone));
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.seedInfuser, "gdi", "sus", "idg", 's', Blocks.soul_sand, 'i', "ingotIron", 'g', Items.gold_ingot, 'd', Items.diamond, 'u', FCItems.universalSeed));
 
-		for (int i = 0; i < RecipeRegistry.getSeedCropRecipes().size(); i++) {
+		for (int i = 0; i < RecipeRegistry.getNumSeedRecipes(); i++) {
 			if (ConfigProps.shard3x3) {
 				GameRegistry.addShapedRecipe(RecipeRegistry.getIngredient(i), "sss", "sss", "sss", 's', new ItemStack(FCItems.shard, 1, i));
 			} else {

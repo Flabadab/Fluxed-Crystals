@@ -1,12 +1,8 @@
 package fluxedCrops.config.json;
 
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionHelper;
-import tterrag.core.common.json.JsonUtils;
 import fluxedCrops.FluxedCrops;
 import fluxedCrops.api.RecipeRegistry;
 import fluxedCrops.api.recipe.SeedCropRecipe;
-import fluxedCrops.utils.ModUtils;
 
 public class SeedType implements ISeedType {
 
@@ -23,7 +19,7 @@ public class SeedType implements ISeedType {
 
 	public void register() {
 		try {
-			RecipeRegistry.addCrop(new SeedCropRecipe(name, JsonUtils.parseStringIntoItemStack(drop), color, JsonUtils.parseStringIntoItemStack(ingredient), dropMin, dropMax, growthTime, tier, ingredientAmount, powerPerStage));
+			RecipeRegistry.addCrop(new SeedCropRecipe(this));
 			FluxedCrops.logger.info("Registering Seed for " + name + ", that drops " + drop + ", whose color is " + color + " and that is crafted with " + ingredient);
 		} catch (IllegalArgumentException e) {
 			FluxedCrops.logger.info("Skipping seed type with name {} as its drop was not found.", name);

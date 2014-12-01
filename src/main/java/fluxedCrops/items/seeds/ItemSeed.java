@@ -47,7 +47,7 @@ public class ItemSeed extends SeedBase {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void getSubItems(Item p_150895_1_, CreativeTabs p_150895_2_, List list) {
-		int numSeeds = RecipeRegistry.getSeedCropRecipes().size();
+		int numSeeds = RecipeRegistry.getNumSeedRecipes();
 		for (int i = 0; i < numSeeds; i++) {
 			list.add(new ItemStack(this, 1, i));
 		}

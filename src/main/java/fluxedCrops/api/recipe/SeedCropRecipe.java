@@ -1,5 +1,7 @@
 package fluxedCrops.api.recipe;
 
+import tterrag.core.common.json.JsonUtils;
+import fluxedCrops.config.json.SeedType;
 import lombok.Getter;
 import net.minecraft.item.ItemStack;
 
@@ -17,6 +19,10 @@ public class SeedCropRecipe {
 	private int ingredientAmount;
 	private int powerPerStage;
 	
+	public SeedCropRecipe(SeedType type) {
+		this(type.name, JsonUtils.parseStringIntoItemStack(type.drop), type.color, JsonUtils.parseStringIntoItemStack(type.ingredient), type.dropMin, type.dropMax, type.growthTime, type.tier, type.ingredientAmount, type.powerPerStage);
+	}
+	
 	public SeedCropRecipe(String name, ItemStack drop, int color, ItemStack ingredient, int dropMin, int dropMax, int growthTime, int tier, int ingredientAmount, int powerPerStage) {
 		this.name = name;
 		this.drop = drop;
@@ -29,5 +35,4 @@ public class SeedCropRecipe {
 		this.ingredientAmount = ingredientAmount;
 		this.powerPerStage = powerPerStage;
 	}
-
 }

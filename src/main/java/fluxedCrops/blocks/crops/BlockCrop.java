@@ -4,24 +4,19 @@ import java.util.ArrayList;
 
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import fluxedCrops.api.CropBase;
-import fluxedCrops.api.RecipeRegistry;
 import fluxedCrops.config.ConfigProps;
 import fluxedCrops.items.FCItems;
 import fluxedCrops.tileEntity.TileEntityCrop;
 
 public class BlockCrop extends CropBase implements ITileEntityProvider {
-
-	public BlockCrop() {
-	}
-
+	
+	@Override
 	public Item getItem(World world, int x, int y, int z) {
 		return new ItemStack(FCItems.seed, 1, ((TileEntityCrop) world.getTileEntity(x, y, z)).getIndex()).getItem();
 	}
@@ -29,53 +24,36 @@ public class BlockCrop extends CropBase implements ITileEntityProvider {
 	public void dropCropDrops(World world, int x, int y, int z) {
 		TileEntityCrop crop = (TileEntityCrop) world.getTileEntity(x, y, z);
 		if (world.getBlockMetadata(x, y, z) >= 7) {
-			if (ConfigProps.shardDrop) {
-				dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.shard, crop.getDropAmount(), crop.getIndex()));
-
-			} else {
-				dropBlockAsItem(world, x, y, z, new ItemStack(RecipeRegistry.getDrop(crop.getIndex()).getItem(), crop.getDropAmount()));
-			}
+			doDrop(crop, world, x, y, z);
 		}
 	}
 
+	private void doDrop(TileEntityCrop crop, World world, int x, int y, int z) {
+		ItemStack drop = crop.getDrop();
+		
+		if (drop == null) {
+			return;
+		}
+		
+		if (ConfigProps.shardDrop) {
+			dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.shard, drop.stackSize, crop.getIndex()));
+		} else {
+			dropBlockAsItem(world, x, y, z, drop);
+		}
+	}
+
+	@Override
 	public void onBlockPreDestroy(World world, int x, int y, int z, int metadata) {
 		TileEntityCrop crop = (TileEntityCrop) world.getTileEntity(x, y, z);
 		dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.seed, 1, crop.getIndex()));
-		if (metadata >= 7) {
-			if (ConfigProps.shardDrop) {
-				dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.shard, crop.getDropAmount(), crop.getIndex()));
-			} else {
-				dropBlockAsItem(world, x, y, z, new ItemStack(RecipeRegistry.getDrop(crop.getIndex()).getItem(), crop.getDropAmount()));
-			}
-
-		}
+		dropCropDrops(world, x, y, z);
 	}
 
-	public ItemStack getCropDrop(World world, int x, int y, int z) {
-		TileEntityCrop crop = (TileEntityCrop) world.getTileEntity(x, y, z);
-		if (world.getBlockMetadata(x, y, z) >= 7) {
-			if (ConfigProps.shardDrop) {
-				return new ItemStack(FCItems.shard, crop.getDropAmount(), crop.getIndex());
-			} else {
-				return new ItemStack(RecipeRegistry.getDrop(crop.getIndex()).getItem(), crop.getDropAmount());
-			}
-		}
-		return null;
-
-	}
-
+	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float hitX, float hitY, float hitZ) {
 		if (world.getBlockMetadata(x, y, z) >= 7) {
-			TileEntityCrop crop = (TileEntityCrop) world.getTileEntity(x, y, z);
-			if (world.getBlockMetadata(x, y, z) >= 7) {
-				if (ConfigProps.shardDrop) {
-					dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.shard, crop.getDropAmount(), crop.getIndex()));
-				} else {
-					dropBlockAsItem(world, x, y, z, new ItemStack(RecipeRegistry.getDrop(crop.getIndex()).getItem(), crop.getDropAmount()));
-				}
-			}
+			dropCropDrops(world, x, y, z);
 			world.setBlockMetadataWithNotify(x, y, z, 0, 3);
-
 			return true;
 		}
 		return false;

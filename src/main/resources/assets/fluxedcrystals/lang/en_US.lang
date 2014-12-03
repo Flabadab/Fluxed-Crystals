@@ -1,0 +1,13 @@
+item.fluxedcrystals.seed.name=%s Seed
+item.fluxedcrystals.shard.name=%s Shard
+item.Universal Seed.name=Blank Seed
+tile.Power Block.name=Powered Soil
+tile.Manager Block.name=Farm Manager
+tile.Seed Infuser.name=Seed Infuser
+item.universalSeed.name=Universal Seed
+item.upgradeEfficiency.name=Efficiency Upgrade
+item.upgradeNight.name=Nocturnal Upgrade
+item.upgradeSpeed.name=Speed Upgrade
+item.upgradeAutomation.name=Automation Upgrade
+itemGroup.Fluxed-Crystals=Fluxed-Crystals
+fc.tick.time.off=Some Wibbily Wobbly Timey Wimey just occurred! Some things seem to be going faaster than others!

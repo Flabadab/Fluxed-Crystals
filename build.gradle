@@ -17,12 +17,12 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "0.0.1b7"
+version = "0.0.1b11"
 group= "fluxedCrops"
 archivesBaseName = "fluxedCrops"
 
 minecraft {
-    version = "1.7.10-10.13.2.1236"
+    version = "1.7.10-10.13.2.1240"
     runDir = "eclipse"
 }
 repositories{
@@ -30,10 +30,7 @@ repositories{
 		name 'tterrag Repo'
 		url "http://maven.tterrag.com/"
 	}
-	maven {
-        name = "chickenbones"
-        url = "http://chickenbones.net/maven"
-    }
+	
 }
 
 dependencies {

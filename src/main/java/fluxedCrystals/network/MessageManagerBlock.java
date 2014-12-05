@@ -1,5 +1,6 @@
 package fluxedCrystals.network;
 
+import fluxedCrystals.tileEntity.IManager;
 import fluxedCrystals.tileEntity.TileEntityManagerBlock;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
@@ -33,6 +34,7 @@ public class MessageManagerBlock implements IMessage, IMessageHandler<MessageMan
 		this.y = buf.readInt();
 		this.z = buf.readInt();
 		this.size = buf.readInt();
+		
 	}
 
 	@Override

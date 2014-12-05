@@ -47,6 +47,7 @@ public class ConfigHandler extends AbstractConfigHandler {
 		activateSection(ConfigProps.addonCategory);
 		ConfigProps.thaumcraftAddon = getProperty("Thaumcraft Addon Support", true).getBoolean(true);
 		ConfigProps.enderioAddon = getProperty("EnderIO Addon Support", true).getBoolean(true);
+		ConfigProps.bloodMagicAddon = getProperty("Blood Magic Support", false).getBoolean(false);
 		activateSection(ConfigProps.dropCategory);
 		ConfigProps.shardDrop = getProperty("Should crops drop shards or their ingredient", true).getBoolean(true);
 		ConfigProps.shard3x3 = getProperty("Should shards craft into the ingredients with 9 of the drops, or with 4 of the drop", true).getBoolean(true);

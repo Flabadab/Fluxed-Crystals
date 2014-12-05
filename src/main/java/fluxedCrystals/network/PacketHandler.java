@@ -14,5 +14,9 @@ public class PacketHandler {
 		INSTANCE.registerMessage(MessageSeedInfuser.class, MessageSeedInfuser.class, 2, Side.SERVER);
 		INSTANCE.registerMessage(MessageSeedInfuser.class, MessageSeedInfuser.class, 3, Side.CLIENT);
 		INSTANCE.registerMessage(MessageBiome.class, MessageBiome.class, 4, Side.CLIENT);
+		INSTANCE.registerMessage(MessageBloodManager.class, MessageBloodManager.class, 5, Side.SERVER);
+		INSTANCE.registerMessage(MessageThaumicManager.class, MessageThaumicManager.class, 6, Side.SERVER);
+		
+		
 	}
 }

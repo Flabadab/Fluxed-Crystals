@@ -6,10 +6,13 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.ModProps;
 import fluxedCrystals.blocks.crystal.BlockCrystal;
+import fluxedCrystals.tileEntity.TileEntityBloodManager;
 import fluxedCrystals.tileEntity.TileEntityCrystal;
+import fluxedCrystals.tileEntity.TileEntityGlass;
 import fluxedCrystals.tileEntity.TileEntityManagerBlock;
 import fluxedCrystals.tileEntity.TileEntityPowerBlock;
 import fluxedCrystals.tileEntity.TileEntitySeedInfuser;
+import fluxedCrystals.tileEntity.TileEntityThaumicManager;
 
 public class FCBlocks {
 
@@ -18,8 +21,12 @@ public class FCBlocks {
 
 	public static Block powerBlock = new BlockPowerBlock();
 	public static Block managerBlock = new BlockManagerBlock();
+	public static Block managerBlood= new BlockBloodManager();
+	public static Block managerThaumic= new BlockThaumicManager();
+	
 	public static Block seedInfuser = new BlockSeedInfuser();
-
+	public static Block infusedGlass = new BlockGlass();
+	
 	public static void init() {
 
 		registerBlocks();
@@ -29,9 +36,14 @@ public class FCBlocks {
 
 	private static void registerTileEntity() {
 		GameRegistry.registerTileEntity(TileEntityManagerBlock.class, "managerBlock");
+		GameRegistry.registerTileEntity(TileEntityBloodManager.class, "bloodManager");
+		GameRegistry.registerTileEntity(TileEntityThaumicManager.class, "thaumicManager");
+		
 		GameRegistry.registerTileEntity(TileEntityPowerBlock.class, "powerBlock");
 		GameRegistry.registerTileEntity(TileEntitySeedInfuser.class, "seedInfuser");
 		GameRegistry.registerTileEntity(TileEntityCrystal.class, "crop");
+		GameRegistry.registerTileEntity(TileEntityGlass.class, "glass");
+		
     
 	}
 
@@ -39,7 +51,12 @@ public class FCBlocks {
 	  GameRegistry.registerBlock(crop, "crop");
 		registerBlock(powerBlock, "Power Block", "power_block");
 		registerBlock(managerBlock, "Manager Block", "Manager_Block");
+		registerBlock(managerBlood, "Blood Manager Block", "Manager_Block_Blood");
+		registerBlock(managerThaumic, "Thaumic Manager Block", "Manager_Block_Thaumic");
+		
+		
 		registerBlock(seedInfuser, "Seed Infuser", "Seed_Infuser");
+		GameRegistry.registerBlock(infusedGlass, "infusedGlass");
 	}
 
 	private static void registerBlock(Block block, String name, String key) {

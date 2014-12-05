@@ -11,6 +11,7 @@ public class ConfigProps {
 
 	public static boolean thaumcraftAddon;
 	public static boolean enderioAddon;
+	public static boolean bloodMagicAddon;
 
 	public static boolean shardDrop;
 	public static boolean shard3x3;

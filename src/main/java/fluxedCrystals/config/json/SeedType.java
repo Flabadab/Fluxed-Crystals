@@ -7,17 +7,19 @@ import fluxedCrystals.api.recipe.SeedCropRecipe;
 public class SeedType implements ISeedType {
 
 	public String name = "null";
-	public String drop[] = new String[]{};
-	public String weightedDrop[] = new String[]{};
-    public int weightedDropChance[] = new int[]{};
+	public String drop = "minecraft:diamond";
 	public int color = 0xFFFFFF;
 	public String ingredient = "minecraft:diamond";
-	public int[] dropMin = new int[]{};
-	public int[] dropMax = new int[]{};
+	public int dropMin =1;
+	public int dropMax = 1;
 	public int growthTime = 1200;
 	public int tier = 0;
 	public int ingredientAmount = 32;
 	public int powerPerStage = 2000;
+	public boolean decorationBlocks = true;
+	public String weightedDrop = "minecraft:diamond";
+	public int weightedDropChance = 0;
+	
 
 	public void register() {
 		try {

@@ -22,7 +22,7 @@ public class TileEntityCrystal extends TileEntity {
 		return false;
 	}
 
-	public ItemStack[] getDrop() {
+	public ItemStack getDrop() {
 		return RecipeRegistry.getDrops(idx);
 	}
 
@@ -47,7 +47,8 @@ public class TileEntityCrystal extends TileEntity {
 	}
 
 	@Override
-	public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int newMeta, World world, int x, int y, int z) {
+	public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta,
+			int newMeta, World world, int x, int y, int z) {
 		return oldBlock != newBlock;
 	}
 

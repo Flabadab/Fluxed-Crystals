@@ -24,43 +24,44 @@ import fluxedCrystals.proxy.CommonProxy;
 @Mod(modid = ModProps.modid, name = ModProps.name, version = ModProps.version, dependencies = "required-after:ThermalFoundation;required-after:ttCore;after:EnderIO")
 public class FluxedCrystals {
 
-    public static File configDir = null;
-    public static int crystalRenderID;
+	public static File configDir = null;
+	public static int crystalRenderID;
 
-    @Instance("fluxedcrystals")
-    public static FluxedCrystals instance;
+	@Instance("fluxedcrystals")
+	public static FluxedCrystals instance;
 
-    public static final Lang lang = new Lang(ModProps.modid);
+	public static final Lang lang = new Lang(ModProps.modid);
 
-    public static final Logger logger = LogManager.getLogger(ModProps.name);
-    @SidedProxy(clientSide = "fluxedCrystals.proxy.ClientProxy", serverSide = "fluxedCrystals.proxy.CommonProxy")
-    public static CommonProxy proxy;
-    public static int seedInfuserRenderID;
+	public static final Logger logger = LogManager.getLogger(ModProps.name);
+	@SidedProxy(clientSide = "fluxedCrystals.proxy.ClientProxy", serverSide = "fluxedCrystals.proxy.CommonProxy")
+	public static CommonProxy proxy;
+	public static int seedInfuserRenderID;
+	public static int glassRenderID;;
 
-    public static final CreativeTabFluxedCrystals tab = new CreativeTabFluxedCrystals();
+	public static final CreativeTabFluxedCrystals tab = new CreativeTabFluxedCrystals();
 
-    @EventHandler
-    public static void preInit(FMLPreInitializationEvent event) {
-        logger.info("Starting Pre Init.");
-        configDir = new File(event.getSuggestedConfigurationFile().getParentFile().getAbsolutePath() + "/fluxedCrystals");
-        ConfigHandler.INSTANCE.initialize(new File(configDir.getAbsolutePath() + "/fluxedCrystals.cfg"));
-        FCItems.init();
-        FCBlocks.init();
-        PacketHandler.init();
-        new GUIHandler();
-        proxy.initRenderers();
-        RecipeHandler.init();
-    }
+	@EventHandler
+	public static void preInit(FMLPreInitializationEvent event) {
+		logger.info("Starting Pre Init.");
+		configDir = new File(event.getSuggestedConfigurationFile().getParentFile().getAbsolutePath() + "/fluxedCrystals");
+		ConfigHandler.INSTANCE.initialize(new File(configDir.getAbsolutePath() + "/fluxedCrystals.cfg"));
+		FCItems.init();
+		FCBlocks.init();
+		PacketHandler.init();
+		new GUIHandler();
+		proxy.initRenderers();
+		RecipeHandler.init();
+	}
 
-    @EventHandler
-    public static void Init(FMLInitializationEvent event) {
-        logger.info("Starting Init.");
+	@EventHandler
+	public static void Init(FMLInitializationEvent event) {
+		logger.info("Starting Init.");
 
-    }
+	}
 
-    @EventHandler
-    public static void postInit(FMLPostInitializationEvent event) {
-        logger.info("Starting Post Init.");
-    }
+	@EventHandler
+	public static void postInit(FMLPostInitializationEvent event) {
+		logger.info("Starting Post Init.");
+	}
 
 }

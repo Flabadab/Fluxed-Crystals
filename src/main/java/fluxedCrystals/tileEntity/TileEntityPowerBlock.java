@@ -11,16 +11,16 @@ import fluxedCrystals.blocks.crystal.BlockCrystal;
  */
 public class TileEntityPowerBlock extends TileEntity {
 
-	private TileEntityManagerBlock manager;
+	private IManager manager;
 
 	public TileEntityPowerBlock() {
 	}
 
-	public void setManager(TileEntityManagerBlock manager) {
+	public void setManager(IManager manager) {
 		this.manager = manager;
 	}
 
-	public TileEntityManagerBlock getManager() {
+	public IManager getManager() {
 		return manager;
 	}
 

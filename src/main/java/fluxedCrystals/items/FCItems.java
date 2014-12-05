@@ -13,7 +13,7 @@ public class FCItems {
     public static Item universalSeed = new ItemUniversalSeed();
     public static Item seed = new ItemSeed();
     public static Item shard = new ItemShard();
-
+    public static Item crystalHammer = new ItemCrystalHammer();
     public static Item scytheWood = new ItemScythe();
     public static Item scytheStone = new ItemScythe();
     public static Item scytheIron = new ItemScythe();
@@ -44,12 +44,13 @@ public class FCItems {
         upgradeNight.setCreativeTab(FluxedCrystals.tab).setTextureName(ModProps.modid + ":UpgradeNight").setUnlocalizedName("upgradeNight");
         upgradeSpeed.setCreativeTab(FluxedCrystals.tab).setTextureName(ModProps.modid + ":UpgradeSpeed").setUnlocalizedName("upgradeSpeed");
         upgradeAutomation.setCreativeTab(FluxedCrystals.tab).setTextureName(ModProps.modid + ":UpgradeAutomation").setUnlocalizedName("upgradeAutomation");
-
-        registerScythe(scytheWood, "Wooden Scythe", "scytheWood");
-        registerScythe(scytheStone, "Stone Scythe", "scytheStone");
-        registerScythe(scytheIron, "Iron Scythe", "scytheIron");
-        registerScythe(scytheGold, "Gold Scythe", "scytheGold");
-        registerScythe(scytheDiamond, "Diamond Scythe", "scytheDiamond");
+        
+        registerItem(crystalHammer, "Crystal Hammer", "hammerCrystal");
+        registerItem(scytheWood, "Wooden Scythe", "scytheWood");
+        registerItem(scytheStone, "Stone Scythe", "scytheStone");
+        registerItem(scytheIron, "Iron Scythe", "scytheIron");
+        registerItem(scytheGold, "Gold Scythe", "scytheGold");
+        registerItem(scytheDiamond, "Diamond Scythe", "scytheDiamond");
         
         GameRegistry.registerItem(upgradeEffeciency, "upgradeEffeciency");
         GameRegistry.registerItem(upgradeNight, "upgradeNight");
@@ -65,7 +66,7 @@ public class FCItems {
 
     }
 
-    private static void registerScythe(Item item, String name, String key) {
+    private static void registerItem(Item item, String name, String key) {
         item.setCreativeTab(FluxedCrystals.tab).setTextureName(ModProps.modid + ":" + key).setUnlocalizedName(key);
         GameRegistry.registerItem(item, key);
     }

@@ -17,9 +17,9 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "0.0.1b11"
-group= "fluxedCrops"
-archivesBaseName = "fluxedCrops"
+version = "0.0.1b12"
+group= "fluxedCrystals"
+archivesBaseName = "fluxedCrystals"
 
 minecraft {
     version = "1.7.10-10.13.2.1240"
@@ -47,7 +47,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 	compile "tterrag.core:ttCore:MC${mc_version}-${ttCore_version}:deobf"
-	
+	compile files("/libs/BloodMagic-1.7.10-1.2.1b-1-deobf.jar")
 }
 
 processResources

@@ -2,6 +2,9 @@ package fluxedCrystals;
 
 import java.io.File;
 
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.oredict.OreDictionary;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,6 +16,8 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import fluxedCrystals.api.RecipeRegistry;
+import fluxedCrystals.api.recipe.SeedCropRecipe;
 import fluxedCrystals.blocks.FCBlocks;
 import fluxedCrystals.client.gui.GUIHandler;
 import fluxedCrystals.config.ConfigHandler;
@@ -21,7 +26,7 @@ import fluxedCrystals.items.FCItems;
 import fluxedCrystals.network.PacketHandler;
 import fluxedCrystals.proxy.CommonProxy;
 
-@Mod(modid = ModProps.modid, name = ModProps.name, version = ModProps.version, dependencies = "required-after:ThermalFoundation;required-after:ttCore;after:EnderIO")
+@Mod(modid = ModProps.modid, name = ModProps.name, version = ModProps.version, dependencies = "after:GregTech;required-after:ThermalFoundation;required-after:ttCore;after:EnderIO;after:AWWayofTime;after:botania")
 public class FluxedCrystals {
 
 	public static File configDir = null;
@@ -43,14 +48,17 @@ public class FluxedCrystals {
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {
 		logger.info("Starting Pre Init.");
+		
 		configDir = new File(event.getSuggestedConfigurationFile().getParentFile().getAbsolutePath() + "/fluxedCrystals");
 		ConfigHandler.INSTANCE.initialize(new File(configDir.getAbsolutePath() + "/fluxedCrystals.cfg"));
+		
 		FCItems.init();
 		FCBlocks.init();
 		PacketHandler.init();
 		new GUIHandler();
 		proxy.initRenderers();
 		RecipeHandler.init();
+		MinecraftForge.EVENT_BUS.register(new fluxedCrystals.utils.EventHandler());
 	}
 
 	@EventHandler

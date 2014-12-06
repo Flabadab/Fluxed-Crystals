@@ -16,6 +16,8 @@ public class PacketHandler {
 		INSTANCE.registerMessage(MessageBiome.class, MessageBiome.class, 4, Side.CLIENT);
 		INSTANCE.registerMessage(MessageBloodManager.class, MessageBloodManager.class, 5, Side.SERVER);
 		INSTANCE.registerMessage(MessageThaumicManager.class, MessageThaumicManager.class, 6, Side.SERVER);
+		INSTANCE.registerMessage(MessageManaManager.class, MessageManaManager.class, 7, Side.SERVER);
+		INSTANCE.registerMessage(MessageIndustrialManager.class, MessageIndustrialManager.class, 8, Side.SERVER);
 		
 		
 	}

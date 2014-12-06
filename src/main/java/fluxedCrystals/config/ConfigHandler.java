@@ -47,7 +47,11 @@ public class ConfigHandler extends AbstractConfigHandler {
 		activateSection(ConfigProps.addonCategory);
 		ConfigProps.thaumcraftAddon = getProperty("Thaumcraft Addon Support", true).getBoolean(true);
 		ConfigProps.enderioAddon = getProperty("EnderIO Addon Support", true).getBoolean(true);
-		ConfigProps.bloodMagicAddon = getProperty("Blood Magic Support", false).getBoolean(false);
+		ConfigProps.bloodMagicAddon = getProperty("Blood Magic Support", true).getBoolean(true);
+		ConfigProps.botaniaAddon = getProperty("botania Support", true).getBoolean(true);
+		ConfigProps.thaumcraftAddon = getProperty("Thaumcraft Support", true).getBoolean(true);
+		ConfigProps.IndustrialCraftAddon = getProperty("Industrial Craft 2 Support", true).getBoolean(true);
+
 		activateSection(ConfigProps.dropCategory);
 		ConfigProps.shardDrop = getProperty("Should crops drop shards or their ingredient", true).getBoolean(true);
 		ConfigProps.shard3x3 = getProperty("Should shards craft into the ingredients with 9 of the drops, or with 4 of the drop", true).getBoolean(true);
@@ -61,13 +65,13 @@ public class ConfigHandler extends AbstractConfigHandler {
 		File crops = new File(basePath + "/crops.json");
 		File thermalCrops = new File(basePath + "/thermalCrops.json");
 
-		
 		if (!crops.exists()) {
 			TTFileUtils.copyFromJar(FluxedCrystals.class, ModProps.modid + "/misc/" + "crops.json", crops);
 		}
 		if (!thermalCrops.exists()) {
 			TTFileUtils.copyFromJar(FluxedCrystals.class, ModProps.modid + "/misc/thermalCrops.json", thermalCrops);
 		}
+		
 		// if (ModUtils.isModLoaded("Thaumcraft") &&
 		// ConfigProps.thaumcraftAddon) {
 		// File thaumcraftCrops = new File(basePath + "/thaumcraftCrops.json");
@@ -82,7 +86,6 @@ public class ConfigHandler extends AbstractConfigHandler {
 				TTFileUtils.copyFromJar(FluxedCrystals.class, ModProps.modid + "/misc/" + "enderioCrops.json", enderioCrops);
 			}
 		}
-
 		JsonConfigReader<SeedType> cropReader;
 
 		for (int i = 0; i < cropFiles.length; i++) {

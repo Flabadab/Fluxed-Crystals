@@ -1,5 +1,6 @@
 package fluxedCrystals.blocks;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -19,6 +20,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.ModProps;
+import fluxedCrystals.api.RecipeRegistry;
+import fluxedCrystals.items.FCItems;
 import fluxedCrystals.tileEntity.TileEntityGlass;
 
 public class BlockGlass extends Block implements ITileEntityProvider {
@@ -27,29 +30,33 @@ public class BlockGlass extends Block implements ITileEntityProvider {
 
 	public BlockGlass() {
 		super(Material.glass);
-	} 
-	
+	}
+
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+		ArrayList<ItemStack> items = new ArrayList<ItemStack>();
+		items.add(new ItemStack(FCItems.shard, 1, ((TileEntityGlass)world.getTileEntity(x, y, z)).getIndex()));
+		return items;
+	}
 	/**
-     * Returns true if the given side of this block type should be rendered, if the adjacent block is at the given
-     * coordinates.  Args: blockAccess, x, y, z, side
-     */
-    @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_, int p_149646_5_)
-    {
-        Block block = p_149646_1_.getBlock(p_149646_2_, p_149646_3_, p_149646_4_);
+	 * Returns true if the given side of this block type should be rendered, if
+	 * the adjacent block is at the given coordinates. Args: blockAccess, x, y,
+	 * z, side
+	 */
+	@SideOnly(Side.CLIENT)
+	public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_, int p_149646_5_) {
+		Block block = p_149646_1_.getBlock(p_149646_2_, p_149646_3_, p_149646_4_);
 
-            if (p_149646_1_.getBlockMetadata(p_149646_2_, p_149646_3_, p_149646_4_) != p_149646_1_.getBlockMetadata(p_149646_2_ - Facing.offsetsXForSide[p_149646_5_], p_149646_3_ - Facing.offsetsYForSide[p_149646_5_], p_149646_4_ - Facing.offsetsZForSide[p_149646_5_]))
-            {
-                return true;
-            }
+		if (p_149646_1_.getBlockMetadata(p_149646_2_, p_149646_3_, p_149646_4_) != p_149646_1_.getBlockMetadata(p_149646_2_ - Facing.offsetsXForSide[p_149646_5_], p_149646_3_ - Facing.offsetsYForSide[p_149646_5_], p_149646_4_ - Facing.offsetsZForSide[p_149646_5_])) {
+			return true;
+		}
 
-            if (block == this)
-            {
-                return false;
-            }
+		if (block == this) {
+			return false;
+		}
 
-        return block == this ? false : super.shouldSideBeRendered(p_149646_1_, p_149646_2_, p_149646_3_, p_149646_4_, p_149646_5_);
-    }
+		return block == this ? false : super.shouldSideBeRendered(p_149646_1_, p_149646_2_, p_149646_3_, p_149646_4_, p_149646_5_);
+	}
 
 	public void registerBlockIcons(IIconRegister icon) {
 		icons = new IIcon[3];

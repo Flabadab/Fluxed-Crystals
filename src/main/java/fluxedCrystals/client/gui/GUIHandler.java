@@ -6,8 +6,12 @@ import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import fluxedCrystals.FluxedCrystals;
+import fluxedCrystals.client.gui.ManaManager.ContainerManaManager;
+import fluxedCrystals.client.gui.ManaManager.GUIManaManager;
 import fluxedCrystals.client.gui.bloodManager.ContainerBloodManager;
 import fluxedCrystals.client.gui.bloodManager.GUIBloodManager;
+import fluxedCrystals.client.gui.industrialManager.ContainerIndustrialManager;
+import fluxedCrystals.client.gui.industrialManager.GUIIndustrialManager;
 import fluxedCrystals.client.gui.manager.ContainerManagerBlock;
 import fluxedCrystals.client.gui.manager.GUIManagerBlock;
 import fluxedCrystals.client.gui.seedInfuser.ContainerSeedInfuser;
@@ -15,6 +19,8 @@ import fluxedCrystals.client.gui.seedInfuser.GUISeedInfuser;
 import fluxedCrystals.client.gui.thaumicManager.ContainerThaumicManager;
 import fluxedCrystals.client.gui.thaumicManager.GUIThaumicManager;
 import fluxedCrystals.tileEntity.TileEntityBloodManager;
+import fluxedCrystals.tileEntity.TileEntityIndustrialManager;
+import fluxedCrystals.tileEntity.TileEntityManaManager;
 import fluxedCrystals.tileEntity.TileEntityManagerBlock;
 import fluxedCrystals.tileEntity.TileEntitySeedInfuser;
 import fluxedCrystals.tileEntity.TileEntityThaumicManager;
@@ -53,6 +59,16 @@ public class GUIHandler implements IGuiHandler {
 				return new ContainerThaumicManager(player.inventory, (TileEntityThaumicManager) te);
 			}
 			break;
+		case 4:
+			if (te != null && te instanceof TileEntityManaManager) {
+				return new ContainerManaManager(player.inventory, (TileEntityManaManager) te);
+			}
+			break;
+		case 5:
+			if (te != null && te instanceof TileEntityIndustrialManager) {
+				return new ContainerIndustrialManager(player.inventory, (TileEntityIndustrialManager) te);
+			}
+			break;
 
 		}
 
@@ -81,6 +97,15 @@ public class GUIHandler implements IGuiHandler {
 		case 3:
 			if (te != null && te instanceof TileEntityThaumicManager) {
 				return new GUIThaumicManager(player.inventory, (TileEntityThaumicManager) te);
+			}
+		case 4:
+			if (te != null && te instanceof TileEntityManaManager) {
+				return new GUIManaManager(player.inventory, (TileEntityManaManager) te);
+			}
+			break;
+		case 5:
+			if (te != null && te instanceof TileEntityIndustrialManager) {
+				return new GUIIndustrialManager(player.inventory, (TileEntityIndustrialManager) te);
 			}
 			break;
 		}

@@ -64,18 +64,20 @@ public class TileEntityManaManager extends TileEntity implements IInventory, IMa
 				for (TileEntityPowerBlock power : powerBlocks) {
 					if (power.getCropTile(worldObj) != null) {
 						if (worldObj.getTotalWorldTime() % 20 == 0) {
-							if (isUpgradeActive(new ItemStack(FCItems.upgradeAutomation)))
-								if (worldObj.getBlockMetadata(power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord) >= 7) {
-									power.getCrop(worldObj).dropCropDrops(worldObj, power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord, 0);
-									worldObj.setBlockMetadataWithNotify(power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord, 0, 3);
-									item.addMana(getStackInSlot(5), -100);
-								}
+							if (item.getMana(getStackInSlot(5)) >= getUpgradeDrain(power.getCropTile(worldObj).getIndex()))
+								if (isUpgradeActive(new ItemStack(FCItems.upgradeAutomation)))
+									if (worldObj.getBlockMetadata(power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord) >= 7) {
+										power.getCrop(worldObj).dropCropDrops(worldObj, power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord, 0);
+										worldObj.setBlockMetadataWithNotify(power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord, 0, 3);
+										item.addMana(getStackInSlot(5), -getUpgradeDrain(power.getCropTile(worldObj).getIndex()));
+									}
 						}
-						if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
-							if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)))) {
-								SoulNetworkHandler.syphonFromNetwork(getStackInSlot(5), getUpgradeDrain(power.getCropTile(worldObj).getIndex()));
-								item.addMana(getStackInSlot(5), -getUpgradeDrain(power.getCropTile(worldObj).getIndex()));
-							}
+						if (item.getMana(getStackInSlot(5)) >= getUpgradeDrain(power.getCropTile(worldObj).getIndex()))
+							if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
+								if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)))) {
+									SoulNetworkHandler.syphonFromNetwork(getStackInSlot(5), getUpgradeDrain(power.getCropTile(worldObj).getIndex()));
+									item.addMana(getStackInSlot(5), -getUpgradeDrain(power.getCropTile(worldObj).getIndex()));
+								}
 					}
 				}
 			}

@@ -3,6 +3,7 @@ package fluxedCrystals.api;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockCrops;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -17,11 +18,10 @@ import fluxedCrystals.blocks.FCBlocks;
 import fluxedCrystals.items.FCItems;
 import fluxedCrystals.tileEntity.TileEntityCrystal;
 
-public abstract class CrystalBase extends Block {
+public abstract class CrystalBase extends BlockCrops {
     private IIcon[] icons;
 
     public CrystalBase() {
-        super(Material.plants);
         float f = 0.5F;
         this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
         this.setCreativeTab((CreativeTabs) null);
@@ -50,15 +50,6 @@ public abstract class CrystalBase extends Block {
      */
     public int getRenderType() {
         return FluxedCrystals.crystalRenderID;
-    }
-
-    /**
-     * Ticks the block if it's been scheduled
-     */
-    public void updateTick(World world, int x, int y, int z, Random rand) {
-        if (world.getBlock(x, y - 1, z) == FCBlocks.powerBlock) {
-            this.onBlockPreDestroy(world, x, y, z, world.getBlockMetadata(x, y, z));
-        }
     }
 
     @SideOnly(Side.CLIENT)

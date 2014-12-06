@@ -1,14 +1,14 @@
 [
 {
-  "modid": "fluxedcrops",
-  "name": "Fluxed-Crops",
-  "description": "RF-Powered Crop Farming!",
+  "modid": "fluxedcrystals",
+  "name": "Fluxed-Crystals",
+  "description": "RF-Powered Crystal Farming!",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
   "authorList": ["Jaredlll08, Darkbyte"],
-  "credits": "Roze, for the amazing crop texture",
+  "credits": "Roze, for the amazing crystal texture, and Lirinya for being the only person in WLR that is nce to me",
   "logoFile": "FCLogo.png",
   "screenshots": [],
   "dependencies": []

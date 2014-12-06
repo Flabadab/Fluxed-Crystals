@@ -7,6 +7,7 @@ import net.minecraft.inventory.ContainerFurnace;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import fluxedCrystals.api.ISeed;
+import fluxedCrystals.client.gui.slot.SlotIBindable;
 import fluxedCrystals.client.gui.slot.SlotPowerBlock;
 import fluxedCrystals.client.gui.slot.SlotUpgrade;
 import fluxedCrystals.tileEntity.TileEntityBloodManager;
@@ -31,7 +32,7 @@ public class ContainerBloodManager extends Container {
 		addSlotToContainer(new SlotUpgrade(manager, 2, 116, 62));
 		addSlotToContainer(new SlotUpgrade(manager, 3, 134, 62));
 		addSlotToContainer(new SlotUpgrade(manager, 4, 152, 62));
-		addSlotToContainer(new Slot(manager, 5, 62, 62));
+		addSlotToContainer(new SlotIBindable(manager, 5, 71, 62));
 
 	}
 

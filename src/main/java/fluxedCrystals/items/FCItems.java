@@ -24,6 +24,8 @@ public class FCItems {
     public static Item upgradeNight = new Upgrade();
     public static Item upgradeSpeed = new Upgrade();
     public static Item upgradeAutomation = new Upgrade();
+    
+    
 
     public static void init() {
         registerItems();
@@ -45,6 +47,7 @@ public class FCItems {
         upgradeSpeed.setCreativeTab(FluxedCrystals.tab).setTextureName(ModProps.modid + ":UpgradeSpeed").setUnlocalizedName("upgradeSpeed");
         upgradeAutomation.setCreativeTab(FluxedCrystals.tab).setTextureName(ModProps.modid + ":UpgradeAutomation").setUnlocalizedName("upgradeAutomation");
         
+        
         registerItem(crystalHammer, "Crystal Hammer", "hammerCrystal");
         registerItem(scytheWood, "Wooden Scythe", "scytheWood");
         registerItem(scytheStone, "Stone Scythe", "scytheStone");
@@ -56,6 +59,8 @@ public class FCItems {
         GameRegistry.registerItem(upgradeNight, "upgradeNight");
         GameRegistry.registerItem(upgradeSpeed, "upgradeSpeed");
         GameRegistry.registerItem(upgradeAutomation, "upgradeAutomation");
+        
+        
 
         GameRegistry.registerItem(universalSeed, "universalSeed");
         GameRegistry.registerItem(seed, "seed");

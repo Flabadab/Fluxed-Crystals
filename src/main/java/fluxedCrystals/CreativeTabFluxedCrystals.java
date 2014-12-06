@@ -1,8 +1,12 @@
 package fluxedCrystals;
 
+import java.util.Random;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import fluxedCrystals.blocks.FCBlocks;
+import net.minecraft.item.ItemStack;
+import fluxedCrystals.api.RecipeRegistry;
+import fluxedCrystals.items.FCItems;
 
 public class CreativeTabFluxedCrystals extends CreativeTabs {
 
@@ -12,7 +16,7 @@ public class CreativeTabFluxedCrystals extends CreativeTabs {
 
 	@Override
 	public Item getTabIconItem() {
-		return Item.getItemFromBlock(FCBlocks.powerBlock);
+		return FCItems.scytheDiamond;
 	}
 
 }

@@ -23,12 +23,13 @@ public class SeedCropRecipe {
 	private boolean decorationBlocks;
 	private ItemStack weightedDrop;
 	private int weightedDropChance;
+	private boolean prettyPrettyArmor;
 
 	public SeedCropRecipe(SeedType type) {
-		this(type.name, JsonUtils.parseStringIntoItemStack(type.drop), type.color, JsonUtils.parseStringIntoItemStack(type.ingredient), type.dropMin, type.dropMax, type.growthTime, type.tier, type.ingredientAmount, type.powerPerStage, type.decorationBlocks, JsonUtils.parseStringIntoItemStack(type.weightedDrop), type.weightedDropChance);
+		this(type.name, JsonUtils.parseStringIntoItemStack(type.drop), type.color, JsonUtils.parseStringIntoItemStack(type.ingredient), type.dropMin, type.dropMax, type.growthTime, type.tier, type.ingredientAmount, type.powerPerStage, type.decorationBlocks, JsonUtils.parseStringIntoItemStack(type.weightedDrop), type.weightedDropChance, type.prettyPrettyArmor);
 	}
 
-	public SeedCropRecipe(String name, ItemStack drop, int color, ItemStack ingredient, int dropMin, int dropMax, int growthTime, int tier, int ingredientAmount, int powerPerStage, boolean decorationBlock, ItemStack weightedDrop, int weightedDropChance) {
+	public SeedCropRecipe(String name, ItemStack drop, int color, ItemStack ingredient, int dropMin, int dropMax, int growthTime, int tier, int ingredientAmount, int powerPerStage, boolean decorationBlock, ItemStack weightedDrop, int weightedDropChance, boolean prettyPrettyArmor) {
 		this.name = name;
 		this.drop = drop;
 		this.color = color;
@@ -42,5 +43,6 @@ public class SeedCropRecipe {
 		this.decorationBlocks = decorationBlock;
 		this.weightedDrop = weightedDrop;
 		this.weightedDropChance = weightedDropChance;
+		this.prettyPrettyArmor = prettyPrettyArmor;
 	}
 }

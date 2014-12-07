@@ -5,8 +5,10 @@ import vazkii.botania.api.BotaniaAPI;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.event.world.ChunkDataEvent.Load;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import fluxedCrystals.api.RecipeRegistry;
 import fluxedCrystals.api.recipe.SeedCropRecipe;
@@ -37,10 +39,14 @@ public class RecipeHandler {
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.powerBlock, "sis", "aea", "sis", 's', Blocks.soul_sand, 'i', "ingotIron", 'a', Blocks.sand, 'e', Items.wheat_seeds));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.managerBlock, "tie", "srs", "eit", 's', Blocks.soul_sand, 'i', "ingotIron", 't', Blocks.stone, 'e', Items.wheat_seeds, 'r', Items.redstone));
-		GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.managerBlood, "tie", "srs", "eit", 's', Blocks.soul_sand, 'i', "ingotIron", 't', Blocks.stone, 'e', GameRegistry.findItem("AWWayofTime", "blankSpell"), 'r', Items.redstone));
-		GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.managerMana, "tie", "srs", "eit", 's', Blocks.soul_sand, 'i', "ingotIron", 't', Blocks.stone, 'e', new ItemStack(GameRegistry.findItem("Botania", "manaResource"), 1, 2), 'r', Items.redstone));
-		GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.managerIndustrial, "tie", "srs", "eit", 's', Blocks.soul_sand, 'i', "ingotIron", 't', Blocks.stone, 'e', new ItemStack(GameRegistry.findBlock("IC2", "blockElectric")), 'r', Items.redstone));
-		GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.managerThaumic, "tie", "srs", "eit", 's', Blocks.soul_sand, 'i', "ingotIron", 't', Blocks.stone, 'e', new ItemStack(GameRegistry.findBlock("Thaumcraft", "blockMetalDevice"), 1, 8), 'r', Items.redstone));
+		if (Loader.isModLoaded("AWWayofTime"))
+			GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.managerBlood, "tie", "srs", "eit", 's', Blocks.soul_sand, 'i', "ingotIron", 't', Blocks.stone, 'e', GameRegistry.findItem("AWWayofTime", "blankSpell"), 'r', Items.redstone));
+		if (Loader.isModLoaded("Botania"))
+			GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.managerMana, "tie", "srs", "eit", 's', Blocks.soul_sand, 'i', "ingotIron", 't', Blocks.stone, 'e', new ItemStack(GameRegistry.findItem("Botania", "manaResource"), 1, 2), 'r', Items.redstone));
+		if (Loader.isModLoaded("IC2"))
+			GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.managerIndustrial, "tie", "srs", "eit", 's', Blocks.soul_sand, 'i', "ingotIron", 't', Blocks.stone, 'e', new ItemStack(GameRegistry.findBlock("IC2", "blockElectric")), 'r', Items.redstone));
+		if (Loader.isModLoaded("Thaumcraft"))
+			GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.managerThaumic, "tie", "srs", "eit", 's', Blocks.soul_sand, 'i', "ingotIron", 't', Blocks.stone, 'e', new ItemStack(GameRegistry.findBlock("Thaumcraft", "blockMetalDevice"), 1, 8), 'r', Items.redstone));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.seedInfuser, "gdi", "sus", "idg", 's', Blocks.soul_sand, 'i', "ingotIron", 'g', Items.gold_ingot, 'd', Items.diamond, 'u', FCItems.universalSeed));
 

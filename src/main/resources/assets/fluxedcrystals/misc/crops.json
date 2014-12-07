@@ -10,7 +10,11 @@
             "growthTime":2400,
             "tier":1,
             "ingredientAmount":32,
-            "powerPerStage":4000
+            "powerPerStage":4000,
+            "decorationBlocks":true,
+            "weightedDrop":"ingotIron",
+            "weightedDropChance":1,
+            "prettyPrettyArmor":false
         },
         {
             "name":"Gold",
@@ -22,7 +26,8 @@
             "growthTime":2400,
             "tier":1,
             "ingredientAmount":32,
-            "powerPerStage":4000
+            "powerPerStage":4000,
+            "prettyPrettyArmor":false
         },
         {
             "name":"Coal",
@@ -70,7 +75,8 @@
             "growthTime":4800,
             "tier":4,
             "ingredientAmount":32,
-            "powerPerStage":10000
+            "powerPerStage":10000,
+            "prettyPrettyArmor":false
         },
         {
             "name":"Redstone",
@@ -178,7 +184,8 @@
             "growthTime":1200,
             "tier":0,
             "ingredientAmount":32,
-            "powerPerStage":2000
+            "powerPerStage":2000,
+            "prettyPrettyArmor":false
         },
         {
             "name":"Quartz",

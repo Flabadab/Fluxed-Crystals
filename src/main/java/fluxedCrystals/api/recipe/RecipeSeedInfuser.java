@@ -2,6 +2,7 @@ package fluxedCrystals.api.recipe;
 
 import java.util.ArrayList;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -9,17 +10,21 @@ public class RecipeSeedInfuser {
 
 	private ItemStack input;
 	private ItemStack output;
+	private ItemStack ingredient;
+	private int inputAmount;
 
-	public RecipeSeedInfuser(ItemStack input, ItemStack output) {
+	public RecipeSeedInfuser(ItemStack ingredient, ItemStack input, ItemStack output, int inputAmount) {
 		this.input = input;
 		this.output = output;
+		this.ingredient = ingredient;
+		this.inputAmount = inputAmount;
 	}
 
-	public boolean matches(ItemStack stack) {
+	public boolean matches(ItemStack ingredient, ItemStack stack) {
 		int[] ids = OreDictionary.getOreIDs(stack);
 		for (int id : ids) {
 			String name = OreDictionary.getOreName(id);
-			if (matches(name)) {
+			if (matches(name) && ingredient.isItemEqual(this.ingredient)) {
 				return true;
 			}
 		}
@@ -29,15 +34,15 @@ public class RecipeSeedInfuser {
 	public boolean matches(String oreDict) {
 		ArrayList<ItemStack> stacks = OreDictionary.getOres(oreDict);
 		for (ItemStack stack : stacks) {
-			if (OreDictionary.itemMatches(stack, input, false)) {
+			if (OreDictionary.itemMatches(stack, input, false) && ingredient.isItemEqual(this.ingredient)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public boolean matchesExact(ItemStack stack) {
-		return input.isItemEqual(stack);
+	public boolean matchesExact(ItemStack Ingredient, ItemStack stack) {
+		return input.isItemEqual(stack) && this.ingredient.isItemEqual(Ingredient);
 	}
 
 	public ItemStack getInput() {
@@ -46,5 +51,13 @@ public class RecipeSeedInfuser {
 
 	public ItemStack getOutput() {
 		return output.copy();
+	}
+
+	public ItemStack getIngredient() {
+		return ingredient.copy();
+	}
+	
+	public int getInputamount(){
+		return inputAmount;
 	}
 }

@@ -47,9 +47,10 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 	}
 
 	public void updateEntity() {
-		if (!worldObj.isRemote && worldObj.getTotalWorldTime() % 12 == 0) {
+		if (!worldObj.isRemote && worldObj.getTotalWorldTime() % 40 == 0 && storage.getEnergyStored()>1000) {
 			if (infusing) {
 				infuseSeed();
+				storage.extractEnergy(1000, false);
 			}
 		}
 	}
@@ -179,10 +180,10 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 	public boolean infuseSeed() {
 		if (getRecipeIndex() >= 0) {
 			RecipeSeedInfuser recipe = RecipeRegistry.getSeedRecipes().get(getRecipeIndex());
-			if (recipe.matches(getStackInSlot(1)) && getStackInSlot(0).getItem() == FCItems.universalSeed) {
+			if (recipe.matches(getStackInSlot(0), getStackInSlot(1))) {
 				decrStackSize(1, 1);
 				infused++;
-				if (infused == RecipeRegistry.getIngredientAmount(recipeIndex)) {
+				if (infused == recipe.getInputamount()) {
 					setInventorySlotContents(0, recipe.getOutput());
 					infusing = false;
 					infused = 0;
@@ -205,7 +206,7 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 		if (getStackInSlot(0) != null && getStackInSlot(1) != null) {
 			for (RecipeSeedInfuser recipe : RecipeRegistry.getSeedRecipes()) {
 				number++;
-				if (recipe.matches(getStackInSlot(1)) && getStackInSlot(0).getItem() == FCItems.universalSeed) {
+				if (recipe.matches(getStackInSlot(0),getStackInSlot(1))) {
 					setRecipeIndex(number);
 					break;
 				}

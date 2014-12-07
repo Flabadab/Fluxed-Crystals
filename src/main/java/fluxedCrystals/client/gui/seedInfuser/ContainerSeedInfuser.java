@@ -5,6 +5,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import fluxedCrystals.client.gui.slot.SlotInfuser;
 import fluxedCrystals.client.gui.slot.SlotSeed;
 import fluxedCrystals.tileEntity.TileEntitySeedInfuser;
 
@@ -21,7 +22,7 @@ public class ContainerSeedInfuser extends Container {
 			}
 		}
 
-		addSlotToContainer(new SlotSeed(manager, 0, 9, 9));
+		addSlotToContainer(new SlotInfuser(manager, 0, 9, 9));
 		addSlotToContainer(new Slot(manager, 1, 151, 9));
 	}
 

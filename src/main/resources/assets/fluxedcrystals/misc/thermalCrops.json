@@ -89,7 +89,8 @@
             "growthTime":2400,
             "tier":1,
             "ingredientAmount":32,
-            "powerPerStage":4000
+            "powerPerStage":4000,
+            "prettyPrettyArmor":false
         },{
             "name":"Bronze",
             "drop":"nuggetBronze",

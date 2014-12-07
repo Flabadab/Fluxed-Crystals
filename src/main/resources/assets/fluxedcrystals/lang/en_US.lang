@@ -1,5 +1,9 @@
 item.fluxedcrystals.seed.name=%s Seed
 item.fluxedcrystals.shard.name=%s Shard
+item.shardHelm.name=%s Helmet
+item.shardChest.name=%s Chestplate
+item.shardLegs.name=%s Leggings
+item.shardBoots.name=%s Boots
 item.Universal Seed.name=Blank Seed
 tile.Power Block.name=Powered Soil
 tile.Manager Block.name=Farm Manager

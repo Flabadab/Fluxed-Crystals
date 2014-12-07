@@ -49,6 +49,11 @@ public class RecipeRegistry {
 		return null;
 	}
 
+	public static boolean hasPrettyPrettyArmor(int itemDamage) {
+		return crops.get(itemDamage).isPrettyPrettyArmor();
+
+	}
+
 	public static int getNumSeedRecipes() {
 		return crops.size();
 	}
@@ -116,13 +121,13 @@ public class RecipeRegistry {
 	public static int getGrowthTime(int itemDamage) {
 		if (rangeCheck(itemDamage))
 			return crops.get(itemDamage).getGrowthTime();
-		return 0;
+		return 1;
 	}
 
 	public static String getName(int itemDamage) {
 		if (rangeCheck(itemDamage))
 			return crops.get(itemDamage).getName();
-		return null;
+		return "name";
 	}
 
 	public static int getTier(int itemDamage) {
@@ -140,7 +145,7 @@ public class RecipeRegistry {
 	public static int getPowerPerStage(int itemDamage) {
 		if (rangeCheck(itemDamage))
 			return crops.get(itemDamage).getPowerPerStage();
-		return 0;
+		return 1;
 	}
 
 	public static void reset() {

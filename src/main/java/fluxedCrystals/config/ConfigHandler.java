@@ -5,6 +5,7 @@ import java.io.FileFilter;
 import java.util.Collection;
 import java.util.List;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 import org.apache.commons.io.filefilter.FileFilterUtils;
@@ -71,7 +72,7 @@ public class ConfigHandler extends AbstractConfigHandler {
 		if (!thermalCrops.exists()) {
 			TTFileUtils.copyFromJar(FluxedCrystals.class, ModProps.modid + "/misc/thermalCrops.json", thermalCrops);
 		}
-		
+
 		// if (ModUtils.isModLoaded("Thaumcraft") &&
 		// ConfigProps.thaumcraftAddon) {
 		// File thaumcraftCrops = new File(basePath + "/thaumcraftCrops.json");
@@ -99,7 +100,7 @@ public class ConfigHandler extends AbstractConfigHandler {
 
 		for (int i = 0; i < recipes.size(); i++) {
 			SeedCropRecipe r = recipes.get(i);
-			RecipeRegistry.registerSeedInfuserRecipe(new RecipeSeedInfuser(r.getIngredient(), new ItemStack(FCItems.seed, 1, i)));
+			RecipeRegistry.registerSeedInfuserRecipe(new RecipeSeedInfuser(r.getIngredient(), new ItemStack(FCItems.seed, 1, i), new ItemStack(FCItems.universalSeed), RecipeRegistry.getIngredientAmount(i)));
 		}
 	}
 

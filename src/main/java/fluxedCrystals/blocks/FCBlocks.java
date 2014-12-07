@@ -3,6 +3,7 @@ package fluxedCrystals.blocks;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.ModProps;
@@ -42,10 +43,10 @@ public class FCBlocks {
 	private static void registerTileEntity() {
 
 		GameRegistry.registerTileEntity(TileEntityManagerBlock.class, "managerBlock");
-		GameRegistry.registerTileEntity(TileEntityBloodManager.class, "bloodManager");
-		GameRegistry.registerTileEntity(TileEntityThaumicManager.class, "thaumicManager");
-		GameRegistry.registerTileEntity(TileEntityManaManager.class, "manaManager");
-		GameRegistry.registerTileEntity(TileEntityIndustrialManager.class, "industrialManager");
+		registerTileEntitys(TileEntityBloodManager.class, "bloodManager", "AWWayofTime", ConfigProps.bloodMagicAddon);
+		registerTileEntitys(TileEntityThaumicManager.class, "thaumicManager", "Thaumcraft", ConfigProps.thaumcraftAddon);
+		registerTileEntitys(TileEntityManaManager.class, "manaManager", "Botania", ConfigProps.botaniaAddon);
+		registerTileEntitys(TileEntityIndustrialManager.class, "industrialManager", "IC2", ConfigProps.IndustrialCraftAddon);
 
 		GameRegistry.registerTileEntity(TileEntityPowerBlock.class, "powerBlock");
 		GameRegistry.registerTileEntity(TileEntitySeedInfuser.class, "seedInfuser");
@@ -58,10 +59,10 @@ public class FCBlocks {
 		GameRegistry.registerBlock(crop, "crop");
 		registerBlock(powerBlock, "Power Block", "power_block");
 		registerBlock(managerBlock, "Manager Block", "Manager_Block");
-		registerBlock(managerBlood, "Blood Manager Block", "Manager_Block_Blood");
-		registerBlock(managerThaumic, "Thaumic Manager Block", "Manager_Block_Thaumic");
-		registerBlock(managerMana, "Mana Manager Block", "Manager_Block_Mana");
-		registerBlock(managerIndustrial, "Industrial Manager Block", "Manager_Block_Industrial");
+		registerBlock(managerBlood, "Blood Manager Block", "Manager_Block_Blood", "AWWayofTime", ConfigProps.bloodMagicAddon);
+		registerBlock(managerThaumic, "Thaumic Manager Block", "Manager_Block_Thaumic", "Thaumcraft", ConfigProps.thaumcraftAddon);
+		registerBlock(managerMana, "Mana Manager Block", "Manager_Block_Mana", "Botania", ConfigProps.botaniaAddon);
+		registerBlock(managerIndustrial, "Industrial Manager Block", "Manager_Block_Industrial", "IC2", ConfigProps.IndustrialCraftAddon);
 
 		registerBlock(seedInfuser, "Seed Infuser", "Seed_Infuser");
 		GameRegistry.registerBlock(infusedGlass, "infusedGlass");
@@ -72,9 +73,21 @@ public class FCBlocks {
 		GameRegistry.registerBlock(block, key);
 	}
 
-
 	private static void registerBlock(Block block, String name, String key, CreativeTabs tab) {
 		block.setBlockName(name).setBlockTextureName(ModProps.modid + ":" + key).setCreativeTab(tab);
 		GameRegistry.registerBlock(block, key);
 	}
+
+	private static void registerTileEntitys(Class<? extends TileEntity> tile, String name, String modidActive, boolean configActive) {
+		if (Loader.isModLoaded(modidActive) && configActive)
+			GameRegistry.registerTileEntity(tile, name);
+	}
+
+	private static void registerBlock(Block block, String name, String key, String modidActive, boolean configActive) {
+		if (Loader.isModLoaded(modidActive) && configActive) {
+			block.setBlockName(name).setBlockTextureName(ModProps.modid + ":" + key).setCreativeTab(FluxedCrystals.tab);
+			GameRegistry.registerBlock(block, key);
+		}
+	}
+
 }

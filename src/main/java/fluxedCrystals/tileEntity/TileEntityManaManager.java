@@ -69,6 +69,7 @@ public class TileEntityManaManager extends TileEntity implements IInventory, IMa
 									if (worldObj.getBlockMetadata(power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord) >= 7) {
 										power.getCrop(worldObj).dropCropDrops(worldObj, power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord, 0);
 										worldObj.setBlockMetadataWithNotify(power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord, 0, 3);
+										
 										item.addMana(getStackInSlot(5), -getUpgradeDrain(power.getCropTile(worldObj).getIndex()));
 									}
 						}

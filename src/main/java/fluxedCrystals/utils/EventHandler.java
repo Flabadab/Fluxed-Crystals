@@ -19,7 +19,7 @@ public class EventHandler {
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void render(RenderLivingEvent.Pre event) {
 		String s = EnumChatFormatting.getTextWithoutFormattingCodes(event.entity.getCommandSenderName());
-		if (s.equals("jaredlll08") && event.entity instanceof EntityPlayer) {
+		if (s.equals("jaredlll08") || s.equals("Esriel123") && event.entity instanceof EntityPlayer) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.50F);
 			GL11.glEnable(3042);
 			GL11.glBlendFunc(770, 771);

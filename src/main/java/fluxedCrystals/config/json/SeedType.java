@@ -19,6 +19,7 @@ public class SeedType implements ISeedType {
 	public boolean decorationBlocks = true;
 	public String weightedDrop = "minecraft:diamond";
 	public int weightedDropChance = 0;
+	public boolean prettyPrettyArmor = true;
 	
 
 	public void register() {

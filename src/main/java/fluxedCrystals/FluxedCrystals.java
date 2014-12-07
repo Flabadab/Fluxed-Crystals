@@ -58,12 +58,12 @@ public class FluxedCrystals {
 		new GUIHandler();
 		proxy.initRenderers();
 		RecipeHandler.init();
-		MinecraftForge.EVENT_BUS.register(new fluxedCrystals.utils.EventHandler());
 	}
 
 	@EventHandler
 	public static void Init(FMLInitializationEvent event) {
 		logger.info("Starting Init.");
+		proxy.renderTrans();
 
 	}
 

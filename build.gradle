@@ -17,7 +17,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "0.0.1b12"
+version = "0.0.1b14"
 group= "fluxedCrystals"
 archivesBaseName = "fluxedCrystals"
 
@@ -30,7 +30,10 @@ repositories{
 		name 'tterrag Repo'
 		url "http://maven.tterrag.com/"
 	}
-	
+	maven {
+        name = "chickenbones"
+        url = "http://chickenbones.net/maven"
+    }
 }
 
 dependencies {
@@ -48,6 +51,9 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 	compile "tterrag.core:ttCore:MC${mc_version}-${ttCore_version}:deobf"
 	compile files("/libs/BloodMagic-1.7.10-1.2.1b-1-deobf.jar")
+	compile "codechicken:CodeChickenLib:${mc_version}-${ccl_version}:dev"
+	compile "codechicken:NotEnoughItems:${mc_version}-${nei_version}:dev"
+	
 }
 
 processResources

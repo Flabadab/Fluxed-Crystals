@@ -7,6 +7,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 import fluxedCrystals.api.RecipeRegistry;
@@ -18,7 +19,7 @@ import fluxedCrystals.network.PacketHandler;
 /**
  * Created by Jared on 11/2/2014.
  */
-public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory {
+public class TileEntitySeedInfuser extends TileEntity implements IInventory {
 
 	public ItemStack[] items;
 
@@ -32,28 +33,15 @@ public class TileEntitySeedInfuser extends TileEnergyBase implements IInventory 
 	private int recipeIndex;
 
 	public TileEntitySeedInfuser() {
-		super(100000);
 		items = new ItemStack[3];
 	}
 
-	@Override
-	public ForgeDirection[] getValidInputs() {
-		return new ForgeDirection[] { ForgeDirection.UP, ForgeDirection.DOWN, ForgeDirection.EAST, ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.WEST };
-	}
-
-	@Override
-	public ForgeDirection[] getValidOutputs() {
-		return new ForgeDirection[] { ForgeDirection.UNKNOWN };
-	}
 
 	public void updateEntity() {
-		if (!worldObj.isRemote && worldObj.getTotalWorldTime() % 40 == 0 && storage.getEnergyStored()>1000) {
 			if (infusing) {
 				infuseSeed();
-				storage.extractEnergy(1000, false);
 			}
 		}
-	}
 
 	@Override
 	public void closeInventory() {

@@ -58,7 +58,7 @@
             "dropAmount":1,
             "growthTime":2400,
             "tier":1,
-            "ingredientAmount":32,
+            "ingredientAmount":24,
             "powerPerStage":4000
         },{
             "name":"Mana Infused",
@@ -68,7 +68,7 @@
             "dropAmount":1,
             "growthTime":2400,
             "tier":1,
-            "ingredientAmount":32,
+            "ingredientAmount":24,
             "powerPerStage":4000
         },{
             "name":"Electrum",
@@ -129,7 +129,7 @@
             "dropAmount":1,
             "growthTime":2400,
             "tier":1,
-            "ingredientAmount":32,
+            "ingredientAmount":16,
             "powerPerStage":4000
         }
 

@@ -29,13 +29,14 @@ public class RecipeHandler {
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCItems.upgradeEffeciency, " c ", "cuc", " c ", 'c', Blocks.coal_block, 'u', FCItems.universalSeed));
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCItems.upgradeAutomation, " p ", "sus", " p ", 'p', Blocks.piston, 's', Blocks.sticky_piston, 'u', FCItems.universalSeed));
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCItems.upgradeSpeed, " s ", "sus", " s ", 's', Items.sugar, 'u', FCItems.universalSeed));
-		GameRegistry.addRecipe(new ShapedOreRecipe(FCItems.crystalHammer, "  c", " s ", "s  ", 's', Items.stick, 'u', FCItems.universalSeed));
+		GameRegistry.addRecipe(new ShapedOreRecipe(FCItems.crystalHammer, "  c", " s ", "s  ", 's', Items.stick, 'c', FCItems.universalSeed));
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCItems.scytheWood, " ww", "s  ", " s ", 's', Items.stick, 'w', Blocks.planks).setMirrored(true));
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCItems.scytheStone, " ww", "s  ", " s ", 's', Items.stick, 'w', Blocks.cobblestone).setMirrored(true));
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCItems.scytheIron, " ww", "s  ", " s ", 's', Items.stick, 'w', Items.iron_ingot).setMirrored(true));
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCItems.scytheGold, " ww", "s  ", " s ", 's', Items.stick, 'w', Items.gold_ingot).setMirrored(true));
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCItems.scytheDiamond, " ww", "s  ", " s ", 's', Items.stick, 'w', Items.diamond).setMirrored(true));
-
+		
+		
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.powerBlock, "sis", "aea", "sis", 's', Blocks.soul_sand, 'i', "ingotIron", 'a', Blocks.sand, 'e', Items.wheat_seeds));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.managerBlock, "tie", "srs", "eit", 's', Blocks.soul_sand, 'i', "ingotIron", 't', Blocks.stone, 'e', Items.wheat_seeds, 'r', Items.redstone));

@@ -23,10 +23,11 @@ import fluxedCrystals.client.gui.GUIHandler;
 import fluxedCrystals.config.ConfigHandler;
 import fluxedCrystals.handlers.RecipeHandler;
 import fluxedCrystals.items.FCItems;
+import fluxedCrystals.nei.FluxedCrystalsNEIConfig;
 import fluxedCrystals.network.PacketHandler;
 import fluxedCrystals.proxy.CommonProxy;
 
-@Mod(modid = ModProps.modid, name = ModProps.name, version = ModProps.version, dependencies = "after:GregTech;required-after:ThermalFoundation;required-after:ttCore;after:EnderIO;after:AWWayofTime;after:botania")
+@Mod(modid = ModProps.modid, name = ModProps.name, version = ModProps.version, dependencies = "after:GregTech;required-after:ThermalFoundation;required-after:ttCore;after:EnderIO;after:AWWayofTime;after:botania;after:NotEnoughItems")
 public class FluxedCrystals {
 
 	public static File configDir = null;
@@ -58,12 +59,14 @@ public class FluxedCrystals {
 		new GUIHandler();
 		proxy.initRenderers();
 		RecipeHandler.init();
+		
 	}
 
 	@EventHandler
 	public static void Init(FMLInitializationEvent event) {
 		logger.info("Starting Init.");
 		proxy.renderTrans();
+		new FluxedCrystalsNEIConfig();
 
 	}
 

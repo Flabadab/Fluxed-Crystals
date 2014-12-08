@@ -2,12 +2,16 @@ package fluxedCrystals.items.armor;
 
 import java.util.List;
 
+import codechicken.nei.NEIClientUtils;
+import codechicken.nei.api.API;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import fluxedCrystals.ModProps;
 import fluxedCrystals.api.RecipeRegistry;
 import fluxedCrystals.api.recipe.RecipeSeedInfuser;
 import fluxedCrystals.items.FCItems;
+import fluxedCrystals.nei.FluxedCrystalsNEIConfig;
 import fluxedCrystals.utils.NBTHelper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -16,6 +20,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntityEnchantmentTable;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -23,7 +28,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 public class ItemShardBoots extends ItemArmor {
 
 	public ItemShardBoots() {
-		super(ArmorMaterial.IRON, 0, 1);
+		super(ArmorMaterial.IRON, 0, 3);
 	}
 
 	public int getRenderPasses(int metadata) {
@@ -45,7 +50,8 @@ public class ItemShardBoots extends ItemArmor {
 				NBTHelper.setInteger(stack, "color", RecipeRegistry.getColor(i));
 				NBTHelper.setInteger(stack, "index", i);
 				list.add(stack);
-				RecipeRegistry.registerSeedInfuserRecipe(new RecipeSeedInfuser(new ItemStack(Items.iron_boots), new ItemStack(FCItems.shard, 1, i), stack, RecipeRegistry.getIngredientAmount(i)));
+				RecipeRegistry.registerSeedInfuserRecipe(new RecipeSeedInfuser(new ItemStack(Items.iron_boots), new ItemStack(FCItems.seed, 1, i), stack, RecipeRegistry.getIngredientAmount(i)));
+				API.hideItem(stack);
 			}
 		}
 	}
@@ -79,4 +85,6 @@ public class ItemShardBoots extends ItemArmor {
 		}
 		return String.format(StatCollector.translateToLocal(getUnlocalizedName() + ".name"), RecipeRegistry.getName(NBTHelper.getInt(stack, "index")));
 	}
+
+
 }

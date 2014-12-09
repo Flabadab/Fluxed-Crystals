@@ -17,12 +17,12 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "0.0.1b15"
+version = "0.0.3"
 group= "fluxedCrystals"
 archivesBaseName = "fluxedCrystals"
 
 minecraft {
-    version = "1.7.10-10.13.2.1240"
+    version = "1.7.10-10.13.2.1258"
     runDir = "eclipse"
 }
 repositories{

@@ -46,7 +46,9 @@ public class RecipeSeedInfuser {
 	}
 
 	public ItemStack getInput() {
-		return input.copy();
+		ItemStack stack = input.copy();
+		stack.stackSize = getInputamount();
+		return stack;
 	}
 
 	public ItemStack getOutput() {

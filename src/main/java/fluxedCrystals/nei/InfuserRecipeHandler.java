@@ -39,10 +39,12 @@ public class InfuserRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void drawBackground(int recipe) {
-		GL11.glScalef(0.70f, 0.65f, 0.59f);
 
 		GuiDraw.changeTexture(getGuiTexture());
-		GuiDraw.drawTexturedModalRect(0, 0, 0, 0, 52, 55);
+		GuiDraw.drawTexturedModalRect(5, 5, 0, 166, 18, 18);
+		GuiDraw.drawTexturedModalRect(142, 5, 0, 166, 18, 18);
+		GuiDraw.drawTexturedModalRect(5, 43, 0, 166, 18, 18);
+
 		GL11.glDisable(GL11.GL_BLEND);
 	}
 
@@ -57,20 +59,20 @@ public class InfuserRecipeHandler extends TemplateRecipeHandler {
 		int coords2[] = { 0, 0 };
 		GL11.glScalef(.08f, .08f, .08f);
 		GL11.glEnable(GL11.GL_BLEND);
-
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glScalef(15.625f, 15.625f, 15.625f);
 	}
 
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
-		System.out.println("hithere");
+
 		List<RecipeSeedInfuser> recipes = RecipeRegistry.getSeedRecipes();
 
 		for (int j = 0; j < recipes.size(); j++) {
 			RecipeSeedInfuser recipe = recipes.get(j);
 			if (recipe.getOutput().isItemEqual(result)) {
-				this.arecipes.add(new CachedInfusionRecipe(recipe));
+				if (checkDupe(recipe))
+					this.arecipes.add(new CachedInfusionRecipe(recipe));
 			}
 		}
 	}
@@ -83,25 +85,25 @@ public class InfuserRecipeHandler extends TemplateRecipeHandler {
 		for (int j = 0; j < recipes.size(); j++) {
 			RecipeSeedInfuser recipe = recipes.get(j);
 			if (recipe.getInput().isItemEqual(ingredient) || recipe.getIngredient().isItemEqual(ingredient) || recipe.getOutput().isItemEqual(ingredient)) {
-//				if (checkDupe(recipe))
+				if (checkDupe(recipe))
 					this.arecipes.add(new CachedInfusionRecipe(recipe));
 			}
 		}
 	}
 
-//	private boolean checkDupe(RecipeSeedInfuser recipe) {
-//		for (Object o : this.arecipes.toArray()) {
-//			if (o instanceof CachedInfusionRecipe) {
-//				CachedInfusionRecipe r = (CachedInfusionRecipe) o;
-//				if (r.recipe.getInput() == recipe.getInput()) {
-//					if (r.recipe.getOutput().isItemEqual(recipe.getOutput())) {
-//						return false;
-//					}
-//				}
-//			}
-//		}
-//		return true;
-//	}
+	private boolean checkDupe(RecipeSeedInfuser recipe) {
+		for (Object o : this.arecipes.toArray()) {
+			if (o instanceof CachedInfusionRecipe) {
+				CachedInfusionRecipe r = (CachedInfusionRecipe) o;
+				if (r.recipe.getInput() == recipe.getInput()) {
+					if (r.recipe.getOutput().isItemEqual(recipe.getOutput())) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
 
 	public class CachedInfusionRecipe extends CachedRecipe {
 
@@ -112,10 +114,10 @@ public class InfuserRecipeHandler extends TemplateRecipeHandler {
 		public RecipeSeedInfuser recipe;
 
 		public CachedInfusionRecipe(RecipeSeedInfuser recipe) {
-			this.output = new PositionedStack(recipe.getOutput(), 75, 53);
+			this.output = new PositionedStack(recipe.getOutput(), 6, 44);
 			this.recipe = recipe;
-			this.inputs = new PositionedStack(recipe.getInput(), 75, 98);
-			this.other.add(new PositionedStack(recipe.getIngredient(), 1, 1));
+			this.inputs = new PositionedStack(recipe.getInput(), 143, 6);
+			this.other.add(new PositionedStack(recipe.getIngredient(), 6, 6));
 
 		}
 

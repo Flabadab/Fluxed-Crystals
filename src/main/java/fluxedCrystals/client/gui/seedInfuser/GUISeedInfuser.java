@@ -14,51 +14,49 @@ import fluxedCrystals.network.MessageSeedInfuser;
 import fluxedCrystals.network.PacketHandler;
 import fluxedCrystals.tileEntity.TileEntitySeedInfuser;
 
-
 public class GUISeedInfuser extends GuiContainer {
 
-        private TileEntitySeedInfuser tile;
+	private TileEntitySeedInfuser tile;
 
-        public GUISeedInfuser(InventoryPlayer invPlayer, TileEntitySeedInfuser tile2) {
-                super(new ContainerSeedInfuser(invPlayer, tile2));
+	public GUISeedInfuser(InventoryPlayer invPlayer, TileEntitySeedInfuser tile2) {
+		super(new ContainerSeedInfuser(invPlayer, tile2));
 
-                xSize = 175;
-                ySize = 166;
-                this.tile = tile2;
+		xSize = 175;
+		ySize = 166;
+		this.tile = tile2;
 
-        }
+	}
 
+	private static final ResourceLocation texture = new ResourceLocation(ModProps.modid, "textures/gui/SeedInfuser.png");
 
-        private static final ResourceLocation texture = new ResourceLocation(ModProps.modid, "textures/gui/SeedInfuser.png");
+	@SuppressWarnings("unchecked")
+	public void initGui() {
+		super.initGui();
+		buttonList.add(new GuiButton(0, guiLeft + 50, guiTop + 50, 46, 20, "Infuse"));
 
-        @SuppressWarnings("unchecked")
-        public void initGui() {
-                super.initGui();
-                buttonList.add(new GuiButton(0, guiLeft + 50, guiTop + 50, 46, 20, "Infuse"));
+	}
 
-        }
+	public void actionPerformed(GuiButton button) {
+		switch (button.id) {
 
-        public void actionPerformed(GuiButton button) {
-                switch (button.id) {
+		case 0:
+			PacketHandler.INSTANCE.sendToServer(new MessageSeedInfuser(tile.xCoord, tile.yCoord, tile.zCoord));
+			break;
 
-                        case 0:
-                                PacketHandler.INSTANCE.sendToServer(new MessageSeedInfuser(tile.xCoord, tile.yCoord, tile.zCoord));
-                                break;
+		}
+	}
 
-                }
-        }
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
+		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-        @Override
-        protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
-                GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 
-                Minecraft.getMinecraft().renderEngine.bindTexture(texture);
+		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-                drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
-                
-                if (tile.isInfusing()) {
-                        RenderItem.getInstance().renderItemAndEffectIntoGUI(fontRendererObj, mc.renderEngine, tile.getStackInSlot(0), guiLeft, guiTop);
-                }
-        }
+		if (tile.isInfusing()) {
+			RenderItem.getInstance().renderItemAndEffectIntoGUI(fontRendererObj, mc.renderEngine, tile.getStackInSlot(0), guiLeft, guiTop);
+		}
+	}
 
 }

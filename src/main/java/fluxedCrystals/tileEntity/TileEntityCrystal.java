@@ -22,9 +22,7 @@ public class TileEntityCrystal extends TileEntity {
 		return false;
 	}
 
-	public ItemStack getDrop() {
-		return RecipeRegistry.getDrops(idx);
-	}
+	
 
 	public int getIndex() {
 		return idx;

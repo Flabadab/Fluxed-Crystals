@@ -2,7 +2,7 @@ package fluxedCrystals.config.json;
 
 import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.api.RecipeRegistry;
-import fluxedCrystals.api.recipe.SeedCropRecipe;
+import fluxedCrystals.api.recipe.SeedCrystalRecipe;
 
 public class SeedType implements ISeedType {
 
@@ -24,7 +24,7 @@ public class SeedType implements ISeedType {
 
 	public void register() {
 		try {
-			RecipeRegistry.addCrop(new SeedCropRecipe(this));
+			RecipeRegistry.addCrop(new SeedCrystalRecipe(this));
 			FluxedCrystals.logger.info("Registering Seed for " + name + ", that drops " + drop + ", whose color is " + color + " and that is crafted with " + ingredient);
 		} catch (IllegalArgumentException e) {
 			FluxedCrystals.logger.info("Skipping seed type with name {} as its drop was not found.", name);

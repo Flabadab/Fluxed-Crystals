@@ -16,7 +16,7 @@ public class ItemCrystalHammer extends Item {
 	}
 
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int meta, float hitX, float hitY, float hitZ) {
-		
+
 		if (!world.isRemote)
 			if (world.getBlock(x, y, z) == FCBlocks.infusedGlass) {
 				int newMeta = world.getBlockMetadata(x, y, z) + 1;

@@ -36,12 +36,11 @@ public class TileEntitySeedInfuser extends TileEntity implements IInventory {
 		items = new ItemStack[3];
 	}
 
-
 	public void updateEntity() {
-			if (infusing) {
-				infuseSeed();
-			}
+		if (infusing && worldObj.getWorldTime() % 20 == 0) {
+			infuseSeed();
 		}
+	}
 
 	@Override
 	public void closeInventory() {
@@ -194,7 +193,7 @@ public class TileEntitySeedInfuser extends TileEntity implements IInventory {
 		if (getStackInSlot(0) != null && getStackInSlot(1) != null) {
 			for (RecipeSeedInfuser recipe : RecipeRegistry.getSeedRecipes()) {
 				number++;
-				if (recipe.matches(getStackInSlot(0),getStackInSlot(1))) {
+				if (recipe.matches(getStackInSlot(0), getStackInSlot(1))) {
 					setRecipeIndex(number);
 					break;
 				}

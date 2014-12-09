@@ -1,17 +1,12 @@
 package fluxedCrystals.handlers;
 
-import tterrag.core.common.OreDict;
-import vazkii.botania.api.BotaniaAPI;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.event.world.ChunkDataEvent.Load;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import fluxedCrystals.api.RecipeRegistry;
-import fluxedCrystals.api.recipe.SeedCropRecipe;
 import fluxedCrystals.blocks.FCBlocks;
 import fluxedCrystals.config.ConfigProps;
 import fluxedCrystals.items.FCItems;

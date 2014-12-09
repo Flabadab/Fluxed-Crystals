@@ -2,7 +2,6 @@
     "data":[
         {
             "name":"Iron",
-            "drop":"nuggetIron",
             "color":14071681,
             "ingredient":"ingotIron",
             "dropMin":1,
@@ -18,7 +17,6 @@
         },
         {
             "name":"Gold",
-            "drop":"nuggetGold",
             "color":11904556,
             "ingredient":"ingotGold",
             "dropMin":1,
@@ -31,7 +29,6 @@
         },
         {
             "name":"Coal",
-            "drop":"itemCoal",
             "color":788746,
             "ingredient":"itemCoal",
             "dropMin":1,
@@ -43,7 +40,6 @@
         },
         {
             "name":"Charcoal",
-            "drop":"itemCharcoal",
             "color":3418156,
             "ingredient":"itemCharcoal",
             "dropMin":1,
@@ -55,7 +51,6 @@
         },
         {
             "name":"Emerald",
-            "drop":"minecraft:emerald",
             "color":6290199,
             "ingredient":"gemEmerald",
             "dropMin":1,
@@ -67,7 +62,6 @@
         },
         {
             "name":"Diamond",
-            "drop":"minecraft:diamond",
             "color":5169900,
             "ingredient":"gemDiamond",
             "dropMin":1,
@@ -80,7 +74,6 @@
         },
         {
             "name":"Redstone",
-            "drop":"minecraft:redstone",
             "color":16190746,
             "ingredient":"dustRedstone",
             "dropMin":4,
@@ -92,7 +85,6 @@
         },
         {
             "name":"Ender",
-            "drop":"minecraft:ender_pearl",
             "color":5146997,
             "ingredient":"pearlEnder",
             "dropMin":1,
@@ -104,7 +96,6 @@
         },
         {
             "name":"Glowstone",
-            "drop":"minecraft:glowstone_dust",
             "color":16766977,
             "ingredient":"dustGlowstone",
             "dropMin":1,
@@ -116,7 +107,6 @@
         },
         {
             "name":"Blaze",
-            "drop":"minecraft:blaze_rod",
             "color":15246103,
             "ingredient":"itemBlazeRod",
             "dropMin":1,
@@ -128,7 +118,6 @@
         },
         {
             "name":"Clay",
-            "drop":"minecraft:clay_ball",
             "color":15066338,
             "ingredient":"itemClayBall",
             "dropMin":1,
@@ -140,7 +129,6 @@
         },
         {
             "name":"Flint",
-            "drop":"minecraft:flint",
             "color":7499373,
             "ingredient":"itemFlint",
             "dropMin":1,
@@ -152,7 +140,6 @@
         },
         {
             "name":"Ghast",
-            "drop":"minecraft:ghast_tear",
             "color":12371660,
             "ingredient":"itemGhastTear",
             "dropMin":1,
@@ -164,9 +151,8 @@
         },
         {
             "name":"Gunpowder",
-            "drop":"minecraft:gunpowder",
             "color":5656657,
-            "ingredient":"itemGunpowder",
+            "ingredient":"dustGunpowder",
             "dropMin":1,
             "dropMax":1,
             "growthTime":1200,
@@ -176,7 +162,6 @@
         },
         {
             "name":"Leather",
-            "drop":"minecraft:leather",
             "color":16767832,
             "ingredient":"itemLeather",
             "dropMin":1,
@@ -189,7 +174,6 @@
         },
         {
             "name":"Quartz",
-            "drop":"minecraft:quartz",
             "color":16641780,
             "ingredient":"gemQuartz",
             "dropMin":1,
@@ -198,18 +182,6 @@
             "tier":3,
             "ingredientAmount":32,
             "powerPerStage":8000
-        },
-        {
-            "name":"Slime",
-            "drop":"minecraft:slimeball",
-            "color":12380500,
-            "ingredient":"slimeball",
-            "dropMin":1,
-            "dropMax":1,
-            "growthTime":1200,
-            "tier":0,
-            "ingredientAmount":32,
-            "powerPerStage":2000
         }
         
         

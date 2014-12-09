@@ -2,7 +2,6 @@
     "data":[
         {
             "name":"Copper",
-            "drop":"nuggetCopper",
             "color":11365911,
             "ingredient":"ingotCopper",
             "dropAmount":1,
@@ -12,7 +11,6 @@
             "powerPerStage":4000
         },{
             "name":"Tin",
-            "drop":"nuggetTin",
             "color":7571864,
             "ingredient":"ingotTin",
             "dropAmount":1,
@@ -22,7 +20,6 @@
             "powerPerStage":4000
         },{
             "name":"Silver",
-            "drop":"nuggetSilver",
             "color":9939375,
             "ingredient":"ingotSilver",
             "dropAmount":1,
@@ -32,7 +29,6 @@
             "powerPerStage":4000
         },{
             "name":"Lead",
-            "drop":"nuggetLead",
             "color":5397108,
             "ingredient":"ingotLead",
             "dropAmount":1,
@@ -42,7 +38,6 @@
             "powerPerStage":4000
         },{
             "name":"Ferrous",
-            "drop":"nuggetNickel",
             "color":12696206,
             "ingredient":"ingotNickel",
             "dropAmount":1,
@@ -52,7 +47,6 @@
             "powerPerStage":4000
         },{
             "name":"Shiny",
-            "drop":"nuggetPlatinum",
             "color":12696206,
             "ingredient":"ingotPlatinum",
             "dropAmount":1,
@@ -62,7 +56,6 @@
             "powerPerStage":4000
         },{
             "name":"Mana Infused",
-            "drop":"nuggetMithril",
             "color":5470348,
             "ingredient":"ingotMithril",
             "dropAmount":1,
@@ -72,7 +65,6 @@
             "powerPerStage":4000
         },{
             "name":"Electrum",
-            "drop":"nuggetElectrum",
             "color":11838796,
             "ingredient":"ingotElectrum",
             "dropAmount":1,
@@ -82,7 +74,6 @@
             "powerPerStage":4000
         },{
             "name":"Invar",
-            "drop":"nuggetInvar",
             "color":9805209,
             "ingredient":"ingotInvar",
             "dropAmount":1,
@@ -93,7 +84,6 @@
             "prettyPrettyArmor":false
         },{
             "name":"Bronze",
-            "drop":"nuggetBronze",
             "color":13606501,
             "ingredient":"ingotBronze",
             "dropAmount":1,
@@ -103,7 +93,6 @@
             "powerPerStage":4000
         },{
             "name":"Signalum",
-            "drop":"nuggetSignalum",
             "color":11421966,
             "ingredient":"ingotSignalum",
             "dropAmount":1,
@@ -113,7 +102,6 @@
             "powerPerStage":4000
         },{
             "name":"Lumium",
-            "drop":"nuggetLumium",
             "color":14468221,
             "ingredient":"ingotLumium",
             "dropAmount":1,
@@ -123,7 +111,6 @@
             "powerPerStage":4000
         },{
             "name":"Enderium",
-            "drop":"nuggetEnderium",
             "color":807507,
             "ingredient":"ingotEnderium",
             "dropAmount":1,

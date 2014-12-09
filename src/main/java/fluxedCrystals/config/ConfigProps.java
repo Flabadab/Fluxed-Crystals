@@ -16,7 +16,6 @@ public class ConfigProps {
 	public static boolean IndustrialCraftAddon;
 	
 
-	public static boolean shardDrop;
 	public static boolean shard3x3;
 	
 	

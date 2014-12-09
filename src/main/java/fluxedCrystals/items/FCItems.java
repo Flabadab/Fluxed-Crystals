@@ -34,11 +34,11 @@ public class FCItems {
 	public static Item upgradeSpeed = new Upgrade();
 	public static Item upgradeAutomation = new Upgrade();
 
-	public static Item armorHelm = new ItemShardHelm();
-	public static Item armorChest= new ItemShardChest();
-	public static Item armorLegs= new ItemShardLegs();
-	public static Item armorBoots= new ItemShardBoots();
-	
+//	public static Item armorHelm = new ItemShardHelm();
+//	public static Item armorChest= new ItemShardChest();
+//	public static Item armorLegs= new ItemShardLegs();
+//	public static Item armorBoots= new ItemShardBoots();
+//	
 	public static void init() {
 		registerItems();
 		registerNBT();
@@ -75,11 +75,11 @@ public class FCItems {
 		GameRegistry.registerItem(seed, "seed");
 		GameRegistry.registerItem(shard, "shard");
 		
-		registerArmor(armorHelm, "shardHelm", "shardHelm", "Helm");
-		registerArmor(armorChest, "shardChest", "shardChest", "Chest");
-		registerArmor(armorLegs, "shardLegs", "shardLegs", "Legs");
-		registerArmor(armorBoots, "shardBoots", "shardBoots", "Boots");
-		
+//		registerArmor(armorHelm, "shardHelm", "shardHelm", "Helm");
+//		registerArmor(armorChest, "shardChest", "shardChest", "Chest");
+//		registerArmor(armorLegs, "shardLegs", "shardLegs", "Legs");
+//		registerArmor(armorBoots, "shardBoots", "shardBoots", "Boots");
+//		
 	}
 
 	private static void registerNBT() {

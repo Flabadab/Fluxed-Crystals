@@ -12,13 +12,13 @@ import net.minecraft.item.ItemStack;
 import com.google.common.collect.ImmutableList;
 
 import fluxedCrystals.api.recipe.RecipeSeedInfuser;
-import fluxedCrystals.api.recipe.SeedCropRecipe;
+import fluxedCrystals.api.recipe.SeedCrystalRecipe;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RecipeRegistry {
 
 	private static List<RecipeSeedInfuser> seedRecipes = new ArrayList<RecipeSeedInfuser>();
-	private static List<SeedCropRecipe> crops = new ArrayList<SeedCropRecipe>();
+	private static List<SeedCrystalRecipe> crops = new ArrayList<SeedCrystalRecipe>();
 
 	public static List<RecipeSeedInfuser> getSeedRecipes() {
 		return ImmutableList.copyOf(seedRecipes);
@@ -28,21 +28,21 @@ public class RecipeRegistry {
 		seedRecipes.add(recipe);
 	}
 
-	public static void addCrop(SeedCropRecipe type) {
+	public static void addCrop(SeedCrystalRecipe type) {
 		crops.add(type);
 	}
 
-	public static void addCrops(Collection<SeedCropRecipe> types) {
-		for (SeedCropRecipe r : types) {
+	public static void addCrops(Collection<SeedCrystalRecipe> types) {
+		for (SeedCrystalRecipe r : types) {
 			addCrop(r);
 		}
 	}
 
-	public static List<SeedCropRecipe> getSeedCropRecipes() {
+	public static List<SeedCrystalRecipe> getSeedCropRecipes() {
 		return ImmutableList.copyOf(crops);
 	}
 
-	public static SeedCropRecipe getSeedRecipe(int itemDamage) {
+	public static SeedCrystalRecipe getSeedRecipe(int itemDamage) {
 		if (rangeCheck(itemDamage)) {
 			return crops.get(itemDamage);
 		}
@@ -79,14 +79,6 @@ public class RecipeRegistry {
 		return true;
 	}
 
-	public static ItemStack getDrops(int itemDamage) {
-		if (rangeCheck(itemDamage)) {
-			ItemStack stacks = crops.get(itemDamage).getDrop();
-			stacks.stackSize = getDropAmount(itemDamage);
-			return stacks;
-		}
-		return null;
-	}
 
 	public static ItemStack getWeightedDrop(int itemDamage) {
 		if (rangeCheck(itemDamage)) {
@@ -112,7 +104,7 @@ public class RecipeRegistry {
 
 	public static int getDropAmount(int itemDamage) {
 		ArrayList<Integer> amount = new ArrayList<Integer>();
-		SeedCropRecipe r = getSeedRecipe(itemDamage);
+		SeedCrystalRecipe r = getSeedRecipe(itemDamage);
 		int min = r.getDropMin();
 		int max = r.getDropMax();
 		return rand.nextInt(max - min + 1) + min;

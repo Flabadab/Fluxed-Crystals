@@ -5,7 +5,6 @@ import java.io.FileFilter;
 import java.util.Collection;
 import java.util.List;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 import org.apache.commons.io.filefilter.FileFilterUtils;
@@ -18,7 +17,7 @@ import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.ModProps;
 import fluxedCrystals.api.RecipeRegistry;
 import fluxedCrystals.api.recipe.RecipeSeedInfuser;
-import fluxedCrystals.api.recipe.SeedCropRecipe;
+import fluxedCrystals.api.recipe.SeedCrystalRecipe;
 import fluxedCrystals.config.json.ISeedType;
 import fluxedCrystals.config.json.SeedType;
 import fluxedCrystals.items.FCItems;
@@ -54,7 +53,6 @@ public class ConfigHandler extends AbstractConfigHandler {
 		ConfigProps.IndustrialCraftAddon = getProperty("Industrial Craft 2 Support", true).getBoolean(true);
 
 		activateSection(ConfigProps.dropCategory);
-		ConfigProps.shardDrop = getProperty("Should crops drop shards or their ingredient", true).getBoolean(true);
 		ConfigProps.shard3x3 = getProperty("Should shards craft into the ingredients with 9 of the drops, or with 4 of the drop", true).getBoolean(true);
 
 		RecipeRegistry.reset();
@@ -63,28 +61,20 @@ public class ConfigHandler extends AbstractConfigHandler {
 
 		String basePath = FluxedCrystals.configDir.getAbsolutePath();
 		File[] cropFiles = FluxedCrystals.configDir.listFiles((FileFilter) FileFilterUtils.suffixFileFilter(".json"));
-		File crops = new File(basePath + "/crops.json");
-		File thermalCrops = new File(basePath + "/thermalCrops.json");
+		File crops = new File(basePath + "/Crystal.json");
+		File thermalCrops = new File(basePath + "/thermalCrystal.json");
 
 		if (!crops.exists()) {
-			TTFileUtils.copyFromJar(FluxedCrystals.class, ModProps.modid + "/misc/" + "crops.json", crops);
+			TTFileUtils.copyFromJar(FluxedCrystals.class, ModProps.modid + "/misc/" + "Crystal.json", crops);
 		}
 		if (!thermalCrops.exists()) {
-			TTFileUtils.copyFromJar(FluxedCrystals.class, ModProps.modid + "/misc/thermalCrops.json", thermalCrops);
+			TTFileUtils.copyFromJar(FluxedCrystals.class, ModProps.modid + "/misc/thermalCrystal.json", thermalCrops);
 		}
 
-		// if (ModUtils.isModLoaded("Thaumcraft") &&
-		// ConfigProps.thaumcraftAddon) {
-		// File thaumcraftCrops = new File(basePath + "/thaumcraftCrops.json");
-		// if (!thaumcraftCrops.exists()) {
-		// IOUtils.copyFromJar(FluxedCrops.class, ModProps.modid + "/misc/" +
-		// "thaumcraftCrops.json", thaumcraftCrops);
-		// }
-		// }
 		if (ModUtils.isModLoaded("EnderIO") && ConfigProps.enderioAddon) {
-			File enderioCrops = new File(basePath + "/enderioCrops.json");
+			File enderioCrops = new File(basePath + "/enderioCrystal.json");
 			if (!enderioCrops.exists()) {
-				TTFileUtils.copyFromJar(FluxedCrystals.class, ModProps.modid + "/misc/" + "enderioCrops.json", enderioCrops);
+				TTFileUtils.copyFromJar(FluxedCrystals.class, ModProps.modid + "/misc/" + "enderioCrystal.json", enderioCrops);
 			}
 		}
 		JsonConfigReader<SeedType> cropReader;
@@ -96,11 +86,11 @@ public class ConfigHandler extends AbstractConfigHandler {
 			}
 		}
 
-		List<SeedCropRecipe> recipes = RecipeRegistry.getSeedCropRecipes();
+		List<SeedCrystalRecipe> recipes = RecipeRegistry.getSeedCropRecipes();
 
 		for (int i = 0; i < recipes.size(); i++) {
-			SeedCropRecipe r = recipes.get(i);
-			RecipeRegistry.registerSeedInfuserRecipe(new RecipeSeedInfuser(r.getIngredient(), new ItemStack(FCItems.seed, 1, i), new ItemStack(FCItems.universalSeed), RecipeRegistry.getIngredientAmount(i)));
+			SeedCrystalRecipe r = recipes.get(i);
+			RecipeRegistry.registerSeedInfuserRecipe(new RecipeSeedInfuser(new ItemStack(FCItems.universalSeed), r.getIngredient(), new ItemStack(FCItems.seed, 1, i), RecipeRegistry.getIngredientAmount(i)));
 		}
 	}
 

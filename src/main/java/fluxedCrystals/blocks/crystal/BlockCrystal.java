@@ -2,6 +2,7 @@ package fluxedCrystals.blocks.crystal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,11 +23,12 @@ import fluxedCrystals.tileEntity.TileEntityCrystal;
 public class BlockCrystal extends CrystalBase implements ITileEntityProvider {
 	public BlockCrystal() {
 		setHardness(0.5F);
+		
 	}
 
 	@Override
 	public Item getItem(World world, int x, int y, int z) {
-		return new ItemStack(FCItems.seed, 1, ((TileEntityCrystal) world.getTileEntity(x, y, z)).getIndex()).getItem();
+		return new ItemStack(FCItems.seed, ((TileEntityCrystal) world.getTileEntity(x, y, z)).getIndex(), 1).getItem();
 	}
 
 	public void dropCropDrops(World world, int x, int y, int z, int fortune) {
@@ -62,16 +64,9 @@ public class BlockCrystal extends CrystalBase implements ITileEntityProvider {
 	}
 
 	private void doDrop(TileEntityCrystal crop, World world, int x, int y, int z, int itemMultiplier) {
-		ItemStack drop = crop.getDrop();
 
-		if (drop == null) {
-			return;
-		}
-		if (ConfigProps.shardDrop) {
-			dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.shard, drop.stackSize + itemMultiplier, crop.getIndex()));
-		} else {
-			dropBlockAsItem(world, x, y, z, new ItemStack(drop.getItem(), drop.stackSize + itemMultiplier, drop.getItemDamage()));
-		}
+		dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.shard, RecipeRegistry.getDropAmount(crop.getIndex()) + itemMultiplier, crop.getIndex()));
+
 		if (RecipeRegistry.getWeightedDrop(crop.getIndex()) != null) {
 			if (RecipeRegistry.getWeightedDropChance(crop.getIndex()) == world.rand.nextInt(9) + 1) {
 				dropBlockAsItem(world, x, y, z, RecipeRegistry.getWeightedDrop(crop.getIndex()));

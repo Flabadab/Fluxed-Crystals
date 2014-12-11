@@ -1,4 +1,5 @@
 //just a test for chinese locailzation of fluxed crystals
+//still need some small fix
 item.fluxedcrystals.seed.name=%s 种子
 item.fluxedcrystals.shard.name=%s 碎片
 item.shardHelm.name=%s 碎片头盔
@@ -23,6 +24,6 @@ item.scytheStone.name=石镰刀
 item.scytheIron.name=铁镰刀
 item.scytheGold.name=金镰刀
 item.scytheDiamond.name=钻石镰刀
-itemGroup.Fluxed-Crystals=变幻的矿物水晶
+itemGroup.Fluxed-Crystals=变幻无常的矿物水晶
 fc.tick.time.off=Some Wibbily Wobbly Timey Wimey just occurred! Some things seem to be going faaster than others!
 item.hammerCrystal.name=水晶之锤

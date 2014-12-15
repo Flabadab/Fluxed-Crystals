@@ -51,10 +51,10 @@ public class FluxedCrystals {
 		FCItems.init();
 		FCBlocks.init();
 		PacketHandler.init();
-		new GUIHandler();
+		proxy.initGuis();
 		proxy.initRenderers();
 		RecipeHandler.init();
-		if (Loader.isModLoaded("NotEnoughItems"))
+		if (Loader.isModLoaded("NotEnoughItems") && event.getSide().isClient())
 			new FluxedCrystalsNEIConfig().loadConfig();
 
 	}

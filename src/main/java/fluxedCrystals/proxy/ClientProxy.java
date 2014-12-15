@@ -5,6 +5,7 @@ import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import fluxedCrystals.FluxedCrystals;
+import fluxedCrystals.client.gui.GUIHandler;
 import fluxedCrystals.client.render.CrystalRenderer;
 import fluxedCrystals.client.render.GlassRenderer;
 import fluxedCrystals.client.render.SeedInfuserRenderer;
@@ -12,6 +13,11 @@ import fluxedCrystals.utils.EventHandler;
 
 public class ClientProxy extends CommonProxy {
 
+	@Override
+	public void initGuis() {
+		new GUIHandler();
+	}
+	
 	@Override
 	public void initRenderers() {
 		FluxedCrystals.crystalRenderID = RenderingRegistry.getNextAvailableRenderId();

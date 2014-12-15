@@ -1,17 +1,20 @@
 package fluxedCrystals.tileEntity;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import fluxedCrystals.api.RecipeRegistry;
 
 public class TileEntityCrystal extends TileEntity {
 	private int idx = 0;
+	
+	@Getter @Setter
+	private boolean harvested = false;
 
 	public TileEntityCrystal() {
 

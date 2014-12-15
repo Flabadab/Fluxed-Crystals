@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -75,9 +76,27 @@ public class BlockCrystal extends CrystalBase implements ITileEntityProvider {
 	}
 
 	@Override
-	public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player) {
+	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
 		TileEntityCrystal crop = (TileEntityCrystal) world.getTileEntity(x, y, z);
 		dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.seed, 1, crop.getIndex()));
+		if (RecipeRegistry.getWeightedDrop(crop.getIndex()) != null) {
+			if (RecipeRegistry.getWeightedDropChance(crop.getIndex()) == world.rand.nextInt(9) + 1) {
+				dropBlockAsItem(world, x, y, z, RecipeRegistry.getWeightedDrop(crop.getIndex()));
+			}
+		}
+		System.out.println("broken | harvested: " + crop.isHarvested());
+		
+		if (!crop.isHarvested()) {
+			dropCropDrops(world, x, y, z, 0);
+		}
+		
+		super.breakBlock(world, x, y, z, block, meta);
+	}
+
+	@Override
+	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player) {
+		System.out.println("harvest");
+		TileEntityCrystal crop = (TileEntityCrystal) world.getTileEntity(x, y, z);
 		ItemStack stack = player.getCurrentEquippedItem();
 		if (stack != null && stack.getItem() instanceof ItemScythe) {
 			if (stack.isItemEqual(new ItemStack(FCItems.scytheWood))) {
@@ -110,19 +129,10 @@ public class BlockCrystal extends CrystalBase implements ITileEntityProvider {
 			}
 			if (stack.isItemEqual(new ItemStack(FCItems.scytheDiamond))) {
 				dropCropDrops(world, x, y, z, RecipeRegistry.getDropAmount(crop.getIndex()));
-			} else {
-				dropCropDrops(world, x, y, z, 0);
 			}
-		} else {
-			dropCropDrops(world, x, y, z, 0);
+			
+			crop.setHarvested(true);
 		}
-		if (RecipeRegistry.getWeightedDrop(crop.getIndex()) != null) {
-			if (RecipeRegistry.getWeightedDropChance(crop.getIndex()) == world.rand.nextInt(9) + 1) {
-				dropBlockAsItem(world, x, y, z, RecipeRegistry.getWeightedDrop(crop.getIndex()));
-			}
-		}
-		world.setBlock(x, y, z, Blocks.air);
-
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.client.gui.GUIHandler;
+import fluxedCrystals.client.render.ChunkRenderer;
 import fluxedCrystals.client.render.CrystalRenderer;
 import fluxedCrystals.client.render.GlassRenderer;
 import fluxedCrystals.client.render.SeedInfuserRenderer;
@@ -23,11 +24,14 @@ public class ClientProxy extends CommonProxy {
 		FluxedCrystals.crystalRenderID = RenderingRegistry.getNextAvailableRenderId();
 		FluxedCrystals.seedInfuserRenderID = RenderingRegistry.getNextAvailableRenderId();
 		FluxedCrystals.glassRenderID= RenderingRegistry.getNextAvailableRenderId();
+		FluxedCrystals.chunkRenderID = RenderingRegistry.getNextAvailableRenderId();
 		
 
 		RenderingRegistry.registerBlockHandler(new CrystalRenderer());
 		RenderingRegistry.registerBlockHandler(new SeedInfuserRenderer());
 		RenderingRegistry.registerBlockHandler(new GlassRenderer());
+		RenderingRegistry.registerBlockHandler(new ChunkRenderer());
+		
 	}
 	
 	@Override

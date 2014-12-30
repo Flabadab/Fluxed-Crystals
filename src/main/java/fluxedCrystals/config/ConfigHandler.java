@@ -67,7 +67,7 @@ public class ConfigHandler extends AbstractConfigHandler {
 		if (!crops.exists()) {
 			TTFileUtils.copyFromJar(FluxedCrystals.class, ModProps.modid + "/misc/" + "Crystal.json", crops);
 		}
-		if (!thermalCrops.exists()) {
+		if (!thermalCrops.exists() && ModUtils.isModLoaded("ThermalFoundation")) {
 			TTFileUtils.copyFromJar(FluxedCrystals.class, ModProps.modid + "/misc/thermalCrystal.json", thermalCrops);
 		}
 

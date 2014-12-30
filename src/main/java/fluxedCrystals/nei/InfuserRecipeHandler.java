@@ -84,7 +84,7 @@ public class InfuserRecipeHandler extends TemplateRecipeHandler {
 
 		for (int j = 0; j < recipes.size(); j++) {
 			RecipeSeedInfuser recipe = recipes.get(j);
-			if (recipe.getInput().isItemEqual(ingredient) || recipe.getIngredient().isItemEqual(ingredient) || recipe.getOutput().isItemEqual(ingredient)) {
+			if (recipe.getInput().isItemEqual(ingredient) || recipe.getIngredient().isItemEqual(ingredient)) {
 				if (checkDupe(recipe))
 					this.arecipes.add(new CachedInfusionRecipe(recipe));
 			}

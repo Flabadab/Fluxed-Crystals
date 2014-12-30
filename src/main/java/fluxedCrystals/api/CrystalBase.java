@@ -31,7 +31,7 @@ public abstract class CrystalBase extends BlockCrops {
 
 	@Override
 	public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_) {
-		//NO-OP
+		// NO-OP
 	}
 
 	public boolean growCrop(World world, int x, int y, int z, Random rand, boolean night) {

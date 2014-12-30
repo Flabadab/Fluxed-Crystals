@@ -38,7 +38,8 @@ public class FluxedCrystals {
 	@SidedProxy(clientSide = "fluxedCrystals.proxy.ClientProxy", serverSide = "fluxedCrystals.proxy.CommonProxy")
 	public static CommonProxy proxy;
 	public static int seedInfuserRenderID;
-	public static int glassRenderID;;
+	public static int glassRenderID;
+	public static int chunkRenderID;
 
 	public static final CreativeTabFluxedCrystals tab = new CreativeTabFluxedCrystals();
 

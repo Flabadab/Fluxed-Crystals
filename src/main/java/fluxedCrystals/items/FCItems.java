@@ -33,6 +33,8 @@ public class FCItems {
 	public static Item upgradeNight = new Upgrade();
 	public static Item upgradeSpeed = new Upgrade();
 	public static Item upgradeAutomation = new Upgrade();
+	
+	public static Item roughChunk = new ItemRoughChunk();
 
 //	public static Item armorHelm = new ItemShardHelm();
 //	public static Item armorChest= new ItemShardChest();
@@ -53,6 +55,7 @@ public class FCItems {
 	private static void registerItems() {
 		seed.setCreativeTab(FluxedCrystals.tab);
 		shard.setCreativeTab(FluxedCrystals.tab);
+		roughChunk.setCreativeTab(FluxedCrystals.tab);
 		universalSeed.setCreativeTab(FluxedCrystals.tab).setTextureName(ModProps.modid + ":seed").setUnlocalizedName("universalSeed");
 		upgradeEffeciency.setCreativeTab(FluxedCrystals.tab).setTextureName(ModProps.modid + ":UpgradeEffeciency").setUnlocalizedName("upgradeEfficiency");
 		upgradeNight.setCreativeTab(FluxedCrystals.tab).setTextureName(ModProps.modid + ":UpgradeNight").setUnlocalizedName("upgradeNight");
@@ -65,7 +68,7 @@ public class FCItems {
 		registerItem(scytheIron, "Iron Scythe", "scytheIron");
 		registerItem(scytheGold, "Gold Scythe", "scytheGold");
 		registerItem(scytheDiamond, "Diamond Scythe", "scytheDiamond");
-
+		
 		GameRegistry.registerItem(upgradeEffeciency, "upgradeEffeciency");
 		GameRegistry.registerItem(upgradeNight, "upgradeNight");
 		GameRegistry.registerItem(upgradeSpeed, "upgradeSpeed");
@@ -74,6 +77,7 @@ public class FCItems {
 		GameRegistry.registerItem(universalSeed, "universalSeed");
 		GameRegistry.registerItem(seed, "seed");
 		GameRegistry.registerItem(shard, "shard");
+		GameRegistry.registerItem(roughChunk, "roughChunk");
 		
 //		registerArmor(armorHelm, "shardHelm", "shardHelm", "Helm");
 //		registerArmor(armorChest, "shardChest", "shardChest", "Chest");

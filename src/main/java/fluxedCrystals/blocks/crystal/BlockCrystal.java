@@ -24,12 +24,14 @@ import fluxedCrystals.tileEntity.TileEntityCrystal;
 public class BlockCrystal extends CrystalBase implements ITileEntityProvider {
 	public BlockCrystal() {
 		setHardness(0.5F);
-		
 	}
 
 	@Override
 	public Item getItem(World world, int x, int y, int z) {
-		return new ItemStack(FCItems.seed, ((TileEntityCrystal) world.getTileEntity(x, y, z)).getIndex(), 1).getItem();
+		ItemStack returnStack = new ItemStack(FCItems.seed, 1, ((TileEntityCrystal) world.getTileEntity(x, y, z)).getIndex());
+		Item returnItem = returnStack.getItem();
+		returnItem.setDamage(returnStack, ((TileEntityCrystal) world.getTileEntity(x, y, z)).getIndex());
+		return returnItem;
 	}
 
 	public void dropCropDrops(World world, int x, int y, int z, int fortune) {
@@ -39,19 +41,10 @@ public class BlockCrystal extends CrystalBase implements ITileEntityProvider {
 		}
 	}
 
-	/**
-	 * Is this block (a) opaque and (b) a full 1m cube? This determines whether
-	 * or not to render the shared face of two adjacent blocks and also whether
-	 * the player can attach torches, redstone wire, etc to this block.
-	 */
 	public boolean isOpaqueCube() {
 		return false;
 	}
 
-	/**
-	 * If this block doesn't render as an ordinary block it will return False
-	 * (examples: signs, buttons, stairs, etc)
-	 */
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
@@ -84,18 +77,16 @@ public class BlockCrystal extends CrystalBase implements ITileEntityProvider {
 				dropBlockAsItem(world, x, y, z, RecipeRegistry.getWeightedDrop(crop.getIndex()));
 			}
 		}
-		System.out.println("broken | harvested: " + crop.isHarvested());
-		
+
 		if (!crop.isHarvested()) {
 			dropCropDrops(world, x, y, z, 0);
 		}
-		
+
 		super.breakBlock(world, x, y, z, block, meta);
 	}
 
 	@Override
 	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player) {
-		System.out.println("harvest");
 		TileEntityCrystal crop = (TileEntityCrystal) world.getTileEntity(x, y, z);
 		ItemStack stack = player.getCurrentEquippedItem();
 		if (stack != null && stack.getItem() instanceof ItemScythe) {
@@ -130,7 +121,7 @@ public class BlockCrystal extends CrystalBase implements ITileEntityProvider {
 			if (stack.isItemEqual(new ItemStack(FCItems.scytheDiamond))) {
 				dropCropDrops(world, x, y, z, RecipeRegistry.getDropAmount(crop.getIndex()));
 			}
-			
+
 			crop.setHarvested(true);
 		}
 	}

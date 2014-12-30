@@ -16,6 +16,7 @@ import fluxedCrystals.tileEntity.TileEntityIndustrialManager;
 import fluxedCrystals.tileEntity.TileEntityManaManager;
 import fluxedCrystals.tileEntity.TileEntityManagerBlock;
 import fluxedCrystals.tileEntity.TileEntityPowerBlock;
+import fluxedCrystals.tileEntity.TileEntityRoughChunk;
 import fluxedCrystals.tileEntity.TileEntitySeedInfuser;
 import fluxedCrystals.tileEntity.TileEntityThaumicManager;
 
@@ -32,6 +33,7 @@ public class FCBlocks {
 
 	public static Block seedInfuser = new BlockSeedInfuser();
 	public static Block infusedGlass = new BlockGlass();
+	public static Block roughChunk = new BlockRoughChunk();
 
 	public static void init() {
 
@@ -47,11 +49,13 @@ public class FCBlocks {
 		registerTileEntitys(TileEntityThaumicManager.class, "thaumicManager", "Thaumcraft", ConfigProps.thaumcraftAddon);
 		registerTileEntitys(TileEntityManaManager.class, "manaManager", "Botania", ConfigProps.botaniaAddon);
 		registerTileEntitys(TileEntityIndustrialManager.class, "industrialManager", "IC2", ConfigProps.IndustrialCraftAddon);
+		
 
 		GameRegistry.registerTileEntity(TileEntityPowerBlock.class, "powerBlock");
 		GameRegistry.registerTileEntity(TileEntitySeedInfuser.class, "seedInfuser");
 		GameRegistry.registerTileEntity(TileEntityCrystal.class, "crop");
 		GameRegistry.registerTileEntity(TileEntityGlass.class, "glass");
+		GameRegistry.registerTileEntity(TileEntityRoughChunk.class, "roughChunk");
 
 	}
 
@@ -65,7 +69,10 @@ public class FCBlocks {
 		registerBlock(managerIndustrial, "Industrial Manager Block", "Manager_Block_Industrial", "IC2", ConfigProps.IndustrialCraftAddon);
 
 		registerBlock(seedInfuser, "Seed Infuser", "Seed_Infuser");
+		
 		GameRegistry.registerBlock(infusedGlass, "infusedGlass");
+		GameRegistry.registerBlock(roughChunk, "roughChunk");
+		
 	}
 
 	private static void registerBlock(Block block, String name, String key) {

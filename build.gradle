@@ -17,7 +17,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "0.0.3"
+version = "0.0.4"
 group= "fluxedCrystals"
 archivesBaseName = "fluxedCrystals"
 
@@ -34,6 +34,9 @@ repositories{
         name = "chickenbones"
         url = "http://chickenbones.net/maven"
     }
+	 maven {
+	 url = "http://mobiusstrip.eu/maven" 
+	 }
 }
 
 dependencies {
@@ -53,7 +56,7 @@ dependencies {
 	compile files("/libs/BloodMagic-1.7.10-1.2.1b-1-deobf.jar")
 	compile "codechicken:CodeChickenLib:${mc_version}-${ccl_version}:dev"
 	compile "codechicken:NotEnoughItems:${mc_version}-${nei_version}:dev"
-	
+	compile "mcp.mobius.waila:Waila:${waila_version}"
 }
 
 processResources

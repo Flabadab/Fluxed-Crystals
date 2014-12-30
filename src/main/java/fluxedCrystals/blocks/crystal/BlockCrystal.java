@@ -1,13 +1,10 @@
 package fluxedCrystals.blocks.crystal;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -16,7 +13,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import fluxedCrystals.api.CrystalBase;
 import fluxedCrystals.api.RecipeRegistry;
-import fluxedCrystals.config.ConfigProps;
 import fluxedCrystals.items.FCItems;
 import fluxedCrystals.items.ItemScythe;
 import fluxedCrystals.tileEntity.TileEntityCrystal;

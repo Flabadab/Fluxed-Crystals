@@ -22,7 +22,7 @@ public class ItemCrystalHammer extends Item {
 			TileEntityRoughChunk tile = (TileEntityRoughChunk) player.worldObj.getTileEntity(x, y, z);
 			((BlockRoughChunk)player.worldObj.getBlock(x, y, z)).dropBlockAsItem(player.worldObj, x, y, z, new ItemStack(FCItems.shard, 4, tile.getIndex()));
 			player.worldObj.setBlockToAir(x, y, z);
-			
+			stack.damageItem(1, player);
 		}
 		return true;
 	}
@@ -36,6 +36,7 @@ public class ItemCrystalHammer extends Item {
 					newMeta = 0;
 				}
 				world.setBlockMetadataWithNotify(x, y, z, newMeta, 3);
+				stack.damageItem(1, player);
 				return true;
 			}
 		return false;

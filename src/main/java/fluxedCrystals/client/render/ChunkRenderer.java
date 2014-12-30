@@ -33,10 +33,12 @@ public class ChunkRenderer implements ISimpleBlockRenderingHandler {
 			Tessellator tess = Tessellator.instance;
 			tess.setColorOpaque_I(color);
 			float red = (color >> 16 & 255) / 255.0F;
-	        float green = (color >> 8 & 255) / 255.0F;
-	        float blue = (color & 255) / 255.0F;
-	        renderer.setOverrideBlockTexture(block.getIcon(0, world.getBlockMetadata(x, y, z)));
-			renderer.renderStandardBlockWithColorMultiplier(block, x, y, z, red, green, blue);
+			float green = (color >> 8 & 255) / 255.0F;
+			float blue = (color & 255) / 255.0F;
+			renderer.setOverrideBlockTexture(block.getIcon(0, world.getBlockMetadata(x, y, z)));
+			// renderer.renderStandardBlockWithColorMultiplier(block, x, y, z,
+			// red, green, blue);
+			renderer.renderBlockCrops(block, x, y, z);
 			renderer.clearOverrideBlockTexture();
 		}
 		return true;

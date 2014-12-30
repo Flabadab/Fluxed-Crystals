@@ -2,13 +2,20 @@ package fluxedCrystals.items;
 
 import java.util.List;
 
+import cpw.mods.fml.common.eventhandler.Event;
+import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.FillBucketEvent;
 import fluxedCrystals.ModProps;
 import fluxedCrystals.api.RecipeRegistry;
 import fluxedCrystals.api.SeedBase;
@@ -52,14 +59,75 @@ public class ItemRoughChunk extends Item {
 		return String.format(StatCollector.translateToLocal(getUnlocalizedName() + ".name"), RecipeRegistry.getName(stack.getItemDamage()));
 	}
 
-	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int meta, float hitX, float hitY, float hitZ) {
-		if (world.getBlock(x, y, z) != null) {
-			world.setBlock(x, y + 1, z, FCBlocks.roughChunk);
-			((BlockRoughChunk) world.getBlock(x, y + 1, z)).setData(stack, world, x, y, z);
-			player.inventory.decrStackSize(player.inventory.currentItem, 1);
-			return true;
+	// @Override
+	// public boolean onItemUse(ItemStack stack, EntityPlayer player, World
+	// world, int x, int y, int z, int meta, float hitX, float hitY, float hitZ)
+	// {
+	//
+	// if (world.getBlock(x, y, z) != null || world.getBlock(x, y,
+	// z).isReplaceable(world, x, y, z)) {
+	// world.setBlock(x, y + 1, z, FCBlocks.roughChunk);
+	// ((BlockRoughChunk) world.getBlock(x, y, z)).setData(stack, world, x, y,
+	// z);
+	// player.inventory.decrStackSize(player.inventory.currentItem, 1);
+	// return true;
+	// }
+	// return false;
+	// }
+	/**
+	 * Called whenever this item is equipped and the right mouse button is
+	 * pressed. Args: itemStack, world, entityPlayer
+	 */
+	public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_) {
+		boolean flag = true;
+		MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(p_77659_2_, p_77659_3_, flag);
+
+		if (movingobjectposition == null) {
+			return p_77659_1_;
+		} else {
+
+			if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+				int i = movingobjectposition.blockX;
+				int j = movingobjectposition.blockY;
+				int k = movingobjectposition.blockZ;
+
+				if (!p_77659_2_.canMineBlock(p_77659_3_, i, j, k)) {
+					return p_77659_1_;
+				}
+
+				if (movingobjectposition.sideHit == 0) {
+					--j;
+				}
+
+				if (movingobjectposition.sideHit == 1) {
+					++j;
+				}
+
+				if (movingobjectposition.sideHit == 2) {
+					--k;
+				}
+
+				if (movingobjectposition.sideHit == 3) {
+					++k;
+				}
+
+				if (movingobjectposition.sideHit == 4) {
+					--i;
+				}
+
+				if (movingobjectposition.sideHit == 5) {
+					++i;
+				}
+
+				p_77659_2_.setBlock(i, j, k, FCBlocks.roughChunk);
+				((BlockRoughChunk) p_77659_2_.getBlock(i, j, k)).setData(p_77659_1_, p_77659_2_, i, j, k);
+				ItemStack stack = p_77659_1_.copy();
+				stack.stackSize--;
+				return stack;
+			}
 		}
-		return false;
+
+		return p_77659_1_;
 	}
+
 }

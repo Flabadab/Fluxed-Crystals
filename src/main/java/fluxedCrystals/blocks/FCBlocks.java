@@ -49,7 +49,6 @@ public class FCBlocks {
 		registerTileEntitys(TileEntityThaumicManager.class, "thaumicManager", "Thaumcraft", ConfigProps.thaumcraftAddon);
 		registerTileEntitys(TileEntityManaManager.class, "manaManager", "Botania", ConfigProps.botaniaAddon);
 		registerTileEntitys(TileEntityIndustrialManager.class, "industrialManager", "IC2", ConfigProps.IndustrialCraftAddon);
-		
 
 		GameRegistry.registerTileEntity(TileEntityPowerBlock.class, "powerBlock");
 		GameRegistry.registerTileEntity(TileEntitySeedInfuser.class, "seedInfuser");
@@ -71,7 +70,7 @@ public class FCBlocks {
 		registerBlock(seedInfuser, "Seed Infuser", "Seed_Infuser");
 		
 		GameRegistry.registerBlock(infusedGlass, "infusedGlass");
-		GameRegistry.registerBlock(roughChunk, "roughChunk");
+		GameRegistry.registerBlock(roughChunk, "roughChunkBlock");
 		
 	}
 

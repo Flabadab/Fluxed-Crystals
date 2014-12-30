@@ -31,7 +31,6 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerBlockHandler(new SeedInfuserRenderer());
 		RenderingRegistry.registerBlockHandler(new GlassRenderer());
 		RenderingRegistry.registerBlockHandler(new ChunkRenderer());
-		
 	}
 	
 	@Override

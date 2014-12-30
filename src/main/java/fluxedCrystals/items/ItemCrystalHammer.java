@@ -1,13 +1,15 @@
 package fluxedCrystals.items;
 
-import fluxedCrystals.blocks.BlockGlass;
-import fluxedCrystals.blocks.FCBlocks;
+import net.minecraft.block.Block;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import fluxedCrystals.blocks.BlockGlass;
+import fluxedCrystals.blocks.BlockRoughChunk;
+import fluxedCrystals.blocks.FCBlocks;
+import fluxedCrystals.tileEntity.TileEntityRoughChunk;
 
 public class ItemCrystalHammer extends Item {
 	@Override
@@ -15,8 +17,18 @@ public class ItemCrystalHammer extends Item {
 		return 250;
 	}
 
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int meta, float hitX, float hitY, float hitZ) {
+	public boolean onBlockStartBreak(ItemStack stack, int x, int y, int z, EntityPlayer player){
+		if (player.worldObj.getBlock(x, y, z) instanceof BlockRoughChunk) {
+			TileEntityRoughChunk tile = (TileEntityRoughChunk) player.worldObj.getTileEntity(x, y, z);
+			((BlockRoughChunk)player.worldObj.getBlock(x, y, z)).dropBlockAsItem(player.worldObj, x, y, z, new ItemStack(FCItems.shard, 4, tile.getIndex()));
+			player.worldObj.setBlockToAir(x, y, z);
+			
+		}
+		return true;
+	}
 
+
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int meta, float hitX, float hitY, float hitZ) {
 		if (!world.isRemote)
 			if (world.getBlock(x, y, z) == FCBlocks.infusedGlass) {
 				int newMeta = world.getBlockMetadata(x, y, z) + 1;

@@ -8,9 +8,12 @@ import java.util.Random;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import net.minecraft.item.ItemStack;
+import thaumcraft.api.aspects.Aspect;
 
 import com.google.common.collect.ImmutableList;
 
+import fluxedCrystals.api.recipe.RecipeGemCutter;
+import fluxedCrystals.api.recipe.RecipeGemRefiner;
 import fluxedCrystals.api.recipe.RecipeSeedInfuser;
 import fluxedCrystals.api.recipe.SeedCrystalRecipe;
 
@@ -19,9 +22,19 @@ public class RecipeRegistry {
 
 	private static List<RecipeSeedInfuser> seedRecipes = new ArrayList<RecipeSeedInfuser>();
 	private static List<SeedCrystalRecipe> crops = new ArrayList<SeedCrystalRecipe>();
+	private static List<RecipeGemRefiner> gemsRef = new ArrayList<RecipeGemRefiner>();
+	private static List<RecipeGemCutter> gemsCut = new ArrayList<RecipeGemCutter>();
 
 	public static List<RecipeSeedInfuser> getSeedRecipes() {
 		return ImmutableList.copyOf(seedRecipes);
+	}
+
+	public static List<RecipeGemRefiner> getGemRefinerRecipes() {
+		return ImmutableList.copyOf(gemsRef);
+	}
+
+	public static List<RecipeGemCutter> getGemCutterRecipes() {
+		return ImmutableList.copyOf(gemsCut);
 	}
 
 	public static void registerSeedInfuserRecipe(RecipeSeedInfuser recipe) {
@@ -30,6 +43,14 @@ public class RecipeRegistry {
 
 	public static void addCrop(SeedCrystalRecipe type) {
 		crops.add(type);
+	}
+
+	public static void registerGemRefinerRecipe(RecipeGemRefiner type) {
+		gemsRef.add(type);
+	}
+
+	public static void registerGemCutterRecipe(RecipeGemCutter type) {
+		gemsCut.add(type);
 	}
 
 	public static void addCrops(Collection<SeedCrystalRecipe> types) {
@@ -50,7 +71,9 @@ public class RecipeRegistry {
 	}
 
 	public static boolean hasPrettyPrettyArmor(int itemDamage) {
-		return crops.get(itemDamage).isPrettyPrettyArmor();
+		if (rangeCheck(itemDamage))
+			return crops.get(itemDamage).isPrettyPrettyArmor();
+		return false;
 
 	}
 
@@ -79,6 +102,26 @@ public class RecipeRegistry {
 		return true;
 	}
 
+	public static boolean getIsSharp(int itemDamage) {
+		if (rangeCheck(itemDamage)) {
+			return crops.get(itemDamage).isSharp();
+		}
+		return true;
+	}
+
+	public static Aspect getAspectNeeded(int itemDamage) {
+		if (rangeCheck(itemDamage)) {
+			return crops.get(itemDamage).getAspectNeeded();
+		}
+		return null;
+	}
+
+	public static int getAspectNeededAmount(int itemDamage) {
+		if (rangeCheck(itemDamage)) {
+			return crops.get(itemDamage).getAspectNeededAmount();
+		}
+		return 32;
+	}
 
 	public static ItemStack getWeightedDrop(int itemDamage) {
 		if (rangeCheck(itemDamage)) {
@@ -92,6 +135,13 @@ public class RecipeRegistry {
 			return crops.get(itemDamage).getWeightedDropChance();
 		}
 		return 0;
+	}
+
+	public static String getLore(int itemDamage) {
+		if (rangeCheck(itemDamage)) {
+			return crops.get(itemDamage).getLore();
+		}
+		return "null";
 	}
 
 	public static ItemStack getIngredient(int itemDamage) {
@@ -132,6 +182,14 @@ public class RecipeRegistry {
 		if (rangeCheck(itemDamage))
 			return crops.get(itemDamage).getIngredientAmount();
 		return 0;
+	}
+
+	public static int getRefinerAmount(int itemDamage) {
+		if (rangeCheck(itemDamage)) {
+			return crops.get(itemDamage).getRefinerAmount();
+
+		}
+		return 1;
 	}
 
 	public static int getPowerPerStage(int itemDamage) {

@@ -14,10 +14,12 @@ public class PacketHandler {
 		INSTANCE.registerMessage(MessageSeedInfuser.class, MessageSeedInfuser.class, 2, Side.SERVER);
 		INSTANCE.registerMessage(MessageSeedInfuser.class, MessageSeedInfuser.class, 3, Side.CLIENT);
 		INSTANCE.registerMessage(MessageBiome.class, MessageBiome.class, 4, Side.CLIENT);
-		INSTANCE.registerMessage(MessageBloodManager.class, MessageBloodManager.class, 5, Side.SERVER);
-		INSTANCE.registerMessage(MessageThaumicManager.class, MessageThaumicManager.class, 6, Side.SERVER);
-		INSTANCE.registerMessage(MessageManaManager.class, MessageManaManager.class, 7, Side.SERVER);
-		INSTANCE.registerMessage(MessageIndustrialManager.class, MessageIndustrialManager.class, 8, Side.SERVER);
+		INSTANCE.registerMessage(MessageGemRefiner.class, MessageGemRefiner.class, 5, Side.SERVER);
+		INSTANCE.registerMessage(MessageGemRefiner.class, MessageGemRefiner.class, 6, Side.CLIENT);
+		INSTANCE.registerMessage(MessageGemCutter.class, MessageGemCutter.class, 7, Side.SERVER);
+		INSTANCE.registerMessage(MessageGemCutter.class, MessageGemCutter.class, 8, Side.CLIENT);
+		
+		
 		
 		
 	}

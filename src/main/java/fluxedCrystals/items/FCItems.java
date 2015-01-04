@@ -1,5 +1,6 @@
 package fluxedCrystals.items;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
@@ -35,6 +36,8 @@ public class FCItems {
 	public static Item upgradeAutomation = new Upgrade();
 	
 	public static Item roughChunk = new ItemRoughChunk();
+	public static Item gemCutter = new ItemGemCutter();
+	public static Item roughShard = new ItemRoughShard();
 
 //	public static Item armorHelm = new ItemShardHelm();
 //	public static Item armorChest= new ItemShardChest();
@@ -57,6 +60,7 @@ public class FCItems {
 		shard.setCreativeTab(FluxedCrystals.tab);
 		roughChunk.setCreativeTab(FluxedCrystals.tab);
 		universalSeed.setCreativeTab(FluxedCrystals.tab).setTextureName(ModProps.modid + ":seed").setUnlocalizedName("universalSeed");
+		
 		upgradeEffeciency.setCreativeTab(FluxedCrystals.tab).setTextureName(ModProps.modid + ":UpgradeEffeciency").setUnlocalizedName("upgradeEfficiency");
 		upgradeNight.setCreativeTab(FluxedCrystals.tab).setTextureName(ModProps.modid + ":UpgradeNight").setUnlocalizedName("upgradeNight");
 		upgradeSpeed.setCreativeTab(FluxedCrystals.tab).setTextureName(ModProps.modid + ":UpgradeSpeed").setUnlocalizedName("upgradeSpeed");
@@ -78,6 +82,8 @@ public class FCItems {
 		GameRegistry.registerItem(seed, "seed");
 		GameRegistry.registerItem(shard, "shard");
 		GameRegistry.registerItem(roughChunk, "roughChunk");
+		registerItem(gemCutter, "Gem Cutter", "gemCutter");
+		registerItem(roughShard, "Rough Shard", "roughShard");
 		
 //		registerArmor(armorHelm, "shardHelm", "shardHelm", "Helm");
 //		registerArmor(armorChest, "shardChest", "shardChest", "Chest");

@@ -20,11 +20,11 @@ public class ItemCrystalHammer extends Item {
 	public boolean onBlockStartBreak(ItemStack stack, int x, int y, int z, EntityPlayer player){
 		if (player.worldObj.getBlock(x, y, z) instanceof BlockRoughChunk) {
 			TileEntityRoughChunk tile = (TileEntityRoughChunk) player.worldObj.getTileEntity(x, y, z);
-			((BlockRoughChunk)player.worldObj.getBlock(x, y, z)).dropBlockAsItem(player.worldObj, x, y, z, new ItemStack(FCItems.shard, 4, tile.getIndex()));
+			((BlockRoughChunk)player.worldObj.getBlock(x, y, z)).dropBlockAsItem(player.worldObj, x, y, z, new ItemStack(FCItems.roughShard, 4, tile.getIndex()));
 			player.worldObj.setBlockToAir(x, y, z);
 			stack.damageItem(1, player);
 		}
-		return true;
+		return false;
 	}
 
 

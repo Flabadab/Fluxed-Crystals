@@ -1,28 +1,40 @@
 package fluxedCrystals.tileEntity;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import fluxedCrystals.api.RecipeRegistry;
+import fluxedCrystals.blocks.FCBlocks;
+import fluxedCrystals.items.FCItems;
+import ic2.api.energy.event.EnergyTileLoadEvent;
+import ic2.api.energy.event.EnergyTileUnloadEvent;
+import ic2.api.energy.tile.IEnergySink;
 
+import java.util.ArrayList;
+
+import lombok.Getter;
+import net.minecraft.block.BlockBeacon;
+import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.StatCollector;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
-import fluxedCrystals.api.RecipeRegistry;
-import fluxedCrystals.blocks.FCBlocks;
-import fluxedCrystals.items.FCItems;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectSourceHelper;
+import tterrag.core.common.util.BlockCoord;
+import vazkii.botania.api.mana.IManaReceiver;
+import vazkii.botania.api.recipe.RecipeElvenTrade;
+import WayofTime.alchemicalWizardry.api.items.interfaces.IBindable;
+import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
 
 /**
  * Created by Jared on 11/2/2014.
  */
-public class TileEntityManagerBlock extends TileEnergyBase implements IInventory, IManager {
+public class TileEntityManagerBlock extends TileEnergyBase implements IInventory, IManager, IManaReceiver, IEnergySink {
 
 	public ItemStack[] items;
 	public int totalPowerBlocks;
@@ -34,11 +46,25 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 	private int size = 0;
 	private int timer = 0;
 
+	private int mana;
+	private int MAX_MANA;
+	private int MAX_ENERGY;
+	private int current_Energy;
+	private boolean addedToWorld = false;
+	private boolean addedToEnergyNet = false;
+	private boolean RF = true;
+	@Getter
 	private ArrayList<TileEntityPowerBlock> powerBlocks = new ArrayList<TileEntityPowerBlock>();
+	@Getter
+	private ArrayList<TileEntityPowerBlock> powerBlocksToAdd = new ArrayList<TileEntityPowerBlock>();
 
 	public TileEntityManagerBlock() {
 		super(100000);
-		items = new ItemStack[5];
+		MAX_MANA = getMaxStorage();
+		MAX_ENERGY = getMaxStorage() / 4;
+		current_Energy = 0;
+		mana = 0;
+		items = new ItemStack[6];
 	}
 
 	@Override
@@ -53,11 +79,43 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 
 	public void updateEntity() {
 		super.updateEntity();
+		if (getEnergyStored() <= 0) {
+			RF = false;
+		}
+		if (!worldObj.isRemote && !addedToWorld) {
+			addedToWorld = true;
+			addedToEnergyNet = true;
+			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+		}
 		if (!(lastTick == worldObj.getTotalWorldTime())) {
-			ArrayList<ItemStack> list = new ArrayList<ItemStack>();
 			for (TileEntityPowerBlock power : powerBlocks) {
+				power.convertblocks(getWorldObj(), this);
+
 				if (power.getCropTile(worldObj) != null) {
 					if (worldObj.getTotalWorldTime() % 20 == 0) {
+
+						if (!RF) {
+							if (getStackInSlot(5) != null) {
+
+								if (getCurrentMana() > 0) {
+									if (getCurrentMana() >= getUpgradeDrain(power.getCropTile(worldObj).getIndex()))
+										if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
+											if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)))) {
+												mana -= -getUpgradeDrain(power.getCropTile(worldObj).getIndex());
+											}
+								}
+								if (getStackInSlot(5).getItem() instanceof IBindable) {
+									IBindable bindedItem = ((IBindable) getStackInSlot(5).getItem());
+									if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
+										if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)))) {
+											SoulNetworkHandler.syphonFromNetwork(getStackInSlot(5), getUpgradeDrain(power.getCropTile(worldObj).getIndex()) / 4);
+										}
+								}
+
+							}
+
+						}
+
 						if (isUpgradeActive(new ItemStack(FCItems.upgradeAutomation)))
 							if (worldObj.getBlockMetadata(power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord) >= 7) {
 								power.getCrop(worldObj).dropCropDrops(worldObj, power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord, 0);
@@ -65,11 +123,66 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 								this.storage.extractEnergy(100, false);
 							}
 					}
-					if (this.storage.getEnergyStored() > getUpgradeDrain(power.getCropTile(worldObj).getIndex()))
+					if (!RF) {
 						if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
-							if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)))) {
-								this.storage.extractEnergy(getUpgradeDrain(power.getCropTile(worldObj).getIndex()), false);
-							}
+							if (drainEnergy(getUpgradeDrain(power.getCropTile(worldObj).getIndex() / 4)))
+								power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)));
+					}
+
+					if (RecipeRegistry.getAspectNeeded(power.getCropTile(worldObj).getIndex()) != null) {
+
+						if (AspectSourceHelper.findEssentia(power.getCropTile(worldObj), RecipeRegistry.getAspectNeeded(power.getCropTile(worldObj).getIndex()), ForgeDirection.UNKNOWN, 15))
+							if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
+								if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)))) {
+									for (int i = 0; i < RecipeRegistry.getAspectNeededAmount(power.getCropTile(worldObj).getIndex()); i++)
+										AspectSourceHelper.drainEssentia(power.getCropTile(worldObj), RecipeRegistry.getAspectNeeded(power.getCropTile(worldObj).getIndex()), ForgeDirection.UNKNOWN, 15);
+								}
+					}
+					if (RecipeRegistry.getAspectNeeded(power.getCropTile(worldObj).getIndex()) == null)
+						if (this.storage.getEnergyStored() > getUpgradeDrain(power.getCropTile(worldObj).getIndex()))
+							if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
+								if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)))) {
+									this.storage.extractEnergy(getUpgradeDrain(power.getCropTile(worldObj).getIndex()), false);
+								}
+				}
+			}
+			if (!powerBlocksToAdd.isEmpty()) {
+				for (TileEntityPowerBlock power : powerBlocksToAdd) {
+					powerBlocks.add(power);
+				}
+				powerBlocksToAdd.clear();
+			}
+
+			if (worldObj.getBlock(xCoord + 1, yCoord, zCoord) == Blocks.dirt) {
+				if (drainPower(250)) {
+					worldObj.setBlock(xCoord + 1, yCoord, zCoord, FCBlocks.powerBlock);
+					storage.extractEnergy(250, false);
+					((TileEntityPowerBlock) worldObj.getTileEntity(xCoord + 1, yCoord, zCoord)).setManager(this);
+					powerBlocks.add((TileEntityPowerBlock) worldObj.getTileEntity(xCoord + 1, yCoord, zCoord));
+				}
+			}
+			if (worldObj.getBlock(xCoord - 1, yCoord, zCoord) == Blocks.dirt) {
+				if (drainPower(250)) {
+					worldObj.setBlock(xCoord - 1, yCoord, zCoord, FCBlocks.powerBlock);
+					storage.extractEnergy(250, false);
+					((TileEntityPowerBlock) worldObj.getTileEntity(xCoord - 1, yCoord, zCoord)).setManager(this);
+					powerBlocks.add((TileEntityPowerBlock) worldObj.getTileEntity(xCoord - 1, yCoord, zCoord));
+				}
+			}
+			if (worldObj.getBlock(xCoord, yCoord, zCoord + 1) == Blocks.dirt) {
+				if (drainPower(250)) {
+					worldObj.setBlock(xCoord, yCoord, zCoord + 1, FCBlocks.powerBlock);
+					storage.extractEnergy(250, false);
+					((TileEntityPowerBlock) worldObj.getTileEntity(xCoord, yCoord, zCoord + 1)).setManager(this);
+					powerBlocks.add((TileEntityPowerBlock) worldObj.getTileEntity(xCoord, yCoord, zCoord + 1));
+				}
+			}
+			if (worldObj.getBlock(xCoord, yCoord, zCoord - 1) == Blocks.dirt) {
+				if (drainPower(250)) {
+					worldObj.setBlock(xCoord, yCoord, zCoord - 1, FCBlocks.powerBlock);
+					storage.extractEnergy(250, false);
+					((TileEntityPowerBlock) worldObj.getTileEntity(xCoord, yCoord, zCoord - 1)).setManager(this);
+					powerBlocks.add((TileEntityPowerBlock) worldObj.getTileEntity(xCoord, yCoord, zCoord - 1));
 				}
 			}
 		}
@@ -255,6 +368,8 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 		super.readFromNBT(tags);
 		readInventoryFromNBT(tags);
 		readPowerBlocksFromNBT(tags);
+		mana = tags.getInteger("mana");
+		current_Energy = tags.getInteger("currentEnergy");
 	}
 
 	public void readInventoryFromNBT(NBTTagCompound tags) {
@@ -282,6 +397,8 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 		super.writeToNBT(tags);
 		writeInventoryToNBT(tags);
 		WritePowerBlocksToNBT(tags);
+		tags.setInteger("mana", mana);
+		tags.setInteger("currentEnergy", current_Energy);
 	}
 
 	public void writeInventoryToNBT(NBTTagCompound tags) {
@@ -383,6 +500,115 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 		}
 
 		return energy;
+	}
+
+	@Override
+	public int getCurrentMana() {
+		return mana;
+	}
+
+	@Override
+	public boolean isFull() {
+		return mana == MAX_MANA;
+	}
+
+	@Override
+	public void recieveMana(int mana) {
+		if (!isFull()) {
+			this.mana += mana;
+		}
+		if (getCurrentMana() > MAX_MANA) {
+			this.mana = MAX_MANA;
+		}
+	}
+
+	@Override
+	public boolean canRecieveManaFromBursts() {
+		return true;
+	}
+
+	public int getTileIndex(TileEntityPowerBlock tile) {
+		return tile.getCropTile(getWorldObj()).getIndex();
+	}
+
+	@Override
+	public BlockCoord getCordinates() {
+		return new BlockCoord(this);
+	}
+
+	@Override
+	public void validate() {
+		super.validate();
+		if (!addedToEnergyNet) {
+			addedToWorld = false;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+		if (addedToEnergyNet) {
+			if (!worldObj.isRemote) {
+				MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+			}
+			addedToEnergyNet = false;
+		}
+		super.invalidate();
+	}
+
+	public boolean drainPower(int amount) {
+		if (storage.getEnergyStored() >= amount) {
+			storage.extractEnergy(amount, false);
+			return true;
+		}
+		if (getCurrentMana() >= amount) {
+			recieveMana(-amount);
+			return true;
+		}
+		if (current_Energy >= amount / 4) {
+			drainEnergy(amount / 4);
+			return true;
+		}
+		if (getStackInSlot(5) != null) {
+			if (getStackInSlot(5).getItem() instanceof IBindable) {
+				SoulNetworkHandler.syphonFromNetwork(getStackInSlot(5), amount / 4);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean acceptsEnergyFrom(TileEntity emitter, ForgeDirection direction) {
+		return true;
+	}
+
+	@Override
+	public double getDemandedEnergy() {
+		return 32;
+	}
+
+	@Override
+	public int getSinkTier() {
+		return 1;
+	}
+
+	@Override
+	public double injectEnergy(ForgeDirection directionFrom, double amount, double voltage) {
+		double leftOver = amount;
+		if (amount + current_Energy <= MAX_ENERGY) {
+			current_Energy += amount;
+			leftOver = 0;
+		}
+		if (amount + current_Energy > MAX_ENERGY) {
+			current_Energy = MAX_ENERGY;
+			leftOver = (current_Energy + amount) - MAX_ENERGY;
+		}
+		return leftOver;
+
+	}
+
+	public boolean drainEnergy(double amount) {
+		return current_Energy - injectEnergy(null, -amount, 0) >= 0;
 	}
 
 }

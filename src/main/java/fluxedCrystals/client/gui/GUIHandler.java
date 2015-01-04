@@ -6,24 +6,18 @@ import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import fluxedCrystals.FluxedCrystals;
-import fluxedCrystals.client.gui.ManaManager.ContainerManaManager;
-import fluxedCrystals.client.gui.ManaManager.GUIManaManager;
-import fluxedCrystals.client.gui.bloodManager.ContainerBloodManager;
-import fluxedCrystals.client.gui.bloodManager.GUIBloodManager;
-import fluxedCrystals.client.gui.industrialManager.ContainerIndustrialManager;
-import fluxedCrystals.client.gui.industrialManager.GUIIndustrialManager;
+import fluxedCrystals.client.gui.gemCutter.ContainerGemCutter;
+import fluxedCrystals.client.gui.gemCutter.GUIGemCutter;
+import fluxedCrystals.client.gui.gemRefiner.ContainerGemRefiner;
+import fluxedCrystals.client.gui.gemRefiner.GUIGemRefiner;
 import fluxedCrystals.client.gui.manager.ContainerManagerBlock;
 import fluxedCrystals.client.gui.manager.GUIManagerBlock;
 import fluxedCrystals.client.gui.seedInfuser.ContainerSeedInfuser;
 import fluxedCrystals.client.gui.seedInfuser.GUISeedInfuser;
-import fluxedCrystals.client.gui.thaumicManager.ContainerThaumicManager;
-import fluxedCrystals.client.gui.thaumicManager.GUIThaumicManager;
-import fluxedCrystals.tileEntity.TileEntityBloodManager;
-import fluxedCrystals.tileEntity.TileEntityIndustrialManager;
-import fluxedCrystals.tileEntity.TileEntityManaManager;
+import fluxedCrystals.tileEntity.TileEntityGemCutter;
+import fluxedCrystals.tileEntity.TileEntityGemRefiner;
 import fluxedCrystals.tileEntity.TileEntityManagerBlock;
 import fluxedCrystals.tileEntity.TileEntitySeedInfuser;
-import fluxedCrystals.tileEntity.TileEntityThaumicManager;
 
 public class GUIHandler implements IGuiHandler {
 
@@ -49,27 +43,16 @@ public class GUIHandler implements IGuiHandler {
 			}
 			break;
 
-		case 2:
-			if (te != null && te instanceof TileEntityBloodManager) {
-				return new ContainerBloodManager(player.inventory, (TileEntityBloodManager) te);
+		case 6:
+			if (te != null && te instanceof TileEntityGemRefiner) {
+				return new ContainerGemRefiner(player.inventory, (TileEntityGemRefiner) te);
 			}
 			break;
-		case 3:
-			if (te != null && te instanceof TileEntityThaumicManager) {
-				return new ContainerThaumicManager(player.inventory, (TileEntityThaumicManager) te);
+		case 7:
+			if (te != null && te instanceof TileEntityGemCutter) {
+				return new ContainerGemCutter(player.inventory, (TileEntityGemCutter) te);
 			}
 			break;
-		case 4:
-			if (te != null && te instanceof TileEntityManaManager) {
-				return new ContainerManaManager(player.inventory, (TileEntityManaManager) te);
-			}
-			break;
-		case 5:
-			if (te != null && te instanceof TileEntityIndustrialManager) {
-				return new ContainerIndustrialManager(player.inventory, (TileEntityIndustrialManager) te);
-			}
-			break;
-
 		}
 
 		return null;
@@ -89,23 +72,14 @@ public class GUIHandler implements IGuiHandler {
 				return new GUISeedInfuser(player.inventory, (TileEntitySeedInfuser) te);
 			}
 			break;
-		case 2:
-			if (te != null && te instanceof TileEntityBloodManager) {
-				return new GUIBloodManager(player.inventory, (TileEntityBloodManager) te);
+		case 6:
+			if (te != null && te instanceof TileEntityGemRefiner) {
+				return new GUIGemRefiner(player.inventory, (TileEntityGemRefiner) te);
 			}
 			break;
-		case 3:
-			if (te != null && te instanceof TileEntityThaumicManager) {
-				return new GUIThaumicManager(player.inventory, (TileEntityThaumicManager) te);
-			}
-		case 4:
-			if (te != null && te instanceof TileEntityManaManager) {
-				return new GUIManaManager(player.inventory, (TileEntityManaManager) te);
-			}
-			break;
-		case 5:
-			if (te != null && te instanceof TileEntityIndustrialManager) {
-				return new GUIIndustrialManager(player.inventory, (TileEntityIndustrialManager) te);
+		case 7:
+			if (te != null && te instanceof TileEntityGemCutter) {
+				return new GUIGemCutter(player.inventory, (TileEntityGemCutter) te);
 			}
 			break;
 		}

@@ -32,7 +32,16 @@ public class ItemSeed extends SeedBase {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 		list.add("-" + RecipeRegistry.getName(stack.getItemDamage()));
 		list.add("Growth:" + (RecipeRegistry.getGrowthTime(stack.getItemDamage())) + " Ticks");
-		list.add("Tier:" + RecipeRegistry.getTier(stack.getItemDamage()));
+		if (RecipeRegistry.getTier(stack.getItemDamage()) > 0)
+			list.add("Tier:" + RecipeRegistry.getTier(stack.getItemDamage()));
+		if (!RecipeRegistry.getLore(stack.getItemDamage()).equals("null")) {
+			String lore = RecipeRegistry.getLore(stack.getItemDamage());
+			lore.replaceAll("\t", "    ");
+			String[] lores = lore.split("\n");
+			for (String lor : lores) {
+				list.add(lor);
+			}
+		}
 	}
 
 	public int getRenderPasses(int metadata) {

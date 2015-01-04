@@ -16,6 +16,8 @@ import tterrag.core.common.util.TTFileUtils;
 import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.ModProps;
 import fluxedCrystals.api.RecipeRegistry;
+import fluxedCrystals.api.recipe.RecipeGemCutter;
+import fluxedCrystals.api.recipe.RecipeGemRefiner;
 import fluxedCrystals.api.recipe.RecipeSeedInfuser;
 import fluxedCrystals.api.recipe.SeedCrystalRecipe;
 import fluxedCrystals.config.json.ISeedType;
@@ -45,16 +47,11 @@ public class ConfigHandler extends AbstractConfigHandler {
 	@Override
 	protected void reloadIngameConfigs() {
 		activateSection(ConfigProps.addonCategory);
-		ConfigProps.thaumcraftAddon = getProperty("Thaumcraft Addon Support", true).getBoolean(true);
 		ConfigProps.enderioAddon = getProperty("EnderIO Addon Support", true).getBoolean(true);
-		ConfigProps.bloodMagicAddon = getProperty("Blood Magic Support", true).getBoolean(true);
-		ConfigProps.botaniaAddon = getProperty("botania Support", true).getBoolean(true);
-		ConfigProps.thaumcraftAddon = getProperty("Thaumcraft Support", true).getBoolean(true);
-		ConfigProps.IndustrialCraftAddon = getProperty("Industrial Craft 2 Support", true).getBoolean(true);
 
 		activateSection(ConfigProps.dropCategory);
-		ConfigProps.shard3x3 = getProperty("Should shards craft into the ingredients with 9 of the drops, or with 4 of the drop", true).getBoolean(true);
-
+		ConfigProps.normalShardRecipes = getProperty("Should materials be crafted in a normal crafting table?", false).getBoolean(false);
+		ConfigProps.shard3x3 = getProperty("Should shards craft into the ingredients with 9 of the drops, or with 4 of the drop?", true).getBoolean(true);
 		RecipeRegistry.reset();
 
 		ModToken token = new ModToken(FluxedCrystals.class, ModProps.modid + "/misc/");
@@ -86,12 +83,6 @@ public class ConfigHandler extends AbstractConfigHandler {
 			}
 		}
 
-		List<SeedCrystalRecipe> recipes = RecipeRegistry.getSeedCropRecipes();
-
-		for (int i = 0; i < recipes.size(); i++) {
-			SeedCrystalRecipe r = recipes.get(i);
-			RecipeRegistry.registerSeedInfuserRecipe(new RecipeSeedInfuser(new ItemStack(FCItems.universalSeed), r.getIngredient(), new ItemStack(FCItems.seed, 1, i), RecipeRegistry.getIngredientAmount(i)));
-		}
 	}
 
 	public static void registerAll(Collection<? extends ISeedType> types) {

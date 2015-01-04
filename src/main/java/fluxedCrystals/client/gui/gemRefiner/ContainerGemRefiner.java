@@ -1,20 +1,16 @@
-package fluxedCrystals.client.gui.manager;
+package fluxedCrystals.client.gui.gemRefiner;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ContainerFurnace;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import fluxedCrystals.api.ISeed;
-import fluxedCrystals.client.gui.slot.SlotIMana;
-import fluxedCrystals.client.gui.slot.SlotPowerBlock;
 import fluxedCrystals.client.gui.slot.SlotUpgrade;
-import fluxedCrystals.tileEntity.TileEntityManagerBlock;
+import fluxedCrystals.tileEntity.TileEntityGemRefiner;
 
-public class ContainerManagerBlock extends Container {
+public class ContainerGemRefiner extends Container {
 
-	public ContainerManagerBlock(InventoryPlayer invPlayer, TileEntityManagerBlock manager) {
+	public ContainerGemRefiner(InventoryPlayer invPlayer, TileEntityGemRefiner manager) {
 		for (int x = 0; x < 9; x++) {
 			addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 142));
 		}
@@ -25,23 +21,25 @@ public class ContainerManagerBlock extends Container {
 			}
 		}
 
-		addSlotToContainer(new SlotPowerBlock(manager, 0, 8, 62));
-		addSlotToContainer(new SlotPowerBlock(manager, 1, 26, 62));
-	
+		addSlotToContainer(new Slot(manager, 0, 9, 9));
+		addSlotToContainer(new Slot(manager, 1, 151, 9));
+		
 		addSlotToContainer(new SlotUpgrade(manager, 2, 116, 62));
 		addSlotToContainer(new SlotUpgrade(manager, 3, 134, 62));
 		addSlotToContainer(new SlotUpgrade(manager, 4, 152, 62));
-		addSlotToContainer(new Slot(manager, 5, 71, 62));
-		
-		}
+	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer p_75145_1_) {
 		return true;
 	}
 
-	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int slotNumber) {
-		return null;
-	}
+	 /**
+     * Called when a player shift-clicks on a slot. You must override this or you will crash when someone does that.
+     */
+    public ItemStack transferStackInSlot(EntityPlayer player, int slotNumber)
+    {
+
+        return null;
+    }
 }

@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 
 public class EventHandler {
 	public boolean resetRender;
@@ -18,11 +19,11 @@ public class EventHandler {
 
 	public EventHandler() {
 	}
-
+	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void render(RenderLivingEvent.Pre event) {
 		String s = EnumChatFormatting.getTextWithoutFormattingCodes(event.entity.getCommandSenderName());
-		if (s.equals("jaredlll08") || s.equals("Esriel123") && event.entity instanceof EntityPlayer) {
+		if (s.equals("jaredlll08") || s.equals("esriel123") && event.entity instanceof EntityPlayer) {
 			if (new Random().nextInt(2) == 0) {
 				if (!descending) {
 					trans++;

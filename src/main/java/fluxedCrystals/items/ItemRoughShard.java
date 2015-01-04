@@ -30,11 +30,11 @@ import fluxedCrystals.tileEntity.TileEntityGlass;
 /**
  * Created by Jared on 11/2/2014.
  */
-public class ItemRoughChunk extends Item {
+public class ItemRoughShard extends Item {
 
-	public ItemRoughChunk() {
-		setUnlocalizedName(ModProps.modid + ".roughChunk");
-		setTextureName(ModProps.modid + ":roughChunk");
+	public ItemRoughShard() {
+		setUnlocalizedName(ModProps.modid + ".roughShard");
+		setTextureName(ModProps.modid + ":roughShard");
 		setHasSubtypes(true);
 	}
 
@@ -62,60 +62,5 @@ public class ItemRoughChunk extends Item {
 		return String.format(StatCollector.translateToLocal(getUnlocalizedName() + ".name"), RecipeRegistry.getName(stack.getItemDamage()));
 	}
 
-	/**
-	 * Called whenever this item is equipped and the right mouse button is
-	 * pressed. Args: itemStack, world, entityPlayer
-	 */
-	public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_) {
-		boolean flag = true;
-		MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(p_77659_2_, p_77659_3_, flag);
-
-		if (movingobjectposition == null) {
-			return p_77659_1_;
-		} else {
-
-			if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-				int i = movingobjectposition.blockX;
-				int j = movingobjectposition.blockY;
-				int k = movingobjectposition.blockZ;
-
-				if (!p_77659_2_.canMineBlock(p_77659_3_, i, j, k)) {
-					return p_77659_1_;
-				}
-
-				if (movingobjectposition.sideHit == 0) {
-					--j;
-				}
-
-				if (movingobjectposition.sideHit == 1) {
-					++j;
-				}
-
-				if (movingobjectposition.sideHit == 2) {
-					--k;
-				}
-
-				if (movingobjectposition.sideHit == 3) {
-					++k;
-				}
-
-				if (movingobjectposition.sideHit == 4) {
-					--i;
-				}
-
-				if (movingobjectposition.sideHit == 5) {
-					++i;
-				}
-
-				p_77659_2_.setBlock(i, j, k, FCBlocks.roughChunk);
-				((BlockRoughChunk) p_77659_2_.getBlock(i, j, k)).setData(p_77659_1_, p_77659_2_, i, j, k);
-				ItemStack stack = p_77659_1_.copy();
-				stack.stackSize--;
-				return stack;
-			}
-		}
-
-		return p_77659_1_;
-	}
 
 }

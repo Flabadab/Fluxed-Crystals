@@ -1,5 +1,6 @@
 package fluxedCrystals.config.json;
 
+import thaumcraft.api.aspects.Aspect;
 import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.api.RecipeRegistry;
 import fluxedCrystals.api.recipe.SeedCrystalRecipe;
@@ -19,6 +20,11 @@ public class SeedType implements ISeedType {
 	public String weightedDrop = "minecraft:diamond";
 	public int weightedDropChance = 0;
 	public boolean prettyPrettyArmor = true;
+	public int refinerAmount = 4;
+	public String lore = "null";
+	public boolean sharp = true;
+	public String aspectNeeded;
+	public int aspectNeededAmount = 16;
 
 	public void register() {
 		try {

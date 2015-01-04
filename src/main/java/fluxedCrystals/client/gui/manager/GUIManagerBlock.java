@@ -29,7 +29,7 @@ public class GUIManagerBlock extends GuiContainer {
 	public void updateScreen() {
 	}
 
-	private static final ResourceLocation texture = new ResourceLocation(ModProps.modid, "textures/gui/Manager.png");
+	private static final ResourceLocation texture = new ResourceLocation(ModProps.modid, "textures/gui/CustomManager.png");
 
 	public void initGui() {
 		super.initGui();

@@ -3,23 +3,37 @@ package fluxedCrystals.blocks.crystal;
 import java.util.ArrayList;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockCactus;
 import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import fluxedCrystals.api.CrystalBase;
 import fluxedCrystals.api.RecipeRegistry;
+import fluxedCrystals.config.ConfigProps;
 import fluxedCrystals.items.FCItems;
 import fluxedCrystals.items.ItemScythe;
 import fluxedCrystals.tileEntity.TileEntityCrystal;
+import fluxedCrystals.utils.DamageSourceCrystal;
 
 public class BlockCrystal extends CrystalBase implements ITileEntityProvider {
 	public BlockCrystal() {
 		setHardness(0.5F);
+	}
+
+	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
+		TileEntityCrystal crop = (TileEntityCrystal) world.getTileEntity(x, y, z);
+		if (RecipeRegistry.getIsSharp(crop.getIndex())) {
+			if (!world.isRemote && world.getWorldTime() % 5 == 0)
+				if (entity instanceof EntityPlayer)
+					((EntityPlayer) entity).attackEntityFrom(new DamageSourceCrystal(), 1);
+		}
 	}
 
 	@Override
@@ -49,13 +63,16 @@ public class BlockCrystal extends CrystalBase implements ITileEntityProvider {
 	 * Returns a bounding box from the pool of bounding boxes (this means this
 	 * box can change after the pool has been cleared to be reused)
 	 */
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_, int p_149668_4_) {
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
 		return null;
 	}
 
 	private void doDrop(TileEntityCrystal crop, World world, int x, int y, int z, int itemMultiplier) {
-
-		dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.shard, RecipeRegistry.getDropAmount(crop.getIndex()) + itemMultiplier, crop.getIndex()));
+		if (ConfigProps.normalShardRecipes) {
+			dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.shard, RecipeRegistry.getDropAmount(crop.getIndex()) + itemMultiplier, crop.getIndex()));
+		} else {
+			dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.roughChunk, RecipeRegistry.getDropAmount(crop.getIndex()) + itemMultiplier, crop.getIndex()));
+		}
 
 		if (RecipeRegistry.getWeightedDrop(crop.getIndex()) != null) {
 			if (RecipeRegistry.getWeightedDropChance(crop.getIndex()) == world.rand.nextInt(9) + 1) {
@@ -68,11 +85,12 @@ public class BlockCrystal extends CrystalBase implements ITileEntityProvider {
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
 		TileEntityCrystal crop = (TileEntityCrystal) world.getTileEntity(x, y, z);
 		dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.seed, 1, crop.getIndex()));
-		if (RecipeRegistry.getWeightedDrop(crop.getIndex()) != null) {
-			if (RecipeRegistry.getWeightedDropChance(crop.getIndex()) == world.rand.nextInt(9) + 1) {
-				dropBlockAsItem(world, x, y, z, RecipeRegistry.getWeightedDrop(crop.getIndex()));
+		if (world.getBlockMetadata(x, y, z) >= 7)
+			if (RecipeRegistry.getWeightedDrop(crop.getIndex()) != null) {
+				if (RecipeRegistry.getWeightedDropChance(crop.getIndex()) == world.rand.nextInt(9) + 1) {
+					dropBlockAsItem(world, x, y, z, RecipeRegistry.getWeightedDrop(crop.getIndex()));
+				}
 			}
-		}
 
 		if (!crop.isHarvested()) {
 			dropCropDrops(world, x, y, z, 0);

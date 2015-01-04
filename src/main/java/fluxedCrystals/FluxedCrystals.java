@@ -15,7 +15,6 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import fluxedCrystals.blocks.FCBlocks;
-import fluxedCrystals.client.gui.GUIHandler;
 import fluxedCrystals.config.ConfigHandler;
 import fluxedCrystals.handlers.RecipeHandler;
 import fluxedCrystals.items.FCItems;
@@ -23,7 +22,7 @@ import fluxedCrystals.nei.FluxedCrystalsNEIConfig;
 import fluxedCrystals.network.PacketHandler;
 import fluxedCrystals.proxy.CommonProxy;
 
-@Mod(modid = ModProps.modid, name = ModProps.name, version = ModProps.version, dependencies = "after:ThermalFoundation;required-after:ttCore;after:EnderIO;after:AWWayofTime;after:botania;after:NotEnoughItems")
+@Mod(modid = ModProps.modid, name = ModProps.name, version = ModProps.version, dependencies = "after:ThermalFoundation;required-after:ttCore;after:EnderIO;after:AWWayofTime;after:botania;after:NotEnoughItems;after:AgriCraft")
 public class FluxedCrystals {
 
 	public static File configDir = null;
@@ -54,7 +53,7 @@ public class FluxedCrystals {
 		PacketHandler.init();
 		proxy.initGuis();
 		proxy.initRenderers();
-		RecipeHandler.init();
+		
 		if (Loader.isModLoaded("NotEnoughItems") && event.getSide().isClient())
 			new FluxedCrystalsNEIConfig().loadConfig();
 
@@ -70,6 +69,7 @@ public class FluxedCrystals {
 	@EventHandler
 	public static void postInit(FMLPostInitializationEvent event) {
 		logger.info("Starting Post Init.");
+		RecipeHandler.init();
 	}
 
 }

@@ -32,7 +32,7 @@ public class BlockRoughChunk extends Block implements ITileEntityProvider {
 	public BlockRoughChunk() {
 		super(Material.glass);
 		setBlockTextureName(ModProps.modid + ":roughChunk");
-		setHardness(2.0F);
+		setHardness(0.5F);
 	}
 
 	public int getRenderType() {

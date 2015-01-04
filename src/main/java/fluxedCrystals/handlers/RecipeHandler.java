@@ -1,12 +1,19 @@
 package fluxedCrystals.handlers;
 
+import java.util.List;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import fluxedCrystals.api.RecipeRegistry;
+import fluxedCrystals.api.recipe.RecipeGemCutter;
+import fluxedCrystals.api.recipe.RecipeGemRefiner;
+import fluxedCrystals.api.recipe.RecipeSeedInfuser;
+import fluxedCrystals.api.recipe.SeedCrystalRecipe;
 import fluxedCrystals.blocks.FCBlocks;
 import fluxedCrystals.config.ConfigProps;
 import fluxedCrystals.items.FCItems;
@@ -30,28 +37,35 @@ public class RecipeHandler {
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCItems.scytheIron, " ww", "s  ", " s ", 's', Items.stick, 'w', Items.iron_ingot).setMirrored(true));
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCItems.scytheGold, " ww", "s  ", " s ", 's', Items.stick, 'w', Items.gold_ingot).setMirrored(true));
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCItems.scytheDiamond, " ww", "s  ", " s ", 's', Items.stick, 'w', Items.diamond).setMirrored(true));
-		
-		
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(FCItems.gemCutter, "wwi", "wii", "wi ", 'w', Blocks.planks, 'i', Items.iron_ingot).setMirrored(true));
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.powerBlock, "sis", "aea", "sis", 's', Blocks.soul_sand, 'i', "ingotIron", 'a', Blocks.sand, 'e', Items.wheat_seeds));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.managerBlock, "tie", "srs", "eit", 's', Blocks.soul_sand, 'i', "ingotIron", 't', Blocks.stone, 'e', Items.wheat_seeds, 'r', Items.redstone));
-		if (Loader.isModLoaded("AWWayofTime"))
-			GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.managerBlood, "tie", "srs", "eit", 's', Blocks.soul_sand, 'i', "ingotIron", 't', Blocks.stone, 'e', GameRegistry.findItem("AWWayofTime", "blankSpell"), 'r', Items.redstone));
-		if (Loader.isModLoaded("Botania"))
-			GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.managerMana, "tie", "srs", "eit", 's', Blocks.soul_sand, 'i', "ingotIron", 't', Blocks.stone, 'e', new ItemStack(GameRegistry.findItem("Botania", "manaResource"), 1, 2), 'r', Items.redstone));
-		if (Loader.isModLoaded("IC2"))
-			GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.managerIndustrial, "tie", "srs", "eit", 's', Blocks.soul_sand, 'i', "ingotIron", 't', Blocks.stone, 'e', new ItemStack(GameRegistry.findBlock("IC2", "blockElectric")), 'r', Items.redstone));
-		if (Loader.isModLoaded("Thaumcraft"))
-			GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.managerThaumic, "tie", "srs", "eit", 's', Blocks.soul_sand, 'i', "ingotIron", 't', Blocks.stone, 'e', new ItemStack(GameRegistry.findBlock("Thaumcraft", "blockMetalDevice"), 1, 8), 'r', Items.redstone));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.seedInfuser, "gdi", "sus", "idg", 's', Blocks.soul_sand, 'i', "ingotIron", 'g', Items.gold_ingot, 'd', Items.diamond, 'u', FCItems.universalSeed));
+		GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.gemCutter, "gdi", "sus", "idg", 's', Blocks.soul_sand, 'i', "ingotIron", 'g', Items.gold_ingot, 'd', Items.diamond, 'u', FCItems.gemCutter));
+		GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.gemRefiner, "gdi", "sus", "idg", 's', Blocks.soul_sand, 'i', "ingotIron", 'g', Items.gold_ingot, 'd', Items.diamond, 'u', FCItems.upgradeAutomation));
 
 		for (int i = 0; i < RecipeRegistry.getNumSeedRecipes(); i++) {
-			if (ConfigProps.shard3x3) {
-				GameRegistry.addShapedRecipe(RecipeRegistry.getIngredient(i), "sss", "sss", "sss", 's', new ItemStack(FCItems.shard, 1, i));
-			} else {
-				GameRegistry.addShapelessRecipe(RecipeRegistry.getIngredient(i), new ItemStack(FCItems.shard, 1, i), new ItemStack(FCItems.shard, 1, i), new ItemStack(FCItems.shard, 1, i), new ItemStack(FCItems.shard, 1, i));
+			if (ConfigProps.normalShardRecipes) {
+				if (ConfigProps.shard3x3) {
+					GameRegistry.addShapedRecipe(RecipeRegistry.getIngredient(i), "sss", "sss", "sss", 's', new ItemStack(FCItems.shard, 1, i));
+				} else {
+					GameRegistry.addShapelessRecipe(RecipeRegistry.getIngredient(i), new ItemStack(FCItems.shard, 1, i), new ItemStack(FCItems.shard, 1, i), new ItemStack(FCItems.shard, 1, i), new ItemStack(FCItems.shard, 1, i));
+				}
 			}
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(FCItems.shard, 1, i), new ItemStack(FCItems.gemCutter), new ItemStack(FCItems.roughShard, 1, i)));
+		}
+		List<SeedCrystalRecipe> recipes = RecipeRegistry.getSeedCropRecipes();
+
+		for (int i = 0; i < recipes.size(); i++) {
+			SeedCrystalRecipe r = recipes.get(i);
+			RecipeRegistry.registerSeedInfuserRecipe(new RecipeSeedInfuser(new ItemStack(FCItems.universalSeed), r.getIngredient(), new ItemStack(FCItems.seed, 1, i), RecipeRegistry.getIngredientAmount(i)));
+			RecipeRegistry.registerGemRefinerRecipe(new RecipeGemRefiner(new ItemStack(FCItems.shard, 1, i), r.getIngredient(), r.getRefinerAmount()));
+			RecipeRegistry.registerGemCutterRecipe(new RecipeGemCutter(new ItemStack(FCItems.roughShard, 1, i), new ItemStack(FCItems.shard, 1, i), 1));
+
 		}
 	}
 }

@@ -13,8 +13,7 @@
             "decorationBlocks":true,
             "weightedDrop":"ingotIron",
             "weightedDropChance":1,
-            "refinerAmount":16,
-			"lore":"I am an Iron Seed"
+            "refinerAmount":16
         },
         {
             "name":"Gold",

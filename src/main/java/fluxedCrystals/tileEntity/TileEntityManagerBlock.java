@@ -1,17 +1,21 @@
 package fluxedCrystals.tileEntity;
 
+import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.api.RecipeRegistry;
 import fluxedCrystals.blocks.FCBlocks;
+import fluxedCrystals.compat.waila.IWailaInfo;
 import fluxedCrystals.items.FCItems;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Getter;
-import net.minecraft.block.BlockBeacon;
-import net.minecraft.client.renderer.RenderGlobal;
+import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
@@ -19,15 +23,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
-import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectSourceHelper;
 import tterrag.core.common.util.BlockCoord;
 import vazkii.botania.api.mana.IManaReceiver;
-import vazkii.botania.api.recipe.RecipeElvenTrade;
 import WayofTime.alchemicalWizardry.api.items.interfaces.IBindable;
 import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
 

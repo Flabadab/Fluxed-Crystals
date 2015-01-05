@@ -15,6 +15,14 @@ import fluxedCrystals.tileEntity.TileEntityManagerBlock;
 public class ContainerManagerBlock extends Container {
 
 	public ContainerManagerBlock(InventoryPlayer invPlayer, TileEntityManagerBlock manager) {
+		addSlotToContainer(new SlotPowerBlock(manager, 0, 8, 62));
+		addSlotToContainer(new SlotPowerBlock(manager, 1, 26, 62));
+
+		addSlotToContainer(new SlotUpgrade(manager, 2, 116, 62));
+		addSlotToContainer(new SlotUpgrade(manager, 3, 134, 62));
+		addSlotToContainer(new SlotUpgrade(manager, 4, 152, 62));
+		addSlotToContainer(new Slot(manager, 5, 71, 62));
+
 		for (int x = 0; x < 9; x++) {
 			addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 142));
 		}
@@ -25,15 +33,7 @@ public class ContainerManagerBlock extends Container {
 			}
 		}
 
-		addSlotToContainer(new SlotPowerBlock(manager, 0, 8, 62));
-		addSlotToContainer(new SlotPowerBlock(manager, 1, 26, 62));
-	
-		addSlotToContainer(new SlotUpgrade(manager, 2, 116, 62));
-		addSlotToContainer(new SlotUpgrade(manager, 3, 134, 62));
-		addSlotToContainer(new SlotUpgrade(manager, 4, 152, 62));
-		addSlotToContainer(new Slot(manager, 5, 71, 62));
-		
-		}
+	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer p_75145_1_) {

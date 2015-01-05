@@ -1,9 +1,11 @@
 package fluxedCrystals.blocks.crystal;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockCactus;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,18 +13,18 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import fluxedCrystals.api.CrystalBase;
 import fluxedCrystals.api.RecipeRegistry;
+import fluxedCrystals.compat.waila.IWailaInfo;
 import fluxedCrystals.config.ConfigProps;
 import fluxedCrystals.items.FCItems;
 import fluxedCrystals.items.ItemScythe;
 import fluxedCrystals.tileEntity.TileEntityCrystal;
 import fluxedCrystals.utils.DamageSourceCrystal;
 
-public class BlockCrystal extends CrystalBase implements ITileEntityProvider {
+public class BlockCrystal extends CrystalBase implements ITileEntityProvider, IWailaInfo {
 	public BlockCrystal() {
 		setHardness(0.5F);
 	}
@@ -36,13 +38,12 @@ public class BlockCrystal extends CrystalBase implements ITileEntityProvider {
 		}
 	}
 
-	@Override
-	public Item getItem(World world, int x, int y, int z) {
-		ItemStack returnStack = new ItemStack(FCItems.seed, 1, ((TileEntityCrystal) world.getTileEntity(x, y, z)).getIndex());
-		Item returnItem = returnStack.getItem();
-		returnItem.setDamage(returnStack, ((TileEntityCrystal) world.getTileEntity(x, y, z)).getIndex());
-		return returnItem;
-	}
+//	@Override
+//	public Item getItem(World world, int x, int y, int z) {
+//		ItemStack returnStack = new ItemStack(FCItems.seed, RecipeRegistry.getSeedReturn(((TileEntityCrystal) world.getTileEntity(x, y, z)).getIndex()), ((TileEntityCrystal) world.getTileEntity(x, y, z)).getIndex());
+//		Item returnItem = returnStack.getItem();
+//		return returnItem;
+//	}
 
 	public void dropCropDrops(World world, int x, int y, int z, int fortune) {
 		TileEntityCrystal crop = (TileEntityCrystal) world.getTileEntity(x, y, z);
@@ -193,5 +194,19 @@ public class BlockCrystal extends CrystalBase implements ITileEntityProvider {
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityCrystal();
+	}
+
+	@Override
+	public void getWailaInfo(List<String> tooltip, int x, int y, int z, World world) {
+		TileEntity te = world.getTileEntity(x, y, z);
+		if (te != null && te instanceof IWailaInfo) {
+			((IWailaInfo) te).getWailaInfo(tooltip, x, y, z, world);
+		}
+	}
+
+	@Override
+	public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
+		TileEntity te = accessor.getTileEntity();
+		return ((IWailaInfo) te).getWailaStack(accessor, config);
 	}
 }

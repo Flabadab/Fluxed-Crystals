@@ -12,6 +12,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import fluxedCrystals.blocks.FCBlocks;
@@ -56,6 +57,7 @@ public class FluxedCrystals {
 
 		if (Loader.isModLoaded("NotEnoughItems") && event.getSide().isClient())
 			new FluxedCrystalsNEIConfig().loadConfig();
+		FMLInterModComms.sendMessage("Waila", "register", "fluxedCrystals.compat.waila.WailaCompat.load");
 
 	}
 

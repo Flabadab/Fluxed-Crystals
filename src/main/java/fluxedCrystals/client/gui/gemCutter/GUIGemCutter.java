@@ -42,6 +42,8 @@ public class GUIGemCutter extends GuiContainer {
 		drawTexturedModalRect(guiLeft+115, guiTop+61, 0, 166, 18, 18);
 		drawTexturedModalRect(guiLeft+133, guiTop+61, 0, 166, 18, 18);
 		drawTexturedModalRect(guiLeft+151, guiTop+61, 0, 166, 18, 18);
+		drawTexturedModalRect(guiLeft+75, guiTop+61, 0, 166, 18, 18);
+		
 		
 	}
 

@@ -11,6 +11,13 @@ import fluxedCrystals.tileEntity.TileEntityGemRefiner;
 public class ContainerGemRefiner extends Container {
 
 	public ContainerGemRefiner(InventoryPlayer invPlayer, TileEntityGemRefiner manager) {
+
+		addSlotToContainer(new Slot(manager, 0, 9, 9));
+		addSlotToContainer(new Slot(manager, 1, 151, 9));
+
+		addSlotToContainer(new SlotUpgrade(manager, 2, 116, 62));
+		addSlotToContainer(new SlotUpgrade(manager, 3, 134, 62));
+		addSlotToContainer(new SlotUpgrade(manager, 4, 152, 62));
 		for (int x = 0; x < 9; x++) {
 			addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 142));
 		}
@@ -21,12 +28,6 @@ public class ContainerGemRefiner extends Container {
 			}
 		}
 
-		addSlotToContainer(new Slot(manager, 0, 9, 9));
-		addSlotToContainer(new Slot(manager, 1, 151, 9));
-		
-		addSlotToContainer(new SlotUpgrade(manager, 2, 116, 62));
-		addSlotToContainer(new SlotUpgrade(manager, 3, 134, 62));
-		addSlotToContainer(new SlotUpgrade(manager, 4, 152, 62));
 	}
 
 	@Override
@@ -34,12 +35,12 @@ public class ContainerGemRefiner extends Container {
 		return true;
 	}
 
-	 /**
-     * Called when a player shift-clicks on a slot. You must override this or you will crash when someone does that.
-     */
-    public ItemStack transferStackInSlot(EntityPlayer player, int slotNumber)
-    {
+	/**
+	 * Called when a player shift-clicks on a slot. You must override this or
+	 * you will crash when someone does that.
+	 */
+	public ItemStack transferStackInSlot(EntityPlayer player, int slotNumber) {
 
-        return null;
-    }
+		return null;
+	}
 }

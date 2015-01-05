@@ -12,6 +12,10 @@ import fluxedCrystals.tileEntity.TileEntitySeedInfuser;
 public class ContainerSeedInfuser extends Container {
 
 	public ContainerSeedInfuser(InventoryPlayer invPlayer, TileEntitySeedInfuser manager) {
+
+		addSlotToContainer(new SlotInfuser(manager, 0, 9, 9));
+		addSlotToContainer(new Slot(manager, 1, 151, 9));
+		
 		for (int x = 0; x < 9; x++) {
 			addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 142));
 		}
@@ -21,9 +25,6 @@ public class ContainerSeedInfuser extends Container {
 				addSlotToContainer(new Slot(invPlayer, x + y * 9 + 9, 8 + 18 * x, 84 + y * 18));
 			}
 		}
-
-		addSlotToContainer(new SlotInfuser(manager, 0, 9, 9));
-		addSlotToContainer(new Slot(manager, 1, 151, 9));
 	}
 
 	@Override
@@ -31,12 +32,12 @@ public class ContainerSeedInfuser extends Container {
 		return true;
 	}
 
-	 /**
-     * Called when a player shift-clicks on a slot. You must override this or you will crash when someone does that.
-     */
-    public ItemStack transferStackInSlot(EntityPlayer player, int slotNumber)
-    {
+	/**
+	 * Called when a player shift-clicks on a slot. You must override this or
+	 * you will crash when someone does that.
+	 */
+	public ItemStack transferStackInSlot(EntityPlayer player, int slotNumber) {
 
-        return null;
-    }
+		return null;
+	}
 }

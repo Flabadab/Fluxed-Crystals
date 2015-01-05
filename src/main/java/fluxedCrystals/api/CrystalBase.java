@@ -18,10 +18,11 @@ import fluxedCrystals.blocks.FCBlocks;
 import fluxedCrystals.items.FCItems;
 import fluxedCrystals.tileEntity.TileEntityCrystal;
 
-public abstract class CrystalBase extends BlockCrops {
+public abstract class CrystalBase extends Block {
 	private IIcon[] icons;
 
 	public CrystalBase() {
+		super(Material.plants);
 		float f = 0.5F;
 		this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
 		this.setCreativeTab((CreativeTabs) null);

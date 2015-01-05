@@ -53,7 +53,7 @@ public class FluxedCrystals {
 		PacketHandler.init();
 		proxy.initGuis();
 		proxy.initRenderers();
-		
+
 		if (Loader.isModLoaded("NotEnoughItems") && event.getSide().isClient())
 			new FluxedCrystalsNEIConfig().loadConfig();
 

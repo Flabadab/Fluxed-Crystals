@@ -84,7 +84,7 @@ public class BlockCrystal extends CrystalBase implements ITileEntityProvider {
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
 		TileEntityCrystal crop = (TileEntityCrystal) world.getTileEntity(x, y, z);
-		dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.seed, 1, crop.getIndex()));
+		dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.seed, RecipeRegistry.getSeedReturn(crop.getIndex()), crop.getIndex()));
 		if (world.getBlockMetadata(x, y, z) >= 7)
 			if (RecipeRegistry.getWeightedDrop(crop.getIndex()) != null) {
 				if (RecipeRegistry.getWeightedDropChance(crop.getIndex()) == world.rand.nextInt(9) + 1) {

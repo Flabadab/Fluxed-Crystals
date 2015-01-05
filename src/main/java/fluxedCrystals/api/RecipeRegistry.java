@@ -77,6 +77,13 @@ public class RecipeRegistry {
 
 	}
 
+	public static int getSeedReturn(int itemDamage) {
+		if (rangeCheck(itemDamage)) {
+			return crops.get(itemDamage).getSeedReturn();
+		}
+		return 1;
+	}
+
 	public static int getNumSeedRecipes() {
 		return crops.size();
 	}

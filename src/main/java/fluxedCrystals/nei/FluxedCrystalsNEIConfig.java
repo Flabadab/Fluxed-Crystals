@@ -30,7 +30,7 @@ public class FluxedCrystalsNEIConfig implements IConfigureNEI {
 		API.registerUsageHandler(new GemCutterHandler());
 		API.registerRecipeHandler(new GemRefinerHandler());
 		API.registerUsageHandler(new GemRefinerHandler());
-		
+
 	}
 
 }

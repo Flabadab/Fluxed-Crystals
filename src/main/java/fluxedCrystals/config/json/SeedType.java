@@ -25,6 +25,7 @@ public class SeedType implements ISeedType {
 	public boolean sharp = true;
 	public String aspectNeeded;
 	public int aspectNeededAmount = 16;
+	public int seedReturn;
 
 	public void register() {
 		try {

@@ -27,12 +27,13 @@ public class SeedCrystalRecipe {
 	private boolean sharp;
 	private Aspect aspectNeeded;
 	private int aspectNeededAmount;
+	private int seedReturn;
 
 	public SeedCrystalRecipe(SeedType type) {
-		this(type.name, type.color, JsonUtils.parseStringIntoItemStack(type.ingredient), type.dropMin, type.dropMax, type.growthTime, type.tier, type.ingredientAmount, type.powerPerStage, type.decorationBlocks, JsonUtils.parseStringIntoItemStack(type.weightedDrop), type.weightedDropChance, type.prettyPrettyArmor, type.refinerAmount, type.lore, type.sharp, Aspect.getAspect(type.aspectNeeded), type.aspectNeededAmount);
+		this(type.name, type.color, JsonUtils.parseStringIntoItemStack(type.ingredient), type.dropMin, type.dropMax, type.growthTime, type.tier, type.ingredientAmount, type.powerPerStage, type.decorationBlocks, JsonUtils.parseStringIntoItemStack(type.weightedDrop), type.weightedDropChance, type.prettyPrettyArmor, type.refinerAmount, type.lore, type.sharp, Aspect.getAspect(type.aspectNeeded), type.aspectNeededAmount, type.seedReturn);
 	}
 
-	public SeedCrystalRecipe(String name, int color, ItemStack ingredient, int dropMin, int dropMax, int growthTime, int tier, int ingredientAmount, int powerPerStage, boolean decorationBlock, ItemStack weightedDrop, int weightedDropChance, boolean prettyPrettyArmor, int refinerAmount, String lore, boolean sharp, Aspect aspectNeeded, int aspectNeededAmount) {
+	public SeedCrystalRecipe(String name, int color, ItemStack ingredient, int dropMin, int dropMax, int growthTime, int tier, int ingredientAmount, int powerPerStage, boolean decorationBlock, ItemStack weightedDrop, int weightedDropChance, boolean prettyPrettyArmor, int refinerAmount, String lore, boolean sharp, Aspect aspectNeeded, int aspectNeededAmount, int seedReturn) {
 		this.name = name;
 		this.color = color;
 		this.ingredient = ingredient;
@@ -51,5 +52,6 @@ public class SeedCrystalRecipe {
 		this.sharp = sharp;
 		this.aspectNeeded = aspectNeeded;
 		this.aspectNeededAmount = aspectNeededAmount;
+		this.seedReturn = seedReturn;
 	}
 }

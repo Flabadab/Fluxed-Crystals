@@ -93,9 +93,6 @@ public class TileEntityCrystal extends TileEntity implements IWailaInfo {
 		else
 			tooltip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.growth"), LangUtil.translateG("hud.msg.mature")));
 
-		String str = EnumChatFormatting.WHITE + " " + ticksgrown + "/" + RecipeRegistry.getGrowthTime(idx);
-
-		tooltip.add(str);
 	}
 
 	@Override

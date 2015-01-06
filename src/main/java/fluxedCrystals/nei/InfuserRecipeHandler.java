@@ -14,6 +14,7 @@ import org.lwjgl.opengl.GL11;
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
+import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.ModProps;
 import fluxedCrystals.api.RecipeRegistry;
 import fluxedCrystals.api.recipe.RecipeSeedInfuser;
@@ -45,12 +46,6 @@ public class InfuserRecipeHandler extends TemplateRecipeHandler {
 		GuiDraw.drawTexturedModalRect(142, 5, 0, 166, 18, 18);
 		GuiDraw.drawTexturedModalRect(5, 43, 0, 166, 18, 18);
 
-		GL11.glDisable(GL11.GL_BLEND);
-	}
-
-	@Override
-	public void drawForeground(int recipe) {
-		super.drawForeground(recipe);
 	}
 
 	@Override
@@ -71,8 +66,8 @@ public class InfuserRecipeHandler extends TemplateRecipeHandler {
 		for (int j = 0; j < recipes.size(); j++) {
 			RecipeSeedInfuser recipe = recipes.get(j);
 			if (recipe.getOutput().isItemEqual(result)) {
-				if (checkDupe(recipe))
-					this.arecipes.add(new CachedInfusionRecipe(recipe));
+				// if (checkDupe(recipe))
+				this.arecipes.add(new CachedInfusionRecipe(recipe));
 			}
 		}
 	}
@@ -85,8 +80,8 @@ public class InfuserRecipeHandler extends TemplateRecipeHandler {
 		for (int j = 0; j < recipes.size(); j++) {
 			RecipeSeedInfuser recipe = recipes.get(j);
 			if (recipe.getInput().isItemEqual(ingredient) || recipe.getIngredient().isItemEqual(ingredient)) {
-				if (checkDupe(recipe))
-					this.arecipes.add(new CachedInfusionRecipe(recipe));
+				// if (checkDupe(recipe))
+				this.arecipes.add(new CachedInfusionRecipe(recipe));
 			}
 		}
 	}

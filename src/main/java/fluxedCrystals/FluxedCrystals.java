@@ -55,8 +55,7 @@ public class FluxedCrystals {
 		proxy.initGuis();
 		proxy.initRenderers();
 
-		if (Loader.isModLoaded("NotEnoughItems") && event.getSide().isClient())
-			new FluxedCrystalsNEIConfig().loadConfig();
+		
 		FMLInterModComms.sendMessage("Waila", "register", "fluxedCrystals.compat.waila.WailaCompat.load");
 
 	}
@@ -72,6 +71,8 @@ public class FluxedCrystals {
 	public static void postInit(FMLPostInitializationEvent event) {
 		logger.info("Starting Post Init.");
 		RecipeHandler.init();
+//		if (Loader.isModLoaded("NotEnoughItems"))
+//			new FluxedCrystalsNEIConfig().loadConfig();
 	}
 
 }

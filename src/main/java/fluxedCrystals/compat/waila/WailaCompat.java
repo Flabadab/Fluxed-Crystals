@@ -27,7 +27,6 @@ public class WailaCompat implements IWailaDataProvider {
 	public static void load(IWailaRegistrar registrar) {
 		registrar.registerStackProvider(INSTANCE, BlockCrystal.class);
 		registrar.registerBodyProvider(INSTANCE, BlockCrystal.class);
-
 	}
 
 	@Override

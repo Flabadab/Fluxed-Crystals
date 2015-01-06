@@ -104,14 +104,14 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 								if (getCurrentMana() > 0) {
 									if (getCurrentMana() >= getUpgradeDrain(power.getCropTile(worldObj).getIndex()))
 										if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
-											if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)))) {
+											if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)), worldObj.provider.dimensionId)) {
 												mana -= -getUpgradeDrain(power.getCropTile(worldObj).getIndex());
 											}
 								}
 								if (getStackInSlot(5).getItem() instanceof IBindable) {
 									IBindable bindedItem = ((IBindable) getStackInSlot(5).getItem());
 									if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
-										if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)))) {
+										if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)), worldObj.provider.dimensionId)) {
 											SoulNetworkHandler.syphonFromNetwork(getStackInSlot(5), getUpgradeDrain(power.getCropTile(worldObj).getIndex()) / 4);
 										}
 								}
@@ -130,14 +130,14 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 					if (!RF) {
 						if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
 							if (drainEnergy(getUpgradeDrain(power.getCropTile(worldObj).getIndex() / 4)))
-								power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)));
+								power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)), worldObj.provider.dimensionId);
 					}
 
 					if (RecipeRegistry.getAspectNeeded(power.getCropTile(worldObj).getIndex()) != null) {
 
 						if (AspectSourceHelper.findEssentia(power.getCropTile(worldObj), RecipeRegistry.getAspectNeeded(power.getCropTile(worldObj).getIndex()), ForgeDirection.UNKNOWN, 15))
 							if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
-								if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)))) {
+								if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)), worldObj.provider.dimensionId)) {
 									for (int i = 0; i < RecipeRegistry.getAspectNeededAmount(power.getCropTile(worldObj).getIndex()); i++)
 										AspectSourceHelper.drainEssentia(power.getCropTile(worldObj), RecipeRegistry.getAspectNeeded(power.getCropTile(worldObj).getIndex()), ForgeDirection.UNKNOWN, 15);
 								}
@@ -145,7 +145,7 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 					if (RecipeRegistry.getAspectNeeded(power.getCropTile(worldObj).getIndex()) == null)
 						if (this.storage.getEnergyStored() > getUpgradeDrain(power.getCropTile(worldObj).getIndex()))
 							if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
-								if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)))) {
+								if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)), worldObj.provider.dimensionId)) {
 									this.storage.extractEnergy(getUpgradeDrain(power.getCropTile(worldObj).getIndex()), false);
 								}
 				}
@@ -614,5 +614,6 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 	public boolean drainEnergy(double amount) {
 		return current_Energy - injectEnergy(null, -amount, 0) >= 0;
 	}
+
 
 }

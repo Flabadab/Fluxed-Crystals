@@ -34,4 +34,5 @@ public class BlockManagerBlock extends Block implements ITileEntityProvider {
 		return new TileEntityManagerBlock();
 	}
 
+
 }

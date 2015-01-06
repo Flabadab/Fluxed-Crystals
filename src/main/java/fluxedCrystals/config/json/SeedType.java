@@ -26,6 +26,7 @@ public class SeedType implements ISeedType {
 	public String aspectNeeded;
 	public int aspectNeededAmount = 16;
 	public int seedReturn;
+	public int dimensionWhitelist;
 
 	public void register() {
 		try {

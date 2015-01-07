@@ -87,8 +87,8 @@ public class TileEntityCrystal extends TileEntity implements IWailaInfo {
 
 	@Override
 	public void getWailaInfo(List<String> tooltip, int x, int y, int z, World world) {
-		float growthValue = (world.getBlockMetadata(x, y, z) / 7.0F) * 100.0F;
-		if (growthValue < 100.0)
+		float growthValue = (world.getBlockMetadata(x, y, z) / 7.0F) * 70.0F;
+		if (growthValue < 70.0)
 			tooltip.add(String.format("%s : %.0f %%", LangUtil.translateG("hud.msg.growth"), growthValue));
 		else
 			tooltip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.growth"), LangUtil.translateG("hud.msg.mature")));

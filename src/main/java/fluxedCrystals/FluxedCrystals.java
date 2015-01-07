@@ -6,7 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import tterrag.core.common.Lang;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -19,7 +18,6 @@ import fluxedCrystals.blocks.FCBlocks;
 import fluxedCrystals.config.ConfigHandler;
 import fluxedCrystals.handlers.RecipeHandler;
 import fluxedCrystals.items.FCItems;
-import fluxedCrystals.nei.FluxedCrystalsNEIConfig;
 import fluxedCrystals.network.PacketHandler;
 import fluxedCrystals.proxy.CommonProxy;
 

@@ -3,6 +3,7 @@ package fluxedCrystals.client.gui.manager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.ContainerFurnace;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -22,7 +23,7 @@ public class ContainerManagerBlock extends Container {
 		addSlotToContainer(new SlotUpgrade(manager, 3, 134, 62));
 		addSlotToContainer(new SlotUpgrade(manager, 4, 152, 62));
 		addSlotToContainer(new Slot(manager, 5, 71, 62));
-
+		
 		for (int x = 0; x < 9; x++) {
 			addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 142));
 		}

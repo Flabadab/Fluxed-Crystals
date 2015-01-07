@@ -22,7 +22,6 @@ public class TileEntityGlass extends TileEntity {
 		return false;
 	}
 
-
 	public int getIndex() {
 		return idx;
 	}
@@ -44,8 +43,7 @@ public class TileEntityGlass extends TileEntity {
 	}
 
 	@Override
-	public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta,
-			int newMeta, World world, int x, int y, int z) {
+	public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int newMeta, World world, int x, int y, int z) {
 		return oldBlock != newBlock;
 	}
 

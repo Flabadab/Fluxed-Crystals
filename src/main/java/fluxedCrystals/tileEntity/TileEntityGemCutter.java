@@ -3,8 +3,11 @@ package fluxedCrystals.tileEntity;
 import ic2.api.energy.tile.IEnergySink;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectSourceHelper;
 import vazkii.botania.api.mana.IManaReceiver;
 import lombok.Getter;
 import lombok.Setter;
@@ -62,59 +65,76 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 		if (getStackInSlot(0) != null && !cutting) {
 			PacketHandler.INSTANCE.sendToServer(new MessageGemCutter(xCoord, yCoord, zCoord));
 		}
-
-		if (getEnergyStored() > 0)
-			RF = true;
-		else
-			RF = false;
-		if (RF)
-			if (getStackInSlot(1) != null) {
-				if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && storage.getEnergyStored() >= getEffeciency() && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
-					refine();
-					return;
-				}
-			} else {
-				if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && storage.getEnergyStored() >= getEffeciency()) {
-					refine();
-					return;
+		if (worldObj != null) {
+			if (storage.getEnergyStored() > 0) {
+				if (getStackInSlot(1) != null) {
+					if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && storage.getEnergyStored() >= getEffeciency() && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
+						refine();
+						return;
+					}
+				} else {
+					if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && storage.getEnergyStored() >= getEffeciency()) {
+						refine();
+						return;
+					}
 				}
 			}
-		if (!RF) {
-			if (getStackInSlot(5) != null) {
-				if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && SoulNetworkHandler.canSyphonFromOnlyNetwork(getStackInSlot(5), getEffeciency() / 4) && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
-					refineLP();
-					return;
-				}
-			} else {
-				if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && SoulNetworkHandler.canSyphonFromOnlyNetwork(getStackInSlot(5), getEffeciency() / 4)) {
-					refineLP();
-					return;
-				}
-			}
+			if (storage.getEnergyStored() <= 0) {
 
-			if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && getCurrentMana() >= getEffeciency() && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
-				refineMana();
-				return;
-			} else {
-				if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && getCurrentMana() >= getEffeciency()) {
-					refineMana();
-					return;
+				if (getStackInSlot(5) != null) {
+					if (getStackInSlot(1) != null) {
+						if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && SoulNetworkHandler.canSyphonFromOnlyNetwork(getStackInSlot(5), getEffeciency() / 4) && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
+							refineLP();
+							return;
+						}
+					} else {
+						if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && SoulNetworkHandler.canSyphonFromOnlyNetwork(getStackInSlot(5), getEffeciency() / 4)) {
+							refineLP();
+							return;
+						}
+					}
 				}
+				if (getStackInSlot(1) != null) {
+					if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && mana >= getEffeciency() && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
+						refineMana();
+						return;
+					}
+				} else {
+					if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && mana >= getEffeciency()) {
+						refineMana();
+						return;
+					}
 
-			}
-			if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && current_Energy >= getEffeciency() && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
-				refineEU();
-				return;
-			} else {
-				if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && current_Energy > -getEffeciency()) {
+				}
+				if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && current_Energy >= getEffeciency() && getStackInSlot(1) != null && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
 					refineEU();
 					return;
+				} else {
+					if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && current_Energy >= getEffeciency()) {
+						refineEU();
+						return;
+					}
+
 				}
-
+				if (AspectSourceHelper.findEssentia(this, Aspect.MECHANISM, ForgeDirection.UNKNOWN, 16)) {
+					if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && getStackInSlot(1) != null && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
+						if (refineEssentia()) {
+							for (int i = 0; i < new Random().nextInt(16) + 1; i++)
+								AspectSourceHelper.drainEssentia(this, Aspect.MECHANISM, ForgeDirection.UNKNOWN, 16);
+						}
+						return;
+					} else {
+						if (cutting && worldObj.getWorldTime() % getSpeed() == 0) {
+							if (refineEssentia()) {
+								for (int i = 0; i < new Random().nextInt(16) + 1; i++)
+									AspectSourceHelper.drainEssentia(this, Aspect.MECHANISM, ForgeDirection.UNKNOWN, 16);
+								return;
+							}
+						}
+					}
+				}
 			}
-
 		}
-
 	}
 
 	public boolean isUpgradeActive(ItemStack stack) {
@@ -341,7 +361,7 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 						cutting = false;
 						cut = 0;
 						setRecipeIndex(-1);
-						PacketHandler.INSTANCE.sendToDimension(new MessageGemRefiner(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
+						PacketHandler.INSTANCE.sendToDimension(new MessageGemCutter(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
 
 					}
 				}
@@ -361,15 +381,16 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 				if (getStackInSlot(1) == null || getStackInSlot(1).isItemEqual(recipe.getOutput())) {
 					decrStackSize(0, 1);
 					cut++;
-					recieveMana(-250);
+					mana -= 250;
 					if (cut == 1) {
 						ItemStack out = recipe.getOutput().copy();
 						out.stackSize = RecipeRegistry.getDropAmount(recipeIndex);
 						addInventorySlotContents(1, out);
+						mana -= 500;
 						cutting = false;
 						cut = 0;
 						setRecipeIndex(-1);
-						PacketHandler.INSTANCE.sendToDimension(new MessageGemRefiner(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
+						PacketHandler.INSTANCE.sendToDimension(new MessageGemCutter(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
 
 					}
 				}
@@ -397,7 +418,7 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 						cutting = false;
 						cut = 0;
 						setRecipeIndex(-1);
-						PacketHandler.INSTANCE.sendToDimension(new MessageGemRefiner(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
+						PacketHandler.INSTANCE.sendToDimension(new MessageGemCutter(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
 
 					}
 				}
@@ -425,7 +446,34 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 						cutting = false;
 						cut = 0;
 						setRecipeIndex(-1);
-						PacketHandler.INSTANCE.sendToDimension(new MessageGemRefiner(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
+						PacketHandler.INSTANCE.sendToDimension(new MessageGemCutter(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
+
+					}
+				}
+				return true;
+			}
+		}
+		cut = 0;
+		setRecipeIndex(-1);
+		cutting = false;
+		return false;
+	}
+
+	public boolean refineEssentia() {
+		if (getRecipeIndex() >= 0) {
+			RecipeGemCutter recipe = RecipeRegistry.getGemCutterRecipes().get(recipeIndex);
+			if (recipe.matchesExact(getStackInSlot(0))) {
+				if (getStackInSlot(1) == null || getStackInSlot(1).isItemEqual(recipe.getOutput())) {
+					decrStackSize(0, 1);
+					cut++;
+					if (cut == 1) {
+						ItemStack out = recipe.getOutput().copy();
+						out.stackSize = RecipeRegistry.getDropAmount(recipeIndex);
+						addInventorySlotContents(1, out);
+						cutting = false;
+						cut = 0;
+						setRecipeIndex(-1);
+						PacketHandler.INSTANCE.sendToDimension(new MessageGemCutter(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
 
 					}
 				}

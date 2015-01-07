@@ -113,7 +113,7 @@ public class InfuserRecipeHandler extends TemplateRecipeHandler {
 			this.recipe = recipe;
 			this.inputs = new PositionedStack(recipe.getInput(), 143, 6);
 			this.other.add(new PositionedStack(recipe.getIngredient(), 6, 6));
-
+			inputs.setMaxSize(recipe.getInputamount());
 		}
 
 		@Override

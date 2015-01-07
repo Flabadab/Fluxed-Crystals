@@ -1,5 +1,20 @@
 {
     "data":[
+    {       "name":"Testy",
+            "color":7507918,
+            "ingredient":"minecraft:bedrock;0",
+            "dropMin":1,
+            "dropMax":1,
+            "growthTime":600,
+            "tier":9001,
+            "ingredientAmount":16,
+            "powerPerStage":2000,
+            "decorationBlocks":true,
+            "weightedDrop":"minecraft:dirt",
+            "weightedDropChance":1,
+            "refinerAmount":32,
+            "dimensionWhitelist":2906
+    },
         {
             "name":"Iron",
             "color":14071681,
@@ -15,6 +30,7 @@
             "weightedDropChance":1,
             "refinerAmount":16
         },
+
         {
             "name":"Gold",
             "color":11904556,

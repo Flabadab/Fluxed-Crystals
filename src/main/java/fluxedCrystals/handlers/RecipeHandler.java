@@ -64,8 +64,5 @@ public class RecipeHandler {
 
 		}
 
-		for (int i = 0; i < recipes.size(); i++) {
-
-		}
 	}
 }

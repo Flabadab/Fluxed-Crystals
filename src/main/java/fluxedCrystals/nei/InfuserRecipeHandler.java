@@ -66,8 +66,8 @@ public class InfuserRecipeHandler extends TemplateRecipeHandler {
 		for (int j = 0; j < recipes.size(); j++) {
 			RecipeSeedInfuser recipe = recipes.get(j);
 			if (recipe.getOutput().isItemEqual(result)) {
-				// if (checkDupe(recipe))
-				this.arecipes.add(new CachedInfusionRecipe(recipe));
+				if (checkDupe(recipe))
+					this.arecipes.add(new CachedInfusionRecipe(recipe));
 			}
 		}
 	}
@@ -80,8 +80,8 @@ public class InfuserRecipeHandler extends TemplateRecipeHandler {
 		for (int j = 0; j < recipes.size(); j++) {
 			RecipeSeedInfuser recipe = recipes.get(j);
 			if (recipe.getInput().isItemEqual(ingredient) || recipe.getIngredient().isItemEqual(ingredient)) {
-				// if (checkDupe(recipe))
-				this.arecipes.add(new CachedInfusionRecipe(recipe));
+				if (checkDupe(recipe))
+					this.arecipes.add(new CachedInfusionRecipe(recipe));
 			}
 		}
 	}

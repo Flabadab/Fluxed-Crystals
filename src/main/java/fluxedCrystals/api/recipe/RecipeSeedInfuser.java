@@ -41,8 +41,10 @@ public class RecipeSeedInfuser {
 		return false;
 	}
 
-	public boolean matchesExact(ItemStack Ingredient, ItemStack stack) {
-		return input.isItemEqual(stack) && this.ingredient.isItemEqual(Ingredient);
+	public boolean matchesExact(ItemStack ingredient) {
+		System.out.println(this.input + ":" + ingredient);
+		System.out.println(this.input.isItemEqual(ingredient));
+		return this.input.isItemEqual(ingredient);
 	}
 
 	public ItemStack getInput() {
@@ -58,8 +60,8 @@ public class RecipeSeedInfuser {
 	public ItemStack getIngredient() {
 		return ingredient.copy();
 	}
-	
-	public int getInputamount(){
+
+	public int getInputamount() {
 		return inputAmount;
 	}
 }

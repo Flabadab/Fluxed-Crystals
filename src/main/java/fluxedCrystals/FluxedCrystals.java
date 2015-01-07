@@ -22,6 +22,7 @@ import fluxedCrystals.blocks.FCBlocks;
 import fluxedCrystals.config.ConfigHandler;
 import fluxedCrystals.handlers.RecipeHandler;
 import fluxedCrystals.items.FCItems;
+import fluxedCrystals.nei.FluxedCrystalsNEIConfig;
 import fluxedCrystals.network.PacketHandler;
 import fluxedCrystals.proxy.CommonProxy;
 
@@ -45,7 +46,6 @@ public class FluxedCrystals {
 	public static boolean thaumcraftThere;
 	public static List<ModContainer> activeMods = new ArrayList<ModContainer>();
 	public static List<String> activeModids = new ArrayList<String>();
-	
 
 	public static final CreativeTabFluxedCrystals tab = new CreativeTabFluxedCrystals();
 
@@ -60,12 +60,12 @@ public class FluxedCrystals {
 		PacketHandler.init();
 		proxy.initGuis();
 		proxy.initRenderers();
-		if(Loader.isModLoaded("Thaumcraft")){
+		if (Loader.isModLoaded("Thaumcraft")) {
 			thaumcraftThere = true;
-		}else{
+		} else {
 			thaumcraftThere = false;
 		}
-		
+
 		FMLInterModComms.sendMessage("Waila", "register", "fluxedCrystals.compat.waila.WailaCompat.load");
 
 	}
@@ -82,7 +82,9 @@ public class FluxedCrystals {
 		logger.info("Starting Post Init.");
 		RecipeHandler.init();
 		activeMods = Loader.instance().getActiveModList();
-		
+		if (Loader.isModLoaded("NotEnoughItems")) {
+			new FluxedCrystalsNEIConfig().loadConfig();;
+		}
 	}
 
 }

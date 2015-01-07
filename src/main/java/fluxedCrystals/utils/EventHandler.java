@@ -28,22 +28,22 @@ public class EventHandler {
 	public void render(RenderLivingEvent.Pre event) {
 		String s = EnumChatFormatting.getTextWithoutFormattingCodes(event.entity.getCommandSenderName());
 		if (s.equals("jaredlll08") || s.equals("esriel123") && event.entity instanceof EntityPlayer) {
-			if (new Random().nextInt(2) == 0) {
-				if (!descending) {
-					trans++;
-				} else {
-					trans--;
-				}
-				if (trans > 100) {
-					descending = true;
-					trans = 100f;
-				}
-				if (trans < 0) {
-					descending = false;
-					trans = 0;
-				}
-			}
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, trans/100);
+//			if (new Random().nextInt(2) == 0) {
+//				if (!descending) {
+//					trans++;
+//				} else {
+//					trans--;
+//				}
+//				if (trans > 100) {
+//					descending = true;
+//					trans = 100f;
+//				}
+//				if (trans < 0) {
+//					descending = false;
+//					trans = 0;
+//				}
+//			}
+			GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.50f);
 			GL11.glEnable(3042);
 			GL11.glBlendFunc(770, 771);
 			resetRender = true;

@@ -167,7 +167,7 @@ public class TileEntitySeedInfuser extends TileEntity implements IInventory {
 	public boolean infuseSeed() {
 		if (getRecipeIndex() >= 0) {
 			RecipeSeedInfuser recipe = RecipeRegistry.getSeedRecipes().get(getRecipeIndex());
-			if (recipe.matches(getStackInSlot(0), getStackInSlot(1))) {
+			if (recipe.matches(getStackInSlot(0), getStackInSlot(1)) || recipe.matchesExact(getStackInSlot(0))) {
 				decrStackSize(1, 1);
 				infused++;
 				if (infused == recipe.getInputamount()) {
@@ -193,7 +193,7 @@ public class TileEntitySeedInfuser extends TileEntity implements IInventory {
 		if (getStackInSlot(0) != null && getStackInSlot(1) != null) {
 			for (RecipeSeedInfuser recipe : RecipeRegistry.getSeedRecipes()) {
 				number++;
-				if (recipe.matches(getStackInSlot(0), getStackInSlot(1))) {
+				if (recipe.matches(getStackInSlot(0), getStackInSlot(1)) || recipe.matchesExact(getStackInSlot(1))) {
 					setRecipeIndex(number);
 					break;
 				}

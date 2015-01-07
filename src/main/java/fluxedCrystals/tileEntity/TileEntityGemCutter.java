@@ -19,6 +19,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
+import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.api.RecipeRegistry;
 import fluxedCrystals.api.recipe.RecipeGemCutter;
 import fluxedCrystals.api.recipe.RecipeGemRefiner;
@@ -116,19 +117,21 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 					}
 
 				}
-				if (AspectSourceHelper.findEssentia(this, Aspect.MECHANISM, ForgeDirection.UNKNOWN, 16)) {
-					if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && getStackInSlot(1) != null && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
-						if (refineEssentia()) {
-							for (int i = 0; i < new Random().nextInt(16) + 1; i++)
-								AspectSourceHelper.drainEssentia(this, Aspect.MECHANISM, ForgeDirection.UNKNOWN, 16);
-						}
-						return;
-					} else {
-						if (cutting && worldObj.getWorldTime() % getSpeed() == 0) {
+				if (FluxedCrystals.thaumcraftThere) {
+					if (AspectSourceHelper.findEssentia(this, Aspect.MECHANISM, ForgeDirection.UNKNOWN, 16)) {
+						if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && getStackInSlot(1) != null && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
 							if (refineEssentia()) {
 								for (int i = 0; i < new Random().nextInt(16) + 1; i++)
 									AspectSourceHelper.drainEssentia(this, Aspect.MECHANISM, ForgeDirection.UNKNOWN, 16);
-								return;
+							}
+							return;
+						} else {
+							if (cutting && worldObj.getWorldTime() % getSpeed() == 0) {
+								if (refineEssentia()) {
+									for (int i = 0; i < new Random().nextInt(16) + 1; i++)
+										AspectSourceHelper.drainEssentia(this, Aspect.MECHANISM, ForgeDirection.UNKNOWN, 16);
+									return;
+								}
 							}
 						}
 					}

@@ -1,12 +1,16 @@
 package fluxedCrystals;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import tterrag.core.common.Lang;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
@@ -38,6 +42,10 @@ public class FluxedCrystals {
 	public static int seedInfuserRenderID;
 	public static int glassRenderID;
 	public static int chunkRenderID;
+	public static boolean thaumcraftThere;
+	public static List<ModContainer> activeMods = new ArrayList<ModContainer>();
+	public static List<String> activeModids = new ArrayList<String>();
+	
 
 	public static final CreativeTabFluxedCrystals tab = new CreativeTabFluxedCrystals();
 
@@ -52,7 +60,11 @@ public class FluxedCrystals {
 		PacketHandler.init();
 		proxy.initGuis();
 		proxy.initRenderers();
-
+		if(Loader.isModLoaded("Thaumcraft")){
+			thaumcraftThere = true;
+		}else{
+			thaumcraftThere = false;
+		}
 		
 		FMLInterModComms.sendMessage("Waila", "register", "fluxedCrystals.compat.waila.WailaCompat.load");
 
@@ -69,8 +81,8 @@ public class FluxedCrystals {
 	public static void postInit(FMLPostInitializationEvent event) {
 		logger.info("Starting Post Init.");
 		RecipeHandler.init();
-//		if (Loader.isModLoaded("NotEnoughItems"))
-//			new FluxedCrystalsNEIConfig().loadConfig();
+		activeMods = Loader.instance().getActiveModList();
+		
 	}
 
 }

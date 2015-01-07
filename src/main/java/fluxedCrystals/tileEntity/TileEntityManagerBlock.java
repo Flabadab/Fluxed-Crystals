@@ -132,15 +132,16 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 							if (drainEnergy(getUpgradeDrain(power.getCropTile(worldObj).getIndex() / 4)))
 								power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)), worldObj.provider.dimensionId);
 					}
+					if (FluxedCrystals.thaumcraftThere) {
+						if (RecipeRegistry.getAspectNeeded(power.getCropTile(worldObj).getIndex()) != null) {
 
-					if (RecipeRegistry.getAspectNeeded(power.getCropTile(worldObj).getIndex()) != null) {
-
-						if (AspectSourceHelper.findEssentia(power.getCropTile(worldObj), RecipeRegistry.getAspectNeeded(power.getCropTile(worldObj).getIndex()), ForgeDirection.UNKNOWN, 15))
-							if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
-								if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)), worldObj.provider.dimensionId)) {
-									for (int i = 0; i < RecipeRegistry.getAspectNeededAmount(power.getCropTile(worldObj).getIndex()); i++)
-										AspectSourceHelper.drainEssentia(power.getCropTile(worldObj), RecipeRegistry.getAspectNeeded(power.getCropTile(worldObj).getIndex()), ForgeDirection.UNKNOWN, 15);
-								}
+							if (AspectSourceHelper.findEssentia(power.getCropTile(worldObj), RecipeRegistry.getAspectNeeded(power.getCropTile(worldObj).getIndex()), ForgeDirection.UNKNOWN, 15))
+								if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
+									if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)), worldObj.provider.dimensionId)) {
+										for (int i = 0; i < RecipeRegistry.getAspectNeededAmount(power.getCropTile(worldObj).getIndex()); i++)
+											AspectSourceHelper.drainEssentia(power.getCropTile(worldObj), RecipeRegistry.getAspectNeeded(power.getCropTile(worldObj).getIndex()), ForgeDirection.UNKNOWN, 15);
+									}
+						}
 					}
 					if (RecipeRegistry.getAspectNeeded(power.getCropTile(worldObj).getIndex()) == null)
 						if (this.storage.getEnergyStored() > getUpgradeDrain(power.getCropTile(worldObj).getIndex()))
@@ -614,6 +615,5 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 	public boolean drainEnergy(double amount) {
 		return current_Energy - injectEnergy(null, -amount, 0) >= 0;
 	}
-
 
 }

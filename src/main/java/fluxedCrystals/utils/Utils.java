@@ -10,7 +10,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectSourceHelper;
 import tterrag.core.common.json.JsonUtils;
+import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.network.MessageBiome;
 import fluxedCrystals.network.PacketHandler;
 
@@ -55,6 +57,15 @@ public class Utils {
 			stacks[i] = stack;
 		}
 		return stacks;
+	}
+
+	public static boolean isModLoaded(String modid) {
+		for (ModContainer mod : FluxedCrystals.activeMods) {
+			if (mod.getModId().equalsIgnoreCase(modid)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static class ArrayUtils {

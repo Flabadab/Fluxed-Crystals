@@ -1,5 +1,6 @@
 package fluxedCrystals.tileEntity;
 
+import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.api.RecipeRegistry;
 import fluxedCrystals.api.recipe.RecipeGemRefiner;
 import fluxedCrystals.items.FCItems;
@@ -114,19 +115,21 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 					}
 
 				}
-				if (AspectSourceHelper.findEssentia(this, Aspect.MECHANISM, ForgeDirection.UNKNOWN, 16)) {
-					if (refining && worldObj.getWorldTime() % getSpeed() == 0 && getStackInSlot(1) != null && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
-						if (refineEssentia()) {
-							for (int i = 0; i < new Random().nextInt(16) + 1; i++)
-								AspectSourceHelper.drainEssentia(this, Aspect.MECHANISM, ForgeDirection.UNKNOWN, 16);
-						}
-						return;
-					} else {
-						if (refining && worldObj.getWorldTime() % getSpeed() == 0) {
+				if (FluxedCrystals.thaumcraftThere) {
+					if (AspectSourceHelper.findEssentia(this, Aspect.MECHANISM, ForgeDirection.UNKNOWN, 16)) {
+						if (refining && worldObj.getWorldTime() % getSpeed() == 0 && getStackInSlot(1) != null && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
 							if (refineEssentia()) {
 								for (int i = 0; i < new Random().nextInt(16) + 1; i++)
 									AspectSourceHelper.drainEssentia(this, Aspect.MECHANISM, ForgeDirection.UNKNOWN, 16);
-								return;
+							}
+							return;
+						} else {
+							if (refining && worldObj.getWorldTime() % getSpeed() == 0) {
+								if (refineEssentia()) {
+									for (int i = 0; i < new Random().nextInt(16) + 1; i++)
+										AspectSourceHelper.drainEssentia(this, Aspect.MECHANISM, ForgeDirection.UNKNOWN, 16);
+									return;
+								}
 							}
 						}
 					}

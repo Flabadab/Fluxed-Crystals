@@ -14,7 +14,6 @@ import fluxedCrystals.utils.EventHandler;
 
 public class ClientProxy extends CommonProxy {
 
-	@Override
 	public void initGuis() {
 		new GUIHandler();
 	}

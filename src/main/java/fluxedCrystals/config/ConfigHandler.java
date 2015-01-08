@@ -75,14 +75,23 @@ public class ConfigHandler extends AbstractConfigHandler {
 			}
 		}
 		JsonConfigReader<SeedType> cropReader;
-
+		List<SeedCrystalRecipe> recipes = RecipeRegistry.getSeedCropRecipes();
 		for (int i = 0; i < cropFiles.length; i++) {
 			if (cropFiles[i] != null) {
 				cropReader = new JsonConfigReader<SeedType>(token, cropFiles[i], SeedType.class);
 				registerAll(cropReader.getElements());
+
 			}
 		}
 
+		int i = 0;
+		for(SeedCrystalRecipe r : RecipeRegistry.getSeedCropRecipes()){
+			RecipeRegistry.registerGemRefinerRecipe(new RecipeGemRefiner(new ItemStack(FCItems.shard, 1, i), r.getIngredient(), r.getRefinerAmount()));
+			RecipeRegistry.registerGemCutterRecipe(new RecipeGemCutter(new ItemStack(FCItems.roughShard, 1, i), new ItemStack(FCItems.shard, 1, i), 1));
+			RecipeRegistry.registerSeedInfuserRecipe(new RecipeSeedInfuser(new ItemStack(FCItems.universalSeed), r.getIngredient(), new ItemStack(FCItems.seed, 1, i), RecipeRegistry.getIngredientAmount(i)));
+		i++;
+		}
+	
 	}
 
 	public static void registerAll(Collection<? extends ISeedType> types) {

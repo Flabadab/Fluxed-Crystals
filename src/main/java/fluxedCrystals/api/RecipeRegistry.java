@@ -215,8 +215,8 @@ public class RecipeRegistry {
 	public static void reset() {
 		String caller = Thread.currentThread().getStackTrace()[2].getClassName();
 		if (caller.contains("fluxedCrystals.config")) {
-			// crops.clear();
-			// seedRecipes.clear();
+			crops.clear();
+			seedRecipes.clear();
 		} else {
 			throw new RuntimeException(caller + " tried to clear the FluxedCrystals recipe registry. They can't do that!");
 		}

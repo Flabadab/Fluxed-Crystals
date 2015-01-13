@@ -9,6 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.oredict.OreDictionary;
 
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
 
 import codechicken.lib.gui.GuiDraw;
@@ -66,8 +67,9 @@ public class InfuserRecipeHandler extends TemplateRecipeHandler {
 		for (int j = 0; j < recipes.size(); j++) {
 			RecipeSeedInfuser recipe = recipes.get(j);
 			if (recipe.getOutput().isItemEqual(result)) {
-				if (checkDupe(recipe))
+				if (checkDupe(recipe)) {
 					this.arecipes.add(new CachedInfusionRecipe(recipe));
+				}
 			}
 		}
 	}
@@ -80,8 +82,9 @@ public class InfuserRecipeHandler extends TemplateRecipeHandler {
 		for (int j = 0; j < recipes.size(); j++) {
 			RecipeSeedInfuser recipe = recipes.get(j);
 			if (recipe.getInput().isItemEqual(ingredient) || recipe.getIngredient().isItemEqual(ingredient)) {
-				if (checkDupe(recipe))
+				if (checkDupe(recipe)) {
 					this.arecipes.add(new CachedInfusionRecipe(recipe));
+				}
 			}
 		}
 	}
@@ -91,7 +94,7 @@ public class InfuserRecipeHandler extends TemplateRecipeHandler {
 			if (o instanceof CachedInfusionRecipe) {
 				CachedInfusionRecipe r = (CachedInfusionRecipe) o;
 				if (r.recipe.getInput() == recipe.getInput()) {
-					if (r.recipe.getOutput().isItemEqual(recipe.getOutput())) {
+					if (r.recipe.getOutput() == recipe.getOutput()) {
 						return false;
 					}
 				}

@@ -23,6 +23,7 @@ public class BlockSeedInfuser extends Block implements ITileEntityProvider {
 
 	public BlockSeedInfuser() {
 		super(Material.anvil);
+		setHarvestLevel("pickaxe", 2);
 	}
 
 	public int getRenderType() {

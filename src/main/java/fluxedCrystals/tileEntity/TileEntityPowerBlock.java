@@ -2,6 +2,7 @@ package fluxedCrystals.tileEntity;
 
 import tterrag.core.common.util.BlockCoord;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import fluxedCrystals.api.CrystalBase;
@@ -33,34 +34,32 @@ public class TileEntityPowerBlock extends TileEntity {
 	}
 
 	public void convertblocks(World world, TileEntityManagerBlock manager) {
-		if (world.getBlock(xCoord + 1, yCoord, zCoord) != null)
-			if (world.getBlock(xCoord + 1, yCoord, zCoord) == Blocks.dirt) {
-				world.setBlock(xCoord + 1, yCoord, zCoord, FCBlocks.powerBlock);
-				((TileEntityPowerBlock) world.getTileEntity(xCoord + 1, yCoord, zCoord)).setManager(getManager());
-				manager.getPowerBlocksToAdd().add((TileEntityPowerBlock) world.getTileEntity(xCoord + 1, yCoord, zCoord));
-			}
-		if (world.getBlock(xCoord - 1, yCoord, zCoord) != null)
-			if (world.getBlock(xCoord - 1, yCoord, zCoord) == Blocks.dirt) {
-				world.setBlock(xCoord - 1, yCoord, zCoord, FCBlocks.powerBlock);
-				((TileEntityPowerBlock) world.getTileEntity(xCoord - 1, yCoord, zCoord)).setManager(getManager());
-				manager.getPowerBlocksToAdd().add((TileEntityPowerBlock) world.getTileEntity(xCoord - 1, yCoord, zCoord));
-			}
-		if (world.getBlock(xCoord, yCoord, zCoord + 1) != null)
-			if (world.getBlock(xCoord, yCoord, zCoord + 1) == Blocks.dirt) {
-				world.setBlock(xCoord, yCoord, zCoord + 1, FCBlocks.powerBlock);
-				((TileEntityPowerBlock) world.getTileEntity(xCoord, yCoord, zCoord + 1)).setManager(getManager());
-				manager.getPowerBlocksToAdd().add((TileEntityPowerBlock) world.getTileEntity(xCoord, yCoord, zCoord + 1));
-			}
-		if (world.getBlock(xCoord, yCoord, zCoord - 1) != null)
-			if (world.getBlock(xCoord, yCoord, zCoord - 1) == Blocks.dirt) {
-				world.setBlock(xCoord, yCoord, zCoord - 1, FCBlocks.powerBlock);
-				((TileEntityPowerBlock) world.getTileEntity(xCoord, yCoord, zCoord - 1)).setManager(getManager());
-				manager.getPowerBlocksToAdd().add((TileEntityPowerBlock) world.getTileEntity(xCoord, yCoord, zCoord - 1));
-			}
-	}
+			if (world.getBlock(xCoord + 1, yCoord, zCoord) != null)
+				if (world.getBlock(xCoord + 1, yCoord, zCoord) == Blocks.dirt) {
+					world.setBlock(xCoord + 1, yCoord, zCoord, FCBlocks.powerBlock);
+					((TileEntityPowerBlock) world.getTileEntity(xCoord + 1, yCoord, zCoord)).setManager(getManager());
+					manager.getPowerBlocksToAdd().add((TileEntityPowerBlock) world.getTileEntity(xCoord + 1, yCoord, zCoord));
+				}
+			if (world.getBlock(xCoord - 1, yCoord, zCoord) != null)
+				if (world.getBlock(xCoord - 1, yCoord, zCoord) == Blocks.dirt) {
+					world.setBlock(xCoord - 1, yCoord, zCoord, FCBlocks.powerBlock);
+					((TileEntityPowerBlock) world.getTileEntity(xCoord - 1, yCoord, zCoord)).setManager(getManager());
+					manager.getPowerBlocksToAdd().add((TileEntityPowerBlock) world.getTileEntity(xCoord - 1, yCoord, zCoord));
+				}
+			if (world.getBlock(xCoord, yCoord, zCoord + 1) != null)
+				if (world.getBlock(xCoord, yCoord, zCoord + 1) == Blocks.dirt) {
+					world.setBlock(xCoord, yCoord, zCoord + 1, FCBlocks.powerBlock);
+					((TileEntityPowerBlock) world.getTileEntity(xCoord, yCoord, zCoord + 1)).setManager(getManager());
+					manager.getPowerBlocksToAdd().add((TileEntityPowerBlock) world.getTileEntity(xCoord, yCoord, zCoord + 1));
+				}
+			if (world.getBlock(xCoord, yCoord, zCoord - 1) != null)
+				if (world.getBlock(xCoord, yCoord, zCoord - 1) == Blocks.dirt) {
+					world.setBlock(xCoord, yCoord, zCoord - 1, FCBlocks.powerBlock);
+					((TileEntityPowerBlock) world.getTileEntity(xCoord, yCoord, zCoord - 1)).setManager(getManager());
+					manager.getPowerBlocksToAdd().add((TileEntityPowerBlock) world.getTileEntity(xCoord, yCoord, zCoord - 1));
+				}
+		}
 
-	public void updateEntity() {
-	}
 
 	public boolean growPlant(World world, boolean night, int dimension) {
 		if (world != null)

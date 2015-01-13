@@ -17,6 +17,7 @@ public class BlockGemRefiner extends Block implements ITileEntityProvider {
 	protected BlockGemRefiner() {
 		super(Material.anvil);
 		this.setHardness(2.0F);
+		setHarvestLevel("pickaxe", 2);
 	}
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int meta, float par7, float par8, float par9) {

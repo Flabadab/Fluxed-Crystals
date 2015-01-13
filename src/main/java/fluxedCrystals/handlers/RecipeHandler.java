@@ -49,7 +49,7 @@ public class RecipeHandler {
 		GameRegistry.addRecipe(new ShapedOreRecipe(FCBlocks.gemRefiner, "gdi", "sus", "idg", 's', Blocks.soul_sand, 'i', "ingotIron", 'g', Items.gold_ingot, 'd', Items.diamond, 'u', FCItems.upgradeAutomation));
 		List<SeedCrystalRecipe> recipes = RecipeRegistry.getSeedCropRecipes();
 		for (int i = 0; i < RecipeRegistry.getNumSeedRecipes(); i++) {
-			SeedCrystalRecipe r = recipes.get(i);
+			//			SeedCrystalRecipe r = recipes.get(i);
 			if (ConfigProps.normalShardRecipes) {
 				if (ConfigProps.shard3x3) {
 					GameRegistry.addShapedRecipe(RecipeRegistry.getIngredient(i), "sss", "sss", "sss", 's', new ItemStack(FCItems.shard, 1, i));
@@ -57,10 +57,10 @@ public class RecipeHandler {
 					GameRegistry.addShapelessRecipe(RecipeRegistry.getIngredient(i), new ItemStack(FCItems.shard, 1, i), new ItemStack(FCItems.shard, 1, i), new ItemStack(FCItems.shard, 1, i), new ItemStack(FCItems.shard, 1, i));
 				}
 			}
-			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(FCItems.shard, 1, i), new ItemStack(FCItems.gemCutter), new ItemStack(FCItems.roughShard, 1, i)));
-			RecipeRegistry.registerGemRefinerRecipe(new RecipeGemRefiner(new ItemStack(FCItems.shard, 1, i), r.getIngredient(), r.getRefinerAmount()));
-			RecipeRegistry.registerGemCutterRecipe(new RecipeGemCutter(new ItemStack(FCItems.roughShard, 1, i), new ItemStack(FCItems.shard, 1, i), 1));
-			RecipeRegistry.registerSeedInfuserRecipe(new RecipeSeedInfuser(new ItemStack(FCItems.universalSeed), r.getIngredient(), new ItemStack(FCItems.seed, 1, i), RecipeRegistry.getIngredientAmount(i)));
+//			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(FCItems.shard, 1, i), new ItemStack(FCItems.gemCutter), new ItemStack(FCItems.roughShard, 1, i)));
+//			RecipeRegistry.registerGemRefinerRecipe(new RecipeGemRefiner(new ItemStack(FCItems.shard, 1, i), r.getIngredient(), r.getRefinerAmount()));
+//			RecipeRegistry.registerGemCutterRecipe(new RecipeGemCutter(new ItemStack(FCItems.roughShard, 1, i), new ItemStack(FCItems.shard, 1, i), 1));
+//			RecipeRegistry.registerSeedInfuserRecipe(new RecipeSeedInfuser(new ItemStack(FCItems.universalSeed), r.getIngredient(), new ItemStack(FCItems.seed, 1, i), RecipeRegistry.getIngredientAmount(i)));
 
 		}
 

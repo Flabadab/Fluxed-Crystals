@@ -13,8 +13,8 @@ public class ContainerSeedInfuser extends Container {
 
 	public ContainerSeedInfuser(InventoryPlayer invPlayer, TileEntitySeedInfuser manager) {
 
-		addSlotToContainer(new SlotInfuser(manager, 0, 9, 9));
-		addSlotToContainer(new Slot(manager, 1, 151, 9));
+		addSlotToContainer(new SlotSeed(manager, 0, 9, 9));
+		addSlotToContainer(new SlotInfuser(manager, 1, 151, 9));
 		
 		for (int x = 0; x < 9; x++) {
 			addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 142));

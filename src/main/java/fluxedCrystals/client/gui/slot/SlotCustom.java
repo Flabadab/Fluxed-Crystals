@@ -20,6 +20,9 @@ public class SlotCustom extends Slot {
 	
 
 	public boolean isItemValid(ItemStack stack) {
+		if(validItems.isEmpty()){
+			return false;
+		}
 		
 		for(ItemStack items : validItems){
 			if(items.isItemEqual(stack)){

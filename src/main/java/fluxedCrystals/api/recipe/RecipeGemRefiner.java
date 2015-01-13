@@ -11,11 +11,17 @@ public class RecipeGemRefiner {
 	private ItemStack input;
 	private ItemStack output;
 	private int inputAmount;
+	private int outputAmount;
 
-	public RecipeGemRefiner(ItemStack input, ItemStack output, int inputAmount) {
+	public int getOutputAmount() {
+		return outputAmount;
+	}
+
+	public RecipeGemRefiner(ItemStack input, ItemStack output, int inputAmount, int outputAmount) {
 		this.input = input;
 		this.output = output;
 		this.inputAmount = inputAmount;
+		this.outputAmount = outputAmount;
 	}
 
 	public boolean matches(ItemStack stack) {
@@ -47,7 +53,6 @@ public class RecipeGemRefiner {
 
 	public ItemStack getInput() {
 		ItemStack stack = input.copy();
-		// stack.stackSize = getInputamount();
 		return stack;
 	}
 

@@ -7,13 +7,14 @@
             "dropMax":1,
             "growthTime":600,
             "tier":9001,
-            "ingredientAmount":16,
+            "ingredientAmount":1,
             "powerPerStage":2000,
             "decorationBlocks":true,
             "weightedDrop":"minecraft:dirt",
             "weightedDropChance":1,
             "refinerAmount":32,
-            "dimensionWhitelist":2906
+            "dimensionWhitelist":0,
+            "lore":"The color codes are in integer format\nfor more information, go to\nwww.colors.jaredlll08.info"
     },
         {
             "name":"Iron",

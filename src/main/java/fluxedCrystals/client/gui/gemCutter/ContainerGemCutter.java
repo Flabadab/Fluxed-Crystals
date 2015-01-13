@@ -5,6 +5,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import fluxedCrystals.client.gui.slot.SlotCustom;
 import fluxedCrystals.client.gui.slot.SlotIBindable;
 import fluxedCrystals.client.gui.slot.SlotUpgrade;
 import fluxedCrystals.tileEntity.TileEntityGemCutter;
@@ -13,7 +14,7 @@ public class ContainerGemCutter extends Container {
 	public ContainerGemCutter(InventoryPlayer invPlayer, TileEntityGemCutter manager) {
 
 		addSlotToContainer(new Slot(manager, 0, 9, 9));
-		addSlotToContainer(new Slot(manager, 1, 151, 9));
+		addSlotToContainer(new SlotCustom(manager, 1, 151, 9));
 		addSlotToContainer(new SlotUpgrade(manager, 2, 116, 62));
 		addSlotToContainer(new SlotUpgrade(manager, 3, 134, 62));
 		addSlotToContainer(new SlotUpgrade(manager, 4, 152, 62));

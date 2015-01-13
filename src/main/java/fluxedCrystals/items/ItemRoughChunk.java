@@ -2,37 +2,30 @@ package fluxedCrystals.items;
 
 import java.util.List;
 
-import cpw.mods.fml.common.eventhandler.Event;
-import net.minecraft.block.material.Material;
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBucket;
+import net.minecraft.item.ItemReed;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.RecipesCrafting;
-import net.minecraft.item.crafting.RecipesFood;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.FillBucketEvent;
 import fluxedCrystals.ModProps;
 import fluxedCrystals.api.RecipeRegistry;
-import fluxedCrystals.api.SeedBase;
-import fluxedCrystals.blocks.BlockGlass;
-import fluxedCrystals.blocks.BlockRoughChunk;
 import fluxedCrystals.blocks.FCBlocks;
-import fluxedCrystals.blocks.crystal.BlockCrystal;
-import fluxedCrystals.tileEntity.TileEntityGlass;
+import fluxedCrystals.tileEntity.TileEntityRoughChunk;
 
 /**
  * Created by Jared on 11/2/2014.
  */
 public class ItemRoughChunk extends Item {
 
+	private Block block;
+
 	public ItemRoughChunk() {
+		block = FCBlocks.roughChunk;
 		setUnlocalizedName(ModProps.modid + ".roughChunk");
 		setTextureName(ModProps.modid + ":roughChunk");
 		setHasSubtypes(true);
@@ -53,7 +46,7 @@ public class ItemRoughChunk extends Item {
 		int numSeeds = RecipeRegistry.getNumSeedRecipes();
 		for (int i = 0; i < numSeeds; i++) {
 			list.add(new ItemStack(this, 1, i));
-			
+
 		}
 	}
 
@@ -63,59 +56,65 @@ public class ItemRoughChunk extends Item {
 	}
 
 	/**
-	 * Called whenever this item is equipped and the right mouse button is
-	 * pressed. Args: itemStack, world, entityPlayer
+	 * Callback for item usage. If the item does something special on right
+	 * clicking, he will have one of those. Return True if something happen and
+	 * false if it don't. This is for ITEMS, not BLOCKS
 	 */
-	public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_) {
-		boolean flag = true;
-		MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(p_77659_2_, p_77659_3_, flag);
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+		Block block = world.getBlock(x, y, z);
 
-		if (movingobjectposition == null) {
-			return p_77659_1_;
-		} else {
+		if (block == Blocks.snow_layer && (world.getBlockMetadata(x, y, z) & 7) < 1) {
+			side = 1;
+		} else if (block != Blocks.vine && block != Blocks.tallgrass && block != Blocks.deadbush) {
+			if (side == 0) {
+				--y;
+			}
 
-			if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-				int i = movingobjectposition.blockX;
-				int j = movingobjectposition.blockY;
-				int k = movingobjectposition.blockZ;
+			if (side == 1) {
+				++y;
+			}
 
-				if (!p_77659_2_.canMineBlock(p_77659_3_, i, j, k)) {
-					return p_77659_1_;
-				}
+			if (side == 2) {
+				--z;
+			}
 
-				if (movingobjectposition.sideHit == 0) {
-					--j;
-				}
+			if (side == 3) {
+				++z;
+			}
 
-				if (movingobjectposition.sideHit == 1) {
-					++j;
-				}
+			if (side == 4) {
+				--x;
+			}
 
-				if (movingobjectposition.sideHit == 2) {
-					--k;
-				}
-
-				if (movingobjectposition.sideHit == 3) {
-					++k;
-				}
-
-				if (movingobjectposition.sideHit == 4) {
-					--i;
-				}
-
-				if (movingobjectposition.sideHit == 5) {
-					++i;
-				}
-
-				p_77659_2_.setBlock(i, j, k, FCBlocks.roughChunk);
-				((BlockRoughChunk) p_77659_2_.getBlock(i, j, k)).setData(p_77659_1_, p_77659_2_, i, j, k);
-				ItemStack stack = p_77659_1_.copy();
-				stack.stackSize--;
-				return stack;
+			if (side == 5) {
+				++x;
 			}
 		}
 
-		return p_77659_1_;
-	}
+		if (!player.canPlayerEdit(x, y, z, side, stack)) {
+			return false;
+		} else if (stack.stackSize == 0) {
+			return false;
+		} else {
+			if (world.canPlaceEntityOnSide(this.block, x, y, z, false, side, (Entity) null, stack)) {
+				int i1 = this.block.onBlockPlaced(world, x, y, z, side, hitX, hitY, hitZ, 0);
 
+				if (world.setBlock(x, y, z, this.block, i1, 3)) {
+					if (world.getBlock(x, y, z) == this.block) {
+						this.block.onBlockPlacedBy(world, x, y, z, player, stack);
+						this.block.onPostBlockPlaced(world, x, y, z, i1);
+					}
+					if (world.getTileEntity(x, y, z) != null) {
+						TileEntityRoughChunk chunk = (TileEntityRoughChunk) world.getTileEntity(x, y, z);
+						chunk.init(stack.getItemDamage());
+
+					}
+					world.playSoundEffect((double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), this.block.stepSound.func_150496_b(), (this.block.stepSound.getVolume() + 1.0F) / 2.0F, this.block.stepSound.getPitch() * 0.8F);
+					--stack.stackSize;
+				}
+			}
+
+			return true;
+		}
+	}
 }

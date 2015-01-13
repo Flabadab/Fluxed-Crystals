@@ -15,15 +15,11 @@ public class SlotInfuser extends Slot {
 	}
 
 	public int getSlotStackLimit() {
-		return 1;
+		return 64;
 	}
 
 	public boolean isItemValid(ItemStack stack) {
-		for(RecipeSeedInfuser recipe : RecipeRegistry.getSeedRecipes()){
-			if(recipe.getIngredient().isItemEqual(stack)){
-				return true;
-			}
-		}
-		return false;
+	
+		return true;
 	}
 }

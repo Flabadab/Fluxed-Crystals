@@ -1,14 +1,8 @@
 package fluxedCrystals.tileEntity;
 
-import ic2.api.energy.tile.IEnergySink;
-
 import java.util.ArrayList;
 import java.util.Random;
 
-import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
-import thaumcraft.api.aspects.Aspect;
-import thaumcraft.api.aspects.AspectSourceHelper;
-import vazkii.botania.api.mana.IManaReceiver;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,19 +13,21 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectSourceHelper;
+import vazkii.botania.api.mana.IManaReceiver;
+import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
 import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.api.RecipeRegistry;
 import fluxedCrystals.api.recipe.RecipeGemCutter;
-import fluxedCrystals.api.recipe.RecipeGemRefiner;
 import fluxedCrystals.items.FCItems;
 import fluxedCrystals.network.MessageGemCutter;
-import fluxedCrystals.network.MessageGemRefiner;
 import fluxedCrystals.network.PacketHandler;
 
 /**
  * Created by Jared on 11/2/2014.
  */
-public class TileEntityGemCutter extends TileEnergyBase implements IInventory, IManaReceiver, IEnergySink {
+public class TileEntityGemCutter extends TileEnergyBase implements IInventory, IManaReceiver{
 
 	public ItemStack[] items;
 
@@ -46,17 +42,11 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 
 	private int mana;
 	private int MAX_MANA;
-	private int MAX_ENERGY;
-	private int current_Energy;
-	private boolean addedToWorld = false;
-	private boolean addedToEnergyNet = false;
 	private boolean RF = true;
 
 	public TileEntityGemCutter() {
 		super(10000);
 		MAX_MANA = getMaxStorage();
-		MAX_ENERGY = getMaxStorage() / 4;
-		current_Energy = 0;
 		mana = 0;
 		items = new ItemStack[6];
 
@@ -103,16 +93,6 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 				} else {
 					if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && mana >= getEffeciency()) {
 						refineMana();
-						return;
-					}
-
-				}
-				if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && current_Energy >= getEffeciency() && getStackInSlot(1) != null && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
-					refineEU();
-					return;
-				} else {
-					if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && current_Energy >= getEffeciency()) {
-						refineEU();
 						return;
 					}
 
@@ -310,7 +290,6 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 		cut = tags.getInteger("cut");
 		setRecipeIndex(tags.getInteger("recipeIndex"));
 		mana = tags.getInteger("mana");
-		current_Energy = tags.getInteger("currentEnergy");
 	}
 
 	public void readInventoryFromNBT(NBTTagCompound tags) {
@@ -332,7 +311,6 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 		tags.setInteger("cut", cut);
 		tags.setInteger("recipeIndex", getRecipeIndex());
 		tags.setInteger("mana", mana);
-		tags.setInteger("currentEnergy", current_Energy);
 	}
 
 	public void writeInventoryToNBT(NBTTagCompound tags) {
@@ -357,9 +335,9 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 					decrStackSize(0, 1);
 					cut++;
 					storage.extractEnergy(250, false);
-					if (cut == 1) {
+					if (cut == recipe.getInputamount()) {
 						ItemStack out = recipe.getOutput().copy();
-						out.stackSize = RecipeRegistry.getDropAmount(recipeIndex);
+						out.stackSize = recipe.getOutputAmount();
 						addInventorySlotContents(1, out);
 						cutting = false;
 						cut = 0;
@@ -385,10 +363,10 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 					decrStackSize(0, 1);
 					cut++;
 					mana -= 250;
-					if (cut == 1) {
+					if (cut == recipe.getInputamount()) {
 						ItemStack out = recipe.getOutput().copy();
-						out.stackSize = RecipeRegistry.getDropAmount(recipeIndex);
 						addInventorySlotContents(1, out);
+						out.stackSize = recipe.getOutputAmount();
 						mana -= 500;
 						cutting = false;
 						cut = 0;
@@ -414,9 +392,9 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 					decrStackSize(0, 1);
 					cut++;
 					SoulNetworkHandler.syphonFromNetwork(getStackInSlot(5), 250 / 4);
-					if (cut == 1) {
+					if (cut == recipe.getInputamount()) {
 						ItemStack out = recipe.getOutput().copy();
-						out.stackSize = RecipeRegistry.getDropAmount(recipeIndex);
+						out.stackSize = recipe.getOutputAmount();
 						addInventorySlotContents(1, out);
 						cutting = false;
 						cut = 0;
@@ -434,33 +412,6 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 		return false;
 	}
 
-	public boolean refineEU() {
-		if (getRecipeIndex() >= 0) {
-			RecipeGemCutter recipe = RecipeRegistry.getGemCutterRecipes().get(recipeIndex);
-			if (recipe.matchesExact(getStackInSlot(0))) {
-				if (getStackInSlot(1) == null || getStackInSlot(1).isItemEqual(recipe.getOutput())) {
-					decrStackSize(0, 1);
-					cut++;
-					drainEnergy(250 / 4);
-					if (cut == 1) {
-						ItemStack out = recipe.getOutput().copy();
-						out.stackSize = RecipeRegistry.getDropAmount(recipeIndex);
-						addInventorySlotContents(1, out);
-						cutting = false;
-						cut = 0;
-						setRecipeIndex(-1);
-						PacketHandler.INSTANCE.sendToDimension(new MessageGemCutter(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
-
-					}
-				}
-				return true;
-			}
-		}
-		cut = 0;
-		setRecipeIndex(-1);
-		cutting = false;
-		return false;
-	}
 
 	public boolean refineEssentia() {
 		if (getRecipeIndex() >= 0) {
@@ -469,10 +420,10 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 				if (getStackInSlot(1) == null || getStackInSlot(1).isItemEqual(recipe.getOutput())) {
 					decrStackSize(0, 1);
 					cut++;
-					if (cut == 1) {
+					if (cut == recipe.getInputamount()) {
 						ItemStack out = recipe.getOutput().copy();
-						out.stackSize = RecipeRegistry.getDropAmount(recipeIndex);
 						addInventorySlotContents(1, out);
+						out.stackSize = recipe.getOutputAmount();
 						cutting = false;
 						cut = 0;
 						setRecipeIndex(-1);
@@ -512,40 +463,6 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 	@Override
 	public ForgeDirection[] getValidInputs() {
 		return ForgeDirection.VALID_DIRECTIONS;
-	}
-
-	@Override
-	public boolean acceptsEnergyFrom(TileEntity emitter, ForgeDirection direction) {
-		return true;
-	}
-
-	@Override
-	public double getDemandedEnergy() {
-		return 32;
-	}
-
-	@Override
-	public int getSinkTier() {
-		return 1;
-	}
-
-	@Override
-	public double injectEnergy(ForgeDirection directionFrom, double amount, double voltage) {
-		double leftOver = amount;
-		if (amount + current_Energy <= MAX_ENERGY) {
-			current_Energy += amount;
-			leftOver = 0;
-		}
-		if (amount + current_Energy > MAX_ENERGY) {
-			current_Energy = MAX_ENERGY;
-			leftOver = (current_Energy + amount) - MAX_ENERGY;
-		}
-		return leftOver;
-
-	}
-
-	public boolean drainEnergy(double amount) {
-		return current_Energy - injectEnergy(null, -amount, 0) >= 0;
 	}
 
 	@Override

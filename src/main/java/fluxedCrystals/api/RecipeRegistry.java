@@ -26,19 +26,21 @@ public class RecipeRegistry {
 	private static List<RecipeGemCutter> gemsCut = new ArrayList<RecipeGemCutter>();
 
 	public static List<RecipeSeedInfuser> getSeedRecipes() {
-		return ImmutableList.copyOf(seedRecipes);
+		return seedRecipes;
 	}
 
 	public static List<RecipeGemRefiner> getGemRefinerRecipes() {
-		return ImmutableList.copyOf(gemsRef);
+		return gemsRef;
 	}
 
 	public static List<RecipeGemCutter> getGemCutterRecipes() {
-		return ImmutableList.copyOf(gemsCut);
+		return gemsCut;
 	}
 
 	public static void registerSeedInfuserRecipe(RecipeSeedInfuser recipe) {
-		seedRecipes.add(recipe);
+		if (!seedRecipes.contains(recipe))
+			seedRecipes.add(recipe);
+
 	}
 
 	public static void addCrop(SeedCrystalRecipe type) {
@@ -82,6 +84,13 @@ public class RecipeRegistry {
 			return crops.get(itemDamage).getSeedReturn();
 		}
 		return 1;
+	}
+
+	public static int getEntityID(int itemDamage) {
+		if (rangeCheck(itemDamage)) {
+			return crops.get(itemDamage).getEntityID();
+		}
+		return 0;
 	}
 
 	public static int getNumSeedRecipes() {
@@ -174,6 +183,12 @@ public class RecipeRegistry {
 		return rand.nextInt(max - min + 1) + min;
 	}
 
+	public static int getDropAmount(int dropMin, int dropMax) {
+		int min = dropMin;
+		int max = dropMax;
+		return rand.nextInt(max - min + 1) + min;
+	}
+
 	public static int getGrowthTime(int itemDamage) {
 		if (rangeCheck(itemDamage))
 			return crops.get(itemDamage).getGrowthTime();
@@ -217,6 +232,8 @@ public class RecipeRegistry {
 		if (caller.contains("fluxedCrystals.config")) {
 			crops.clear();
 			seedRecipes.clear();
+			gemsCut.clear();
+			gemsRef.clear();
 		} else {
 			throw new RuntimeException(caller + " tried to clear the FluxedCrystals recipe registry. They can't do that!");
 		}

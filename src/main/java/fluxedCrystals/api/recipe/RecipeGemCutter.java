@@ -11,11 +11,17 @@ public class RecipeGemCutter {
 	private ItemStack input;
 	private ItemStack output;
 	private int inputAmount;
+	private int outputAmount;
 
-	public RecipeGemCutter(ItemStack input, ItemStack output, int inputAmount) {
+	public RecipeGemCutter(ItemStack input, ItemStack output, int inputAmount, int outputAmount) {
 		this.input = input;
 		this.output = output;
 		this.inputAmount = inputAmount;
+		this.outputAmount = outputAmount;
+	}
+
+	public int getOutputAmount() {
+		return outputAmount;
 	}
 
 	public boolean matches(ItemStack stack) {

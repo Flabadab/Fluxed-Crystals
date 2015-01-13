@@ -27,7 +27,6 @@ item.scytheIron.name=Iron Scythe
 item.scytheGold.name=Gold Scythe
 item.scytheDiamond.name=Diamond Scythe
 itemGroup.Fluxed-Crystals=Fluxed-Crystals
-fc.tick.time.off=Some Wibbily Wobbly Timey Wimey just occurred! Some things seem to be going faaster than others!
 item.hammerCrystal.name=Crystal Hammer
 death.attack.Crystal=%s was cut by a Crystal
 fc.manager.energy.eu=Current EU

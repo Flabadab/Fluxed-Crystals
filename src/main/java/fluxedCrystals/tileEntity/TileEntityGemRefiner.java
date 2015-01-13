@@ -1,13 +1,5 @@
 package fluxedCrystals.tileEntity;
 
-import fluxedCrystals.FluxedCrystals;
-import fluxedCrystals.api.RecipeRegistry;
-import fluxedCrystals.api.recipe.RecipeGemRefiner;
-import fluxedCrystals.items.FCItems;
-import fluxedCrystals.network.MessageGemRefiner;
-import fluxedCrystals.network.PacketHandler;
-import ic2.api.energy.tile.IEnergySink;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -25,11 +17,17 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectSourceHelper;
 import vazkii.botania.api.mana.IManaReceiver;
 import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
+import fluxedCrystals.FluxedCrystals;
+import fluxedCrystals.api.RecipeRegistry;
+import fluxedCrystals.api.recipe.RecipeGemRefiner;
+import fluxedCrystals.items.FCItems;
+import fluxedCrystals.network.MessageGemRefiner;
+import fluxedCrystals.network.PacketHandler;
 
 /**
  * Created by Jared on 11/2/2014.
  */
-public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, IManaReceiver, IEnergySink {
+public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, IManaReceiver {
 
 	public ItemStack[] items;
 
@@ -44,17 +42,11 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 
 	private int mana;
 	private int MAX_MANA;
-	private int MAX_ENERGY;
-	private int current_Energy;
-	private boolean addedToWorld = false;
-	private boolean addedToEnergyNet = false;
 	private boolean RF = true;
 
 	public TileEntityGemRefiner() {
 		super(10000);
 		MAX_MANA = getMaxStorage();
-		MAX_ENERGY = getMaxStorage() / 4;
-		current_Energy = 0;
 		mana = 0;
 		items = new ItemStack[6];
 
@@ -101,16 +93,6 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 				} else {
 					if (refining && worldObj.getWorldTime() % getSpeed() == 0 && mana >= getEffeciency()) {
 						refineMana();
-						return;
-					}
-
-				}
-				if (refining && worldObj.getWorldTime() % getSpeed() == 0 && current_Energy >= getEffeciency() && getStackInSlot(1) != null && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
-					refineEU();
-					return;
-				} else {
-					if (refining && worldObj.getWorldTime() % getSpeed() == 0 && current_Energy >= getEffeciency()) {
-						refineEU();
 						return;
 					}
 
@@ -308,7 +290,6 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 		refined = tags.getInteger("refined");
 		setRecipeIndex(tags.getInteger("recipeIndex"));
 		mana = tags.getInteger("mana");
-		current_Energy = tags.getInteger("currentEnergy");
 	}
 
 	public void readInventoryFromNBT(NBTTagCompound tags) {
@@ -330,7 +311,6 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 		tags.setInteger("refined", refined);
 		tags.setInteger("recipeIndex", getRecipeIndex());
 		tags.setInteger("mana", mana);
-		tags.setInteger("currentEnergy", current_Energy);
 	}
 
 	public void writeInventoryToNBT(NBTTagCompound tags) {
@@ -355,9 +335,9 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 					decrStackSize(0, 1);
 					refined++;
 					storage.extractEnergy(250, false);
-					if (refined == RecipeRegistry.getRefinerAmount(recipeIndex)) {
+					if (refined == recipe.getInputamount()) {
 						ItemStack out = recipe.getOutput().copy();
-						out.stackSize = RecipeRegistry.getDropAmount(recipeIndex);
+						out.stackSize = recipe.getOutputAmount();
 						addInventorySlotContents(1, out);
 						refining = false;
 						refined = 0;
@@ -383,9 +363,9 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 					decrStackSize(0, 1);
 					refined++;
 					mana -= 250;
-					if (refined == RecipeRegistry.getRefinerAmount(recipeIndex)) {
+					if (refined == recipe.getInputamount()) {
 						ItemStack out = recipe.getOutput().copy();
-						out.stackSize = RecipeRegistry.getDropAmount(recipeIndex);
+						out.stackSize = recipe.getOutputAmount();
 						addInventorySlotContents(1, out);
 						refining = false;
 						refined = 0;
@@ -411,37 +391,9 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 					decrStackSize(0, 1);
 					refined++;
 					SoulNetworkHandler.syphonFromNetwork(getStackInSlot(5), 250 / 4);
-					if (refined == RecipeRegistry.getRefinerAmount(recipeIndex)) {
+					if (refined == recipe.getInputamount()) {
 						ItemStack out = recipe.getOutput().copy();
-						out.stackSize = RecipeRegistry.getDropAmount(recipeIndex);
-						addInventorySlotContents(1, out);
-						refining = false;
-						refined = 0;
-						setRecipeIndex(-1);
-						PacketHandler.INSTANCE.sendToDimension(new MessageGemRefiner(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
-
-					}
-				}
-				return true;
-			}
-		}
-		refined = 0;
-		setRecipeIndex(-1);
-		refining = false;
-		return false;
-	}
-
-	public boolean refineEU() {
-		if (getRecipeIndex() >= 0) {
-			RecipeGemRefiner recipe = RecipeRegistry.getGemRefinerRecipes().get(recipeIndex);
-			if (recipe.matchesExact(getStackInSlot(0))) {
-				if (getStackInSlot(1) == null || getStackInSlot(1).isItemEqual(recipe.getOutput())) {
-					decrStackSize(0, 1);
-					refined++;
-					drainEnergy(250);
-					if (refined == RecipeRegistry.getRefinerAmount(recipeIndex)) {
-						ItemStack out = recipe.getOutput().copy();
-						out.stackSize = RecipeRegistry.getDropAmount(recipeIndex);
+						out.stackSize = recipe.getOutputAmount();
 						addInventorySlotContents(1, out);
 						refining = false;
 						refined = 0;
@@ -466,9 +418,9 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 				if (getStackInSlot(1) == null || getStackInSlot(1).isItemEqual(recipe.getOutput())) {
 					decrStackSize(0, 1);
 					refined++;
-					if (refined == RecipeRegistry.getRefinerAmount(recipeIndex)) {
+					if (refined == recipe.getInputamount()) {
 						ItemStack out = recipe.getOutput().copy();
-						out.stackSize = RecipeRegistry.getDropAmount(recipeIndex);
+						out.stackSize = recipe.getOutputAmount();
 						addInventorySlotContents(1, out);
 						refining = false;
 						refined = 0;
@@ -509,40 +461,6 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 	@Override
 	public ForgeDirection[] getValidInputs() {
 		return ForgeDirection.VALID_DIRECTIONS;
-	}
-
-	@Override
-	public boolean acceptsEnergyFrom(TileEntity emitter, ForgeDirection direction) {
-		return true;
-	}
-
-	@Override
-	public double getDemandedEnergy() {
-		return 32;
-	}
-
-	@Override
-	public int getSinkTier() {
-		return 1;
-	}
-
-	@Override
-	public double injectEnergy(ForgeDirection directionFrom, double amount, double voltage) {
-		double leftOver = amount;
-		if (amount + current_Energy <= MAX_ENERGY) {
-			current_Energy += amount;
-			leftOver = 0;
-		}
-		if (amount + current_Energy > MAX_ENERGY) {
-			current_Energy = MAX_ENERGY;
-			leftOver = (current_Energy + amount) - MAX_ENERGY;
-		}
-		return leftOver;
-
-	}
-
-	public boolean drainEnergy(double amount) {
-		return current_Energy - injectEnergy(null, -amount, 0) >= 0;
 	}
 
 	@Override

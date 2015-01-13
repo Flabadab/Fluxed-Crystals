@@ -10,15 +10,18 @@ import org.apache.logging.log4j.Logger;
 import tterrag.core.common.Lang;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.relauncher.Side;
 import fluxedCrystals.blocks.FCBlocks;
+import fluxedCrystals.compat.minetweaker.FluxedCrystalsMT;
+import fluxedCrystals.compat.minetweaker.helper.TweakerPlugin;
 import fluxedCrystals.config.ConfigHandler;
 import fluxedCrystals.handlers.RecipeHandler;
 import fluxedCrystals.items.FCItems;
@@ -26,7 +29,7 @@ import fluxedCrystals.nei.FluxedCrystalsNEIConfig;
 import fluxedCrystals.network.PacketHandler;
 import fluxedCrystals.proxy.CommonProxy;
 
-@Mod(modid = ModProps.modid, name = ModProps.name, version = ModProps.version, dependencies = "after:ThermalFoundation;required-after:ttCore;after:EnderIO;after:AWWayofTime;after:botania;after:NotEnoughItems;after:AgriCraft")
+@Mod(modid = ModProps.modid, name = ModProps.name, version = ModProps.version, dependencies = "after:ThermalFoundation;required-after:ttCore;after:EnderIO;after:AWWayofTime;after:botania;after:NotEnoughItems;after:AgriCraft;after:MineTweaker3")
 public class FluxedCrystals {
 
 	public static File configDir = null;
@@ -45,7 +48,6 @@ public class FluxedCrystals {
 	public static int chunkRenderID;
 	public static boolean thaumcraftThere;
 	public static List<ModContainer> activeMods = new ArrayList<ModContainer>();
-	public static List<String> activeModids = new ArrayList<String>();
 
 	public static final CreativeTabFluxedCrystals tab = new CreativeTabFluxedCrystals();
 
@@ -65,16 +67,18 @@ public class FluxedCrystals {
 		} else {
 			thaumcraftThere = false;
 		}
-
+		if (Loader.isModLoaded("NotEnoughItems") && event.getSide() == Side.CLIENT) {
+			new FluxedCrystalsNEIConfig().loadConfig();
+		}
 		FMLInterModComms.sendMessage("Waila", "register", "fluxedCrystals.compat.waila.WailaCompat.load");
-
 	}
 
 	@EventHandler
 	public static void Init(FMLInitializationEvent event) {
 		logger.info("Starting Init.");
 		proxy.renderTrans();
-
+		if (Loader.isModLoaded("MineTweaker3"))
+			TweakerPlugin.register(ModProps.modid, FluxedCrystalsMT.class);
 	}
 
 	@EventHandler
@@ -82,9 +86,7 @@ public class FluxedCrystals {
 		logger.info("Starting Post Init.");
 		RecipeHandler.init();
 		activeMods = Loader.instance().getActiveModList();
-		if (Loader.isModLoaded("NotEnoughItems")) {
-			new FluxedCrystalsNEIConfig().loadConfig();;
-		}
+
 	}
 
 }

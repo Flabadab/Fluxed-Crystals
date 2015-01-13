@@ -14,10 +14,6 @@ public class CreativeTabFluxedCrystals extends CreativeTabs {
 		super("Fluxed-Crystals");
 	}
 
-	public boolean hasSearchBar() {
-		return true;
-	}
-
 	@Override
 	public Item getTabIconItem() {
 		return FCItems.scytheDiamond;

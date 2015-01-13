@@ -41,9 +41,10 @@ public class RecipeSeedInfuser {
 		return false;
 	}
 
-	public boolean matchesExact(ItemStack ingredient) {
-		return this.input.isItemEqual(ingredient);
+	public boolean matchesExact(ItemStack input, ItemStack ingredient) {
+		return this.input.isItemEqual(ingredient) && this.ingredient.isItemEqual(input);
 	}
+
 
 	public ItemStack getInput() {
 		ItemStack stack = input.copy();

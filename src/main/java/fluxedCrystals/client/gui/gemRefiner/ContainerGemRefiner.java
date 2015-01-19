@@ -15,7 +15,7 @@ public class ContainerGemRefiner extends Container {
 	public ContainerGemRefiner(InventoryPlayer invPlayer, TileEntityGemRefiner manager) {
 
 		addSlotToContainer(new Slot(manager, 0, 9, 9));
-		addSlotToContainer(new SlotCustom(manager, 1, 151, 9));
+		addSlotToContainer(new SlotCustom(manager, 1, 151, 9, 64));
 
 		addSlotToContainer(new SlotUpgrade(manager, 2, 116, 62));
 		addSlotToContainer(new SlotUpgrade(manager, 3, 134, 62));

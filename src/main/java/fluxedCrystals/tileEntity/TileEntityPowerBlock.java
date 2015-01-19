@@ -3,8 +3,10 @@ package fluxedCrystals.tileEntity;
 import tterrag.core.common.util.BlockCoord;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 import fluxedCrystals.api.CrystalBase;
 import fluxedCrystals.api.RecipeRegistry;
 import fluxedCrystals.blocks.FCBlocks;
@@ -33,39 +35,11 @@ public class TileEntityPowerBlock extends TileEntity {
 		setManager(null);
 	}
 
-	public void convertblocks(World world, TileEntityManagerBlock manager) {
-			if (world.getBlock(xCoord + 1, yCoord, zCoord) != null)
-				if (world.getBlock(xCoord + 1, yCoord, zCoord) == Blocks.dirt) {
-					world.setBlock(xCoord + 1, yCoord, zCoord, FCBlocks.powerBlock);
-					((TileEntityPowerBlock) world.getTileEntity(xCoord + 1, yCoord, zCoord)).setManager(getManager());
-					manager.getPowerBlocksToAdd().add((TileEntityPowerBlock) world.getTileEntity(xCoord + 1, yCoord, zCoord));
-				}
-			if (world.getBlock(xCoord - 1, yCoord, zCoord) != null)
-				if (world.getBlock(xCoord - 1, yCoord, zCoord) == Blocks.dirt) {
-					world.setBlock(xCoord - 1, yCoord, zCoord, FCBlocks.powerBlock);
-					((TileEntityPowerBlock) world.getTileEntity(xCoord - 1, yCoord, zCoord)).setManager(getManager());
-					manager.getPowerBlocksToAdd().add((TileEntityPowerBlock) world.getTileEntity(xCoord - 1, yCoord, zCoord));
-				}
-			if (world.getBlock(xCoord, yCoord, zCoord + 1) != null)
-				if (world.getBlock(xCoord, yCoord, zCoord + 1) == Blocks.dirt) {
-					world.setBlock(xCoord, yCoord, zCoord + 1, FCBlocks.powerBlock);
-					((TileEntityPowerBlock) world.getTileEntity(xCoord, yCoord, zCoord + 1)).setManager(getManager());
-					manager.getPowerBlocksToAdd().add((TileEntityPowerBlock) world.getTileEntity(xCoord, yCoord, zCoord + 1));
-				}
-			if (world.getBlock(xCoord, yCoord, zCoord - 1) != null)
-				if (world.getBlock(xCoord, yCoord, zCoord - 1) == Blocks.dirt) {
-					world.setBlock(xCoord, yCoord, zCoord - 1, FCBlocks.powerBlock);
-					((TileEntityPowerBlock) world.getTileEntity(xCoord, yCoord, zCoord - 1)).setManager(getManager());
-					manager.getPowerBlocksToAdd().add((TileEntityPowerBlock) world.getTileEntity(xCoord, yCoord, zCoord - 1));
-				}
-		}
-
-
 	public boolean growPlant(World world, boolean night, int dimension) {
 		if (world != null)
 			if (world.getBlock(xCoord, yCoord + 1, zCoord) instanceof CrystalBase) {
 				TileEntityCrystal crystal = (TileEntityCrystal) world.getTileEntity(xCoord, yCoord + 1, zCoord);
-				if (RecipeRegistry.getDimensionWhitelist(crystal.getIndex()) == world.provider.dimensionId)
+				if (RecipeRegistry.getDimensionWhitelist(crystal.getIndex()) == world.provider.dimensionId || RecipeRegistry.getDimensionWhitelist(crystal.getIndex()) == -2906)
 					return ((CrystalBase) world.getBlock(xCoord, yCoord + 1, zCoord)).growCrop(world, xCoord, yCoord + 1, zCoord, world.rand, night);
 			}
 
@@ -77,8 +51,6 @@ public class TileEntityPowerBlock extends TileEntity {
 	}
 
 	public TileEntityCrystal getCropTile(World world) {
-		if (world != null)
-			return world.getTileEntity(xCoord, yCoord + 1, zCoord) != null && world.getTileEntity(xCoord, yCoord + 1, zCoord) instanceof TileEntityCrystal ? (TileEntityCrystal) world.getTileEntity(xCoord, yCoord + 1, zCoord) : null;
-		return null;
+		return world.getTileEntity(xCoord, yCoord + 1, zCoord) != null && world.getTileEntity(xCoord, yCoord + 1, zCoord) instanceof TileEntityCrystal ? (TileEntityCrystal) world.getTileEntity(xCoord, yCoord + 1, zCoord) : null;
 	}
 }

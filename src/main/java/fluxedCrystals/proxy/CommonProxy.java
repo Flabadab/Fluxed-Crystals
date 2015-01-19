@@ -1,7 +1,8 @@
 package fluxedCrystals.proxy;
 
-import fluxedCrystals.client.gui.GUIHandler;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import fluxedCrystals.client.gui.GUIHandler;
 
 public class CommonProxy {
 
@@ -20,4 +21,8 @@ public class CommonProxy {
 	public void renderTrans() {
 
 	}
+	
+	  public EntityPlayer getClientPlayer() {
+	    return null;
+	  }
 }

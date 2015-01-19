@@ -10,22 +10,27 @@ import fluxedCrystals.blocks.FCBlocks;
 public class SlotCustom extends Slot {
 
 	ArrayList<ItemStack> validItems = new ArrayList<ItemStack>();
+	public int slotMax;
 
-	public SlotCustom(IInventory inventory, int number, int x, int y, ItemStack... validItems) {
+	public SlotCustom(IInventory inventory, int number, int x, int y, int slotMax, ItemStack... validItems) {
 		super(inventory, number, x, y);
-		for(ItemStack stack : validItems){
+		for (ItemStack stack : validItems) {
 			this.validItems.add(stack);
 		}
+		this.slotMax = slotMax;
 	}
-	
 
+	public int getSlotStackLimit(){
+		
+		return slotMax;
+	}
 	public boolean isItemValid(ItemStack stack) {
-		if(validItems.isEmpty()){
+		if (validItems.isEmpty()) {
 			return false;
 		}
-		
-		for(ItemStack items : validItems){
-			if(items.isItemEqual(stack)){
+
+		for (ItemStack items : validItems) {
+			if (items.isItemEqual(stack)) {
 				return true;
 			}
 		}

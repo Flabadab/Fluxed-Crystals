@@ -21,7 +21,7 @@ public class GUISeedInfuser extends GuiContainer {
 	public GUISeedInfuser(InventoryPlayer invPlayer, TileEntitySeedInfuser tile2) {
 		super(new ContainerSeedInfuser(invPlayer, tile2));
 
-		xSize = 175;
+		xSize = 176;
 		ySize = 166;
 		this.tile = tile2;
 

@@ -3,6 +3,8 @@ package fluxedCrystals.tileEntity;
 import java.util.ArrayList;
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,7 +29,7 @@ import fluxedCrystals.network.PacketHandler;
 /**
  * Created by Jared on 11/2/2014.
  */
-public class TileEntityGemCutter extends TileEnergyBase implements IInventory, IManaReceiver{
+public class TileEntityGemCutter extends TileEnergyBase implements IInventory, IManaReceiver {
 
 	public ItemStack[] items;
 
@@ -35,6 +37,10 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 	private boolean cutting = false;
 	@Getter
 	private int cut = 0;
+	@Getter
+	private int timePerCut = 0;
+	@Getter
+	int energy;
 
 	@Getter
 	@Setter
@@ -53,10 +59,14 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 	}
 
 	public void updateEntity() {
+
 		if (getStackInSlot(0) != null && !cutting) {
 			PacketHandler.INSTANCE.sendToServer(new MessageGemCutter(xCoord, yCoord, zCoord));
 		}
 		if (worldObj != null) {
+			if (worldObj.isRemote) {
+				energy = storage.getEnergyStored();
+			}
 			if (storage.getEnergyStored() > 0) {
 				if (getStackInSlot(1) != null) {
 					if (cutting && worldObj.getWorldTime() % getSpeed() == 0 && storage.getEnergyStored() >= getEffeciency() && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
@@ -121,7 +131,7 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 	}
 
 	public boolean isUpgradeActive(ItemStack stack) {
-		return (getUpgradeSlotOne() != null && getUpgradeSlotTwo().isItemEqual(stack)) || (getUpgradeSlotThree() != null && getUpgradeSlotTwo().isItemEqual(stack)) || (getUpgradeSlotThree() != null && getUpgradeSlotThree().isItemEqual(stack));
+		return (getUpgradeSlotOne() != null && getUpgradeSlotOne().isItemEqual(stack)) || (getUpgradeSlotTwo() != null && getUpgradeSlotTwo().isItemEqual(stack)) || (getUpgradeSlotThree() != null && getUpgradeSlotThree().isItemEqual(stack));
 	}
 
 	public ArrayList<ItemStack> getUpgrades() {
@@ -412,7 +422,6 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 		return false;
 	}
 
-
 	public boolean refineEssentia() {
 		if (getRecipeIndex() >= 0) {
 			RecipeGemCutter recipe = RecipeRegistry.getGemCutterRecipes().get(recipeIndex);
@@ -488,5 +497,21 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 	@Override
 	public boolean canRecieveManaFromBursts() {
 		return true;
+	}
+
+	public int getEnergyRemainingScaled(int amount) {
+		System.out.println(storage.getEnergyStored());
+		System.out.println(getMaxStorage());
+		System.out.println(amount);
+		return storage.getEnergyStored() * getMaxStorage() / amount;
+
+	}
+
+	public int getManaRemaningScaled(int amount) {
+		System.out.println(getCurrentMana());
+		System.out.println(MAX_MANA);
+		System.out.println(amount);
+
+		return getCurrentMana() * MAX_MANA / amount;
 	}
 }

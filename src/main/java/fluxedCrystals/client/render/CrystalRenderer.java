@@ -4,6 +4,9 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.event.entity.EntityEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.api.RecipeRegistry;
@@ -28,6 +31,7 @@ public class CrystalRenderer implements ISimpleBlockRenderingHandler {
 		renderer.drawCrossedSquares(((BlockCrystal) block).getIcon(world, x, y, z, meta), x, y, z, 1.0f);
 		return true;
 	}
+	
 
 	@Override
 	public boolean shouldRender3DInInventory(int modelId) {

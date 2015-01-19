@@ -24,12 +24,12 @@ public class GUIGemRefiner extends GuiContainer {
 	public GUIGemRefiner(InventoryPlayer invPlayer, TileEntityGemRefiner tile2) {
 		super(new ContainerGemRefiner(invPlayer, tile2));
 
-		xSize = 175;
+		xSize = 176;
 		ySize = 166;
 		this.tile = tile2;
 	}
 
-	private static final ResourceLocation texture = new ResourceLocation(ModProps.modid, "textures/gui/SeedInfuser.png");
+	private static final ResourceLocation texture = new ResourceLocation(ModProps.modid, "textures/gui/cutrefine.png");
 
 	@SuppressWarnings("unchecked")
 	public void initGui() {
@@ -42,11 +42,7 @@ public class GUIGemRefiner extends GuiContainer {
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
-		drawTexturedModalRect(guiLeft+115, guiTop+61, 0, 166, 18, 18);
-		drawTexturedModalRect(guiLeft+133, guiTop+61, 0, 166, 18, 18);
-		drawTexturedModalRect(guiLeft+151, guiTop+61, 0, 166, 18, 18);
-		drawTexturedModalRect(guiLeft+75, guiTop+61, 0, 166, 18, 18);
-		
+	
 	}
 
 }

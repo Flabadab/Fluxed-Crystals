@@ -121,7 +121,7 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 	}
 
 	public boolean isUpgradeActive(ItemStack stack) {
-		return (getUpgradeSlotOne() != null && getUpgradeSlotTwo().isItemEqual(stack)) || (getUpgradeSlotThree() != null && getUpgradeSlotTwo().isItemEqual(stack)) || (getUpgradeSlotThree() != null && getUpgradeSlotThree().isItemEqual(stack));
+		return (getUpgradeSlotOne() != null && getUpgradeSlotOne().isItemEqual(stack)) || (getUpgradeSlotTwo() != null && getUpgradeSlotTwo().isItemEqual(stack)) || (getUpgradeSlotThree() != null && getUpgradeSlotThree().isItemEqual(stack));
 	}
 
 	public ArrayList<ItemStack> getUpgrades() {

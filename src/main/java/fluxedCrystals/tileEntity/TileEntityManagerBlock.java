@@ -3,14 +3,13 @@ package fluxedCrystals.tileEntity;
 import java.util.ArrayList;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
@@ -22,7 +21,11 @@ import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
 import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.api.RecipeRegistry;
 import fluxedCrystals.blocks.FCBlocks;
+import fluxedCrystals.config.ConfigProps;
 import fluxedCrystals.items.FCItems;
+import fluxedCrystals.network.MessageManagerBlock;
+import fluxedCrystals.network.PacketHandler;
+import fluxedCrystals.utils.NBTHelper;
 
 /**
  * Created by Jared on 11/2/2014.
@@ -32,11 +35,9 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 	public ItemStack[] items;
 	public int totalPowerBlocks;
 	public boolean placedBlocks = false;
-	public boolean placingPowerBlocks = false;
 	private long lastTick;
-	private boolean alertedPlayers = false;;
 
-	private int size = 0;
+	private int size = 1;
 	private int timer = 0;
 
 	private int mana;
@@ -44,14 +45,15 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 	private boolean RF = true;
 	@Getter
 	private ArrayList<TileEntityPowerBlock> powerBlocks = new ArrayList<TileEntityPowerBlock>();
-	@Getter
-	private ArrayList<TileEntityPowerBlock> powerBlocksToAdd = new ArrayList<TileEntityPowerBlock>();
+
+	@Setter
+	private boolean converting;
 
 	public TileEntityManagerBlock() {
 		super(100000);
 		MAX_MANA = getMaxStorage();
 		mana = 0;
-		items = new ItemStack[6];
+		items = new ItemStack[5];
 	}
 
 	@Override
@@ -66,58 +68,65 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 
 	public void updateEntity() {
 		super.updateEntity();
-		if (getEnergyStored() <= 0) {
-			RF = false;
+		if (getStackInSlot(0) != null) {
+			if (size != 2 && getStackInSlot(0).isItemEqual(new ItemStack(FCItems.upgradeRangeBasic))) {
+				size = 2;
+			}
+			if (size != 3 && getStackInSlot(0).isItemEqual(new ItemStack(FCItems.upgradeRangeGreater))) {
+				size = 3;
+			}
+			if (size != 4 && getStackInSlot(0).isItemEqual(new ItemStack(FCItems.upgradeRangeAdvanced))) {
+				size = 4;
+			}
 		}
+		if (getStackInSlot(0) == null && size != 1) {
+			size = 1;
+		}
+		if (canPlacePowerBlocks(size)) {
+			placePowerBlocks(size);
+			PacketHandler.INSTANCE.sendToServer(new MessageManagerBlock(xCoord, yCoord, zCoord, size));
+		}
+
 		if (!(lastTick == worldObj.getTotalWorldTime())) {
-			System.out.println(powerBlocks.size());
 			for (TileEntityPowerBlock power : powerBlocks) {
-				power.convertblocks(getWorldObj(), this);
-
 				if (power.getCropTile(worldObj) != null) {
-					if (worldObj.getTotalWorldTime() % 20 == 0) {
-
-						if (!RF) {
-							if (getStackInSlot(5) != null) {
-
-								if (getCurrentMana() > 0) {
-									if (getCurrentMana() >= getUpgradeDrain(power.getCropTile(worldObj).getIndex()))
-										if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
-											if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)), worldObj.provider.dimensionId)) {
-												mana -= -getUpgradeDrain(power.getCropTile(worldObj).getIndex());
-											}
-								}
-								if (getStackInSlot(5).getItem() instanceof IBindable) {
-									IBindable bindedItem = ((IBindable) getStackInSlot(5).getItem());
-									if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
-										if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)), worldObj.provider.dimensionId)) {
-											SoulNetworkHandler.syphonFromNetwork(getStackInSlot(5), getUpgradeDrain(power.getCropTile(worldObj).getIndex()) / 4);
-										}
-								}
-
-							}
-
-						}
-
-						if (isUpgradeActive(new ItemStack(FCItems.upgradeAutomation)))
-							if (worldObj.getBlockMetadata(power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord) >= 7) {
-								power.getCrop(worldObj).dropCropDrops(worldObj, power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord, 0, true);
-								worldObj.setBlockMetadataWithNotify(power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord, 0, 3);
-								this.storage.extractEnergy(100, false);
-							}
-					}
-					if (FluxedCrystals.thaumcraftThere) {
-						if (RecipeRegistry.getAspectNeeded(power.getCropTile(worldObj).getIndex()) != null) {
-
-							if (AspectSourceHelper.findEssentia(power.getCropTile(worldObj), RecipeRegistry.getAspectNeeded(power.getCropTile(worldObj).getIndex()), ForgeDirection.UNKNOWN, 15))
+					if (isUpgradeActive(new ItemStack(FCItems.upgradeMana))) {
+						if (getCurrentMana() > 0) {
+							if (getCurrentMana() >= getUpgradeDrain(power.getCropTile(worldObj).getIndex()))
 								if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
 									if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)), worldObj.provider.dimensionId)) {
-										for (int i = 0; i < RecipeRegistry.getAspectNeededAmount(power.getCropTile(worldObj).getIndex()); i++)
-											AspectSourceHelper.drainEssentia(power.getCropTile(worldObj), RecipeRegistry.getAspectNeeded(power.getCropTile(worldObj).getIndex()), ForgeDirection.UNKNOWN, 15);
+										mana -= -getUpgradeDrain(power.getCropTile(worldObj).getIndex());
 									}
 						}
 					}
-					if (RecipeRegistry.getAspectNeeded(power.getCropTile(worldObj).getIndex()) == null)
+					if (isUpgradeActive(new ItemStack(FCItems.upgradeLP))) {
+						if (getStackInSlot(4) != null) {
+							if (getStackInSlot(4).getItem() instanceof IBindable) {
+								IBindable bindedItem = ((IBindable) getStackInSlot(4).getItem());
+								if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
+									if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)), worldObj.provider.dimensionId)) {
+										SoulNetworkHandler.syphonFromNetwork(getStackInSlot(4), getUpgradeDrain(power.getCropTile(worldObj).getIndex()) / 4);
+									}
+							}
+						}
+					}
+					if (isUpgradeActive(new ItemStack(FCItems.upgradeAutomation)))
+						if (worldObj.getBlockMetadata(power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord) >= 7) {
+							power.getCrop(worldObj).dropCropDrops(worldObj, power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord, 0, true);
+							worldObj.setBlockMetadataWithNotify(power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord, 0, 3);
+							this.storage.extractEnergy(100, false);
+						}
+					if (FluxedCrystals.thaumcraftThere && isUpgradeActive(new ItemStack(FCItems.upgradeEssentia))) {
+						if (ConfigProps.aspect != null) {
+							if (AspectSourceHelper.findEssentia(power.getCropTile(worldObj), ConfigProps.aspect, ForgeDirection.UNKNOWN, ConfigProps.aspectRange))
+								if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
+									if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)), worldObj.provider.dimensionId)) {
+										for (int i = 0; i < RecipeRegistry.getAspectNeededAmount(power.getCropTile(worldObj).getIndex()); i++)
+											AspectSourceHelper.drainEssentia(power.getCropTile(worldObj), ConfigProps.aspect, ForgeDirection.UNKNOWN, ConfigProps.aspectRange);
+									}
+						}
+					}
+					if (!isUpgradeActive(new ItemStack(FCItems.upgradeEssentia)) && !isUpgradeActive(new ItemStack(FCItems.upgradeMana)) && !isUpgradeActive(new ItemStack(FCItems.upgradeLP)))
 						if (this.storage.getEnergyStored() > getUpgradeDrain(power.getCropTile(worldObj).getIndex()))
 							if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
 								if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)), worldObj.provider.dimensionId)) {
@@ -125,47 +134,10 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 								}
 				}
 			}
-			if (!powerBlocksToAdd.isEmpty()) {
-				for (TileEntityPowerBlock power : powerBlocksToAdd) {
-					powerBlocks.add(power);
-				}
-				powerBlocksToAdd.clear();
-			}
 
-			if (worldObj.getBlock(xCoord + 1, yCoord, zCoord) == Blocks.dirt) {
-				if (drainPower(250)) {
-					worldObj.setBlock(xCoord + 1, yCoord, zCoord, FCBlocks.powerBlock);
-					storage.extractEnergy(250, false);
-					((TileEntityPowerBlock) worldObj.getTileEntity(xCoord + 1, yCoord, zCoord)).setManager(this);
-					powerBlocks.add((TileEntityPowerBlock) worldObj.getTileEntity(xCoord + 1, yCoord, zCoord));
-				}
-			}
-			if (worldObj.getBlock(xCoord - 1, yCoord, zCoord) == Blocks.dirt) {
-				if (drainPower(250)) {
-					worldObj.setBlock(xCoord - 1, yCoord, zCoord, FCBlocks.powerBlock);
-					storage.extractEnergy(250, false);
-					((TileEntityPowerBlock) worldObj.getTileEntity(xCoord - 1, yCoord, zCoord)).setManager(this);
-					powerBlocks.add((TileEntityPowerBlock) worldObj.getTileEntity(xCoord - 1, yCoord, zCoord));
-				}
-			}
-			if (worldObj.getBlock(xCoord, yCoord, zCoord + 1) == Blocks.dirt) {
-				if (drainPower(250)) {
-					worldObj.setBlock(xCoord, yCoord, zCoord + 1, FCBlocks.powerBlock);
-					storage.extractEnergy(250, false);
-					((TileEntityPowerBlock) worldObj.getTileEntity(xCoord, yCoord, zCoord + 1)).setManager(this);
-					powerBlocks.add((TileEntityPowerBlock) worldObj.getTileEntity(xCoord, yCoord, zCoord + 1));
-				}
-			}
-			if (worldObj.getBlock(xCoord, yCoord, zCoord - 1) == Blocks.dirt) {
-				if (drainPower(250)) {
-					worldObj.setBlock(xCoord, yCoord, zCoord - 1, FCBlocks.powerBlock);
-					storage.extractEnergy(250, false);
-					((TileEntityPowerBlock) worldObj.getTileEntity(xCoord, yCoord, zCoord - 1)).setManager(this);
-					powerBlocks.add((TileEntityPowerBlock) worldObj.getTileEntity(xCoord, yCoord, zCoord - 1));
-				}
-			}
+			lastTick = worldObj.getTotalWorldTime();
 		}
-		lastTick = worldObj.getTotalWorldTime();
+
 	}
 
 	public void placePowerBlocks(int size) {
@@ -173,32 +145,14 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 			for (int z = (size - (size * 2)); z <= size; z++) {
 				if (worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == FCBlocks.managerBlock) {
 					// NO-OP
-				} else {
-					if (worldObj.getBlock(xCoord + x, yCoord, zCoord + z).isReplaceable(worldObj, xCoord + x, yCoord, zCoord + z)) {
+				} else if (storage.getEnergyStored() > 250) {
+					if (worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == Blocks.dirt || worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == Blocks.grass) {
 
-						int items = 0;
-
-						if (getStackInSlot(0) != null) {
-							items += getStackInSlot(0).stackSize;
-						}
-						if (getStackInSlot(1) != null) {
-							items += getStackInSlot(1).stackSize;
-						}
-						if (getStackInSlot(0) != null && items >= 0) {
-							decrStackSize(0, 1);
-							worldObj.setBlock(xCoord + x, yCoord, zCoord + z, FCBlocks.powerBlock);
-							((TileEntityPowerBlock) worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z)).setManager(this);
-							powerBlocks.add((TileEntityPowerBlock) worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z));
-							placedBlocks = true;
-
-						} else if (getStackInSlot(1) != null && items >= 0) {
-							decrStackSize(1, 1);
-							worldObj.setBlock(xCoord + x, yCoord, zCoord + z, FCBlocks.powerBlock);
-							((TileEntityPowerBlock) worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z)).setManager(this);
-							powerBlocks.add((TileEntityPowerBlock) worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z));
-							placedBlocks = true;
-						}
-
+						worldObj.setBlock(xCoord + x, yCoord, zCoord + z, FCBlocks.powerBlock);
+						((TileEntityPowerBlock) worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z)).setManager(this);
+						powerBlocks.add((TileEntityPowerBlock) worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z));
+						placedBlocks = true;
+						storage.extractEnergy(250, false);
 					}
 				}
 			}
@@ -212,29 +166,21 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 	}
 
 	public boolean canPlacePowerBlocks(int size) {
-		int items = 0;
-		if (getStackInSlot(0) != null) {
-			items += getStackInSlot(0).stackSize;
-		}
-		if (getStackInSlot(1) != null) {
-			items += getStackInSlot(1).stackSize;
-		}
-		if (size * size > items) {
-			return false;
-		}
+		ArrayList<Boolean> returnBool = new ArrayList<Boolean>();
 		for (int x = (size - (size * 2)); x <= size; x++) {
 			for (int z = (size - (size * 2)); z <= size; z++) {
-
 				if (worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == FCBlocks.managerBlock) {
-					// NO-OP
-				} else {
-					if (!worldObj.getBlock(xCoord + x, yCoord, zCoord + z).isReplaceable(worldObj, xCoord + x, yCoord, zCoord + z)) {
-						return false;
-					}
+				}
+
+				if (worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == Blocks.dirt || worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == Blocks.grass) {
+					returnBool.add(true);
 				}
 			}
 		}
-		return true;
+		if (returnBool.contains(true)) {
+			return true;
+		}
+		return false;
 	}
 
 	public boolean canPlacePowerBlocks() {
@@ -316,10 +262,7 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if (stack == new ItemStack(FCBlocks.powerBlock, 0, OreDictionary.WILDCARD_VALUE)) {
-			return true;
-		}
-		return false;
+		return true;
 	}
 
 	@Override
@@ -413,15 +356,15 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 	}
 
 	public ItemStack getUpgradeOne() {
-		return getStackInSlot(2);
+		return getStackInSlot(1);
 	}
 
 	public ItemStack getUpgradeTwo() {
-		return getStackInSlot(3);
+		return getStackInSlot(2);
 	}
 
 	public ItemStack getUpgradeThree() {
-		return getStackInSlot(4);
+		return getStackInSlot(3);
 	}
 
 	public int getSpeed() {
@@ -522,9 +465,9 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 			recieveMana(-amount);
 			return true;
 		}
-		if (getStackInSlot(5) != null) {
-			if (getStackInSlot(5).getItem() instanceof IBindable) {
-				SoulNetworkHandler.syphonFromNetwork(getStackInSlot(5), amount / 4);
+		if (getStackInSlot(4) != null) {
+			if (getStackInSlot(4).getItem() instanceof IBindable) {
+				SoulNetworkHandler.syphonFromNetwork(getStackInSlot(4), amount / 4);
 				return true;
 			}
 		}

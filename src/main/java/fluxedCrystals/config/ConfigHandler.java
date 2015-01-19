@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 
 import org.apache.commons.io.filefilter.FileFilterUtils;
 
+import thaumcraft.api.aspects.Aspect;
 import tterrag.core.common.config.AbstractConfigHandler;
 import tterrag.core.common.config.JsonConfigReader;
 import tterrag.core.common.config.JsonConfigReader.ModToken;
@@ -52,6 +53,10 @@ public class ConfigHandler extends AbstractConfigHandler {
 	protected void reloadIngameConfigs() {
 		activateSection(ConfigProps.addonCategory);
 		ConfigProps.enderioAddon = getProperty("EnderIO Addon Support", true).getBoolean(true);
+		ConfigProps.aspectString = getProperty("Override Aspect for Crystals. (null for nothing)", "null").getString();
+		ConfigProps.aspectRange = getProperty("Override Aspect Range for Crystals. (0 for nothing)", "0").getInt();
+		if (!ConfigProps.aspectString.equals("null"))
+			ConfigProps.aspect = Aspect.getAspect(ConfigProps.aspectString);
 
 		activateSection(ConfigProps.dropCategory);
 		ConfigProps.normalShardRecipes = getProperty("Should materials be crafted in a normal crafting table?", false).getBoolean(false);

@@ -19,6 +19,7 @@ public class PacketHandler {
 		INSTANCE.registerMessage(MessageGemCutter.class, MessageGemCutter.class, 7, Side.SERVER);
 		INSTANCE.registerMessage(MessageGemCutter.class, MessageGemCutter.class, 8, Side.CLIENT);
 		INSTANCE.registerMessage(MessageManagerBlockConvert.class, MessageManagerBlockConvert.class, 9, Side.SERVER);
+		INSTANCE.registerMessage(MessageEnergyStorage.class, MessageEnergyStorage.class, 10, Side.CLIENT);
 		
 		
 		

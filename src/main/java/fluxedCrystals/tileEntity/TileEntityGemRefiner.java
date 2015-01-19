@@ -21,6 +21,8 @@ import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.api.RecipeRegistry;
 import fluxedCrystals.api.recipe.RecipeGemRefiner;
 import fluxedCrystals.items.FCItems;
+import fluxedCrystals.network.MessageEnergyStorage;
+import fluxedCrystals.network.MessageGemCutter;
 import fluxedCrystals.network.MessageGemRefiner;
 import fluxedCrystals.network.PacketHandler;
 
@@ -43,6 +45,7 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 	private int mana;
 	private int MAX_MANA;
 	private boolean RF = true;
+	private int energy = 0;
 
 	public TileEntityGemRefiner() {
 		super(10000);
@@ -53,12 +56,19 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 	}
 
 	public void updateEntity() {
+
+		if (energy != storage.getEnergyStored()) {
+			PacketHandler.INSTANCE.sendToAll(new MessageEnergyStorage(this));
+		}
 		if (getStackInSlot(0) != null && !refining) {
-			PacketHandler.INSTANCE.sendToServer(new MessageGemRefiner(xCoord, yCoord, zCoord));
+			PacketHandler.INSTANCE.sendToServer(new MessageGemCutter(xCoord, yCoord, zCoord));
 		}
 		if (worldObj != null) {
+			if (worldObj.isRemote) {
+				energy = storage.getEnergyStored();
+			}
 			if (storage.getEnergyStored() > 0) {
-				if (getStackInSlot(1) != null) {
+				if (!isUpgradeActive(new ItemStack(FCItems.upgradeMana)) && !isUpgradeActive(new ItemStack(FCItems.upgradeLP)) && !isUpgradeActive(new ItemStack(FCItems.upgradeEssentia))) {
 					if (refining && worldObj.getWorldTime() % getSpeed() == 0 && storage.getEnergyStored() >= getEffeciency() && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
 						refine();
 						return;
@@ -73,31 +83,31 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 			if (storage.getEnergyStored() <= 0) {
 
 				if (getStackInSlot(5) != null) {
-					if (getStackInSlot(1) != null) {
+					if (getStackInSlot(1) != null && isUpgradeActive(new ItemStack(FCItems.upgradeLP))) {
 						if (refining && worldObj.getWorldTime() % getSpeed() == 0 && SoulNetworkHandler.canSyphonFromOnlyNetwork(getStackInSlot(5), getEffeciency() / 4) && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
 							refineLP();
 							return;
 						}
 					} else {
-						if (refining && worldObj.getWorldTime() % getSpeed() == 0 && SoulNetworkHandler.canSyphonFromOnlyNetwork(getStackInSlot(5), getEffeciency() / 4)) {
+						if (refining && worldObj.getWorldTime() % getSpeed() == 0 && SoulNetworkHandler.canSyphonFromOnlyNetwork(getStackInSlot(5), getEffeciency() / 4) && isUpgradeActive(new ItemStack(FCItems.upgradeLP))) {
 							refineLP();
 							return;
 						}
 					}
 				}
-				if (getStackInSlot(1) != null) {
+				if (getStackInSlot(1) != null && isUpgradeActive(new ItemStack(FCItems.upgradeMana))) {
 					if (refining && worldObj.getWorldTime() % getSpeed() == 0 && mana >= getEffeciency() && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
 						refineMana();
 						return;
 					}
 				} else {
-					if (refining && worldObj.getWorldTime() % getSpeed() == 0 && mana >= getEffeciency()) {
+					if (refining && isUpgradeActive(new ItemStack(FCItems.upgradeMana)) && worldObj.getWorldTime() % getSpeed() == 0 && mana >= getEffeciency()) {
 						refineMana();
 						return;
 					}
 
 				}
-				if (FluxedCrystals.thaumcraftThere) {
+				if (FluxedCrystals.thaumcraftThere && isUpgradeActive(new ItemStack(FCItems.upgradeEssentia))) {
 					if (AspectSourceHelper.findEssentia(this, Aspect.MECHANISM, ForgeDirection.UNKNOWN, 16)) {
 						if (refining && worldObj.getWorldTime() % getSpeed() == 0 && getStackInSlot(1) != null && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
 							if (refineEssentia()) {

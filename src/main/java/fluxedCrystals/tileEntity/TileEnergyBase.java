@@ -1,157 +1,158 @@
 package fluxedCrystals.tileEntity;
 
+import java.util.EnumSet;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.util.ForgeDirection;
-
-import org.apache.commons.lang3.ArrayUtils;
-
+import tterrag.core.common.util.TTStringUtils;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 import fluxedCrystals.network.MessageEnergyUpdate;
 import fluxedCrystals.network.PacketHandler;
+import fluxedCrystals.utils.Utils;
 
 public abstract class TileEnergyBase extends TileEntity implements IEnergyHandler {
-    protected EnergyStorage storage;
-    protected int capacity;
+	protected EnergyStorage storage;
+	protected int capacity;
 
-    private int lastStored = 0;
+	private int lastStored = 0;
 
-    public TileEnergyBase(int cap) {
-        super();
-        init(cap);
-    }
+	public TileEnergyBase(int cap) {
+		super();
+		init(cap);
+	}
 
-    private void init(int cap) {
-        storage = new EnergyStorage(cap);
-    }
+	private void init(int cap) {
+		storage = new EnergyStorage(cap);
+	}
 
-    public abstract ForgeDirection[] getValidOutputs();
+	public abstract EnumSet<ForgeDirection> getValidOutputs();
 
-    public abstract ForgeDirection[] getValidInputs();
+	public abstract EnumSet<ForgeDirection> getValidInputs();
 
-    @Override
-    public void updateEntity() {
-        super.updateEntity();
-        if (!worldObj.isRemote) {
-            pushEnergy();
+	@Override
+	public void updateEntity() {
+		super.updateEntity();
+		if (!worldObj.isRemote) {
+			pushEnergy();
 
-            if (getEnergyStored() != lastStored) {
-                sendPacket();
-                lastStored = getEnergyStored();
-            }
-        }
-    }
+			if (getEnergyStored() != lastStored) {
+				sendPacket();
+				lastStored = getEnergyStored();
+			}
+		}
+	}
 
-    protected void sendPacket() {
-        PacketHandler.INSTANCE.sendToDimension(new MessageEnergyUpdate(xCoord, yCoord, zCoord, getEnergyStored()), worldObj.provider.dimensionId);
-    }
+	private void sendPacket() {
+		PacketHandler.INSTANCE.sendToDimension(new MessageEnergyUpdate(xCoord, yCoord, zCoord, getEnergyStored()), worldObj.provider.dimensionId);
+	}
 
-    protected void pushEnergy() {
-        for (ForgeDirection dir : getValidOutputs()) {
-            TileEntity tile = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
-            if (tile instanceof IEnergyHandler) {
-                IEnergyHandler ieh = (IEnergyHandler) tile;
-                int toExtract = ieh.receiveEnergy(dir, getMaxOutputSpeed(), true);
-                ieh.receiveEnergy(dir, storage.extractEnergy(toExtract, false), false);
-            }
-        }
-    }
+	protected void pushEnergy() {
+		for (ForgeDirection dir : getValidOutputs()) {
+			TileEntity tile = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+			if (tile instanceof IEnergyHandler) {
+				IEnergyHandler ieh = (IEnergyHandler) tile;
+				storage.extractEnergy(ieh.receiveEnergy(dir, storage.extractEnergy(getOutputSpeed(), true), false), false);
+			}
+		}
+	}
 
-    /* I/O Handling */
+	/* I/O Handling */
 
-    @Override
-    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
-        if (ArrayUtils.contains(getValidOutputs(), from)) {
-            int ret = storage.extractEnergy(maxExtract, true);
-            if (!simulate) {
-                storage.extractEnergy(ret, false);
-            }
-            return ret;
-        }
-        return 0;
-    }
+	@Override
+	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+		if (getValidOutputs().contains(from)) {
+			int ret = storage.extractEnergy(maxExtract, true);
+			if (!simulate) {
+				storage.extractEnergy(ret, false);
+			}
+			return ret;
+		}
+		return 0;
+	}
 
-    @Override
-    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-        if (ArrayUtils.contains(getValidInputs(), from)) {
-            int ret = storage.receiveEnergy(maxReceive, true);
-            if (!simulate) {
-                storage.receiveEnergy(ret, false);
-            }
-            return ret;
-        }
-        return 0;
-    }
+	@Override
+	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+		if (getValidInputs().contains(from)) {
+			int ret = storage.receiveEnergy(maxReceive, true);
+			if (!simulate) {
+				storage.receiveEnergy(ret, false);
+			}
+			return ret;
+		}
+		return 0;
+	}
 
-    @Override
-    public final boolean canConnectEnergy(ForgeDirection from) {
-        return ArrayUtils.contains(getValidInputs(), from) || ArrayUtils.contains(getValidOutputs(), from);
-    }
+	@Override
+	public final boolean canConnectEnergy(ForgeDirection from) {
+		return getValidInputs().contains(from) || getValidOutputs().contains(from);
+	}
 
-    /* IEnergyHandler basic impl */
+	/* IEnergyHandler basic impl */
 
-    @Override
-    public final int getEnergyStored(ForgeDirection from) {
-        return getEnergyStored();
-    }
+	@Override
+	public final int getEnergyStored(ForgeDirection from) {
+		return getEnergyStored();
+	}
 
-    @Override
-    public final int getMaxEnergyStored(ForgeDirection from) {
-        return getMaxStorage();
-    }
-    
+	@Override
+	public final int getMaxEnergyStored(ForgeDirection from) {
+		return getMaxStorage();
+	}
 
-    
-    /* getters & setters */
+	/* IWailaAdditionalInfo */
 
-    public int getEnergyStored() {
-        return storage.getEnergyStored();
-    }
+	/* getters & setters */
 
-    public void setEnergyStored(int energy) {
-        storage.setEnergyStored(energy);
-    }
+	public int getEnergyStored() {
+		return storage.getEnergyStored();
+	}
 
-    public int getMaxStorage() {
-        return storage.getMaxEnergyStored();
-    }
+	public void setEnergyStored(int energy) {
+		storage.setEnergyStored(energy);
+	}
 
-    public void setMaxStorage(int storage) {
-        this.storage.setCapacity(storage);
-    }
+	public int getMaxStorage() {
+		return storage.getMaxEnergyStored();
+	}
 
-    public int getOutputSpeed() {
-        return storage.getMaxExtract();
-    }
+	public void setMaxStorage(int storage) {
+		this.storage.setCapacity(storage);
+	}
 
-    public void setOutputSpeed(int outputSpeed) {
-        this.storage.setMaxExtract(outputSpeed);
-    }
+	public int getOutputSpeed() {
+		return storage.getMaxExtract();
+	}
 
-    public int getMaxOutputSpeed() {
-        return getOutputSpeed();
-    }
+	public int getMaxOutputSpeed() {
+		return getOutputSpeed();
+	}
 
-    public int getInputSpeed() {
-        return storage.getMaxReceive();
-    }
+	public void setOutputSpeed(int outputSpeed) {
+		this.storage.setMaxExtract(outputSpeed);
+	}
 
-    public void setInputSpeed(int inputSpeed) {
-        this.storage.setMaxReceive(inputSpeed);
-    }
-    
-    /* Read/Write NBT */
+	public int getInputSpeed() {
+		return storage.getMaxReceive();
+	}
 
-    @Override
-    public void writeToNBT(NBTTagCompound nbt) {
-        storage.writeToNBT(nbt);
-        super.writeToNBT(nbt);
-    }
+	public void setInputSpeed(int inputSpeed) {
+		this.storage.setMaxReceive(inputSpeed);
+	}
 
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        storage.readFromNBT(nbt);
-        super.readFromNBT(nbt);
-    }
+	/* Read/Write NBT */
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		storage.writeToNBT(nbt);
+		super.writeToNBT(nbt);
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		storage.readFromNBT(nbt);
+		super.readFromNBT(nbt);
+	}
 }

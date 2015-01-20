@@ -1,6 +1,7 @@
 package fluxedCrystals.tileEntity;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +13,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.oredict.OreDictionary;
 import thaumcraft.api.aspects.AspectSourceHelper;
 import tterrag.core.common.util.BlockCoord;
 import vazkii.botania.api.mana.IManaReceiver;
@@ -25,7 +25,6 @@ import fluxedCrystals.config.ConfigProps;
 import fluxedCrystals.items.FCItems;
 import fluxedCrystals.network.MessageManagerBlock;
 import fluxedCrystals.network.PacketHandler;
-import fluxedCrystals.utils.NBTHelper;
 
 /**
  * Created by Jared on 11/2/2014.
@@ -57,13 +56,13 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 	}
 
 	@Override
-	public ForgeDirection[] getValidInputs() {
-		return new ForgeDirection[] { ForgeDirection.UP, ForgeDirection.DOWN, ForgeDirection.EAST, ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.WEST };
+	public EnumSet<ForgeDirection> getValidOutputs() {
+		return EnumSet.noneOf(ForgeDirection.class);
 	}
 
 	@Override
-	public ForgeDirection[] getValidOutputs() {
-		return new ForgeDirection[] { ForgeDirection.UNKNOWN };
+	public EnumSet<ForgeDirection> getValidInputs() {
+		return EnumSet.allOf(ForgeDirection.class);
 	}
 
 	public void updateEntity() {
@@ -84,7 +83,6 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 		}
 		if (canPlacePowerBlocks(size)) {
 			placePowerBlocks(size);
-			PacketHandler.INSTANCE.sendToServer(new MessageManagerBlock(xCoord, yCoord, zCoord, size));
 		}
 
 		if (!(lastTick == worldObj.getTotalWorldTime())) {

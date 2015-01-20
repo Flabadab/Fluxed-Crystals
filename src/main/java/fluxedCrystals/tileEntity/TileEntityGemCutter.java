@@ -1,6 +1,7 @@
 package fluxedCrystals.tileEntity;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.Random;
 
 import cpw.mods.fml.relauncher.Side;
@@ -468,15 +469,16 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 	}
 
 	@Override
-	public ForgeDirection[] getValidOutputs() {
+    public EnumSet<ForgeDirection> getValidOutputs()
+    {
+        return EnumSet.noneOf(ForgeDirection.class);
+    }
 
-		return new ForgeDirection[] { ForgeDirection.UNKNOWN };
-	}
-
-	@Override
-	public ForgeDirection[] getValidInputs() {
-		return ForgeDirection.VALID_DIRECTIONS;
-	}
+    @Override
+    public EnumSet<ForgeDirection> getValidInputs()
+    {
+        return EnumSet.allOf(ForgeDirection.class);
+    }
 
 	@Override
 	public int getCurrentMana() {

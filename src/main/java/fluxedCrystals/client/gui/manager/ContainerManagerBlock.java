@@ -9,6 +9,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import fluxedCrystals.api.ISeed;
 import fluxedCrystals.client.gui.slot.SlotCustom;
+import fluxedCrystals.client.gui.slot.SlotIBindable;
 import fluxedCrystals.client.gui.slot.SlotIMana;
 import fluxedCrystals.client.gui.slot.SlotPowerBlock;
 import fluxedCrystals.client.gui.slot.SlotUpgrade;
@@ -18,13 +19,12 @@ import fluxedCrystals.tileEntity.TileEntityManagerBlock;
 public class ContainerManagerBlock extends Container {
 
 	public ContainerManagerBlock(InventoryPlayer invPlayer, TileEntityManagerBlock manager) {
-		addSlotToContainer(new SlotCustom(manager, 0, 8, 62,1, new ItemStack(FCItems.upgradeRangeBasic), new ItemStack(FCItems.upgradeRangeAdvanced), new ItemStack(FCItems.upgradeRangeGreater)));
-
-		addSlotToContainer(new SlotUpgrade(manager, 1, 116, 62));
-		addSlotToContainer(new SlotUpgrade(manager, 2, 134, 62));
-		addSlotToContainer(new SlotUpgrade(manager, 3, 152, 62));
-		addSlotToContainer(new Slot(manager, 4, 71, 62));
-
+		addSlotToContainer(new SlotCustom(manager, 0, 13, 62,1, new ItemStack(FCItems.upgradeRangeBasic), new ItemStack(FCItems.upgradeRangeAdvanced), new ItemStack(FCItems.upgradeRangeGreater)));
+		addSlotToContainer(new SlotUpgrade(manager, 1, 147, 8));
+		addSlotToContainer(new SlotUpgrade(manager, 2, 147, 26));
+		addSlotToContainer(new SlotUpgrade(manager, 3, 147, 44));
+		addSlotToContainer(new SlotIBindable(manager, 4, 147, 62));
+		
 		for (int x = 0; x < 9; x++) {
 			addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 142));
 		}

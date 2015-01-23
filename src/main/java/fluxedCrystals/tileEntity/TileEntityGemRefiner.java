@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -19,17 +20,17 @@ import vazkii.botania.api.mana.IManaReceiver;
 import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
 import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.api.RecipeRegistry;
+import fluxedCrystals.api.recipe.RecipeGemCutter;
 import fluxedCrystals.api.recipe.RecipeGemRefiner;
 import fluxedCrystals.items.FCItems;
 import fluxedCrystals.network.MessageEnergyStorage;
-import fluxedCrystals.network.MessageGemCutter;
 import fluxedCrystals.network.MessageGemRefiner;
 import fluxedCrystals.network.PacketHandler;
 
 /**
  * Created by Jared on 11/2/2014.
  */
-public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, IManaReceiver {
+public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, IManaReceiver, ISidedInventory {
 
 	public ItemStack[] items;
 
@@ -51,17 +52,16 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 		super(10000);
 		MAX_MANA = getMaxStorage();
 		mana = 0;
-		items = new ItemStack[6];
+		items = new ItemStack[7];
 
 	}
 
 	public void updateEntity() {
-
 		if (energy != storage.getEnergyStored()) {
 			PacketHandler.INSTANCE.sendToAll(new MessageEnergyStorage(this));
 		}
 		if (getStackInSlot(0) != null && !refining) {
-			PacketHandler.INSTANCE.sendToServer(new MessageGemCutter(xCoord, yCoord, zCoord));
+			PacketHandler.INSTANCE.sendToServer(new MessageGemRefiner(xCoord, yCoord, zCoord));
 		}
 		if (worldObj != null) {
 			if (worldObj.isRemote) {
@@ -69,27 +69,29 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 			}
 			if (storage.getEnergyStored() > 0) {
 				if (!isUpgradeActive(new ItemStack(FCItems.upgradeMana)) && !isUpgradeActive(new ItemStack(FCItems.upgradeLP)) && !isUpgradeActive(new ItemStack(FCItems.upgradeEssentia))) {
-					if (refining && worldObj.getWorldTime() % getSpeed() == 0 && storage.getEnergyStored() >= getEffeciency() && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
-						refine();
-						return;
-					}
-				} else {
-					if (refining && worldObj.getWorldTime() % getSpeed() == 0 && storage.getEnergyStored() >= getEffeciency()) {
-						refine();
-						return;
+					if (getStackInSlot(1) != null) {
+						if (refining && worldObj.getWorldTime() % getSpeed() == 0 && storage.getEnergyStored() >= getEffeciency() && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
+							refine();
+							return;
+						}
+					} else {
+						if (refining && worldObj.getWorldTime() % getSpeed() == 0 && storage.getEnergyStored() >= getEffeciency()) {
+							refine();
+							return;
+						}
 					}
 				}
 			}
 			if (storage.getEnergyStored() <= 0) {
 
-				if (getStackInSlot(5) != null) {
+				if (getStackInSlot(6) != null) {
 					if (getStackInSlot(1) != null && isUpgradeActive(new ItemStack(FCItems.upgradeLP))) {
-						if (refining && worldObj.getWorldTime() % getSpeed() == 0 && SoulNetworkHandler.canSyphonFromOnlyNetwork(getStackInSlot(5), getEffeciency() / 4) && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
+						if (refining && worldObj.getWorldTime() % getSpeed() == 0 && SoulNetworkHandler.canSyphonFromOnlyNetwork(getStackInSlot(6), getEffeciency() / 4) && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
 							refineLP();
 							return;
 						}
 					} else {
-						if (refining && worldObj.getWorldTime() % getSpeed() == 0 && SoulNetworkHandler.canSyphonFromOnlyNetwork(getStackInSlot(5), getEffeciency() / 4) && isUpgradeActive(new ItemStack(FCItems.upgradeLP))) {
+						if (refining && worldObj.getWorldTime() % getSpeed() == 0 && SoulNetworkHandler.canSyphonFromOnlyNetwork(getStackInSlot(6), getEffeciency() / 4) && isUpgradeActive(new ItemStack(FCItems.upgradeLP))) {
 							refineLP();
 							return;
 						}
@@ -400,7 +402,7 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 				if (getStackInSlot(1) == null || getStackInSlot(1).isItemEqual(recipe.getOutput())) {
 					decrStackSize(0, 1);
 					refined++;
-					SoulNetworkHandler.syphonFromNetwork(getStackInSlot(5), 250 / 4);
+					SoulNetworkHandler.syphonFromNetwork(getStackInSlot(6), 250 / 4);
 					if (refined == recipe.getInputamount()) {
 						ItemStack out = recipe.getOutput().copy();
 						out.stackSize = recipe.getOutputAmount();
@@ -463,16 +465,14 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 	}
 
 	@Override
-    public EnumSet<ForgeDirection> getValidOutputs()
-    {
-        return EnumSet.noneOf(ForgeDirection.class);
-    }
+	public EnumSet<ForgeDirection> getValidOutputs() {
+		return EnumSet.noneOf(ForgeDirection.class);
+	}
 
-    @Override
-    public EnumSet<ForgeDirection> getValidInputs()
-    {
-        return EnumSet.allOf(ForgeDirection.class);
-    }
+	@Override
+	public EnumSet<ForgeDirection> getValidInputs() {
+		return EnumSet.allOf(ForgeDirection.class);
+	}
 
 	@Override
 	public int getCurrentMana() {
@@ -492,6 +492,29 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 		if (getCurrentMana() > MAX_MANA) {
 			this.mana = MAX_MANA;
 		}
+	}
+
+	private static int[] slotsAll = { 0, 1, 2, 3, 4, 5, 6 };
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return slotsAll;
+	}
+
+	@Override
+	public boolean canInsertItem(int slot, ItemStack stack, int side) {
+		if (slot == 0)
+			for (RecipeGemRefiner recipe : RecipeRegistry.getGemRefinerRecipes()) {
+				if (recipe.getInput().isItemEqual(stack)) {
+					return true;
+				}
+			}
+		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack stack, int side) {
+		return side != 0 && slot != 0;
 	}
 
 	@Override

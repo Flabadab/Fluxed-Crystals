@@ -52,7 +52,7 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 		super(100000);
 		MAX_MANA = getMaxStorage();
 		mana = 0;
-		items = new ItemStack[5];
+		items = new ItemStack[6];
 	}
 
 	@Override
@@ -66,7 +66,6 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 	}
 
 	public void updateEntity() {
-		super.updateEntity();
 		if (getStackInSlot(0) != null) {
 			if (size != 2 && getStackInSlot(0).isItemEqual(new ItemStack(FCItems.upgradeRangeBasic))) {
 				size = 2;
@@ -78,8 +77,12 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 				size = 4;
 			}
 		}
-		if (getStackInSlot(0) == null && size != 1) {
+		if (getStackInSlot(0) == null && size >= 1) {
+//			powerBlocks.clear();
 			size = 1;
+//			if (canPlacePowerBlocks(size)) {
+//				placePowerBlocks(size);
+//			}
 		}
 		if (canPlacePowerBlocks(size)) {
 			placePowerBlocks(size);
@@ -144,7 +147,7 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 				if (worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == FCBlocks.managerBlock) {
 					// NO-OP
 				} else if (storage.getEnergyStored() > 250) {
-					if (worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == Blocks.dirt || worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == Blocks.grass) {
+					if (worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == Blocks.dirt || worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == Blocks.grass || worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == FCBlocks.powerBlock) {
 
 						worldObj.setBlock(xCoord + x, yCoord, zCoord + z, FCBlocks.powerBlock);
 						((TileEntityPowerBlock) worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z)).setManager(this);
@@ -170,7 +173,7 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 				if (worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == FCBlocks.managerBlock) {
 				}
 
-				if (worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == Blocks.dirt || worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == Blocks.grass) {
+				if (worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == Blocks.dirt || worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == Blocks.grass || worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == FCBlocks.powerBlock) {
 					returnBool.add(true);
 				}
 			}

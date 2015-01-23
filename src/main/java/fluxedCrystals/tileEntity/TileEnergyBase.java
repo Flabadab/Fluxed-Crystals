@@ -24,6 +24,29 @@ public abstract class TileEnergyBase extends TileEntity implements IEnergyHandle
 		init(cap);
 	}
 
+	public int getEnergyRemainingScaled(int amount) {
+		if (storage.getEnergyStored() == storage.getMaxEnergyStored()) {
+			return storage.getMaxEnergyStored() - 1;
+		}
+		if (storage.getEnergyStored() == 0) {
+			return 1;
+		}
+		return storage.getEnergyStored() * amount / storage.getMaxEnergyStored();
+
+	}
+
+	public double getEnergyColor() {
+		double energy = storage.getEnergyStored();
+		double maxEnergy = storage.getMaxEnergyStored();
+		if (energy == energy) {
+			return energy - 1;
+		}
+		if (energy == 0) {
+			return 1;
+		}
+		return (energy / 255);
+	}
+
 	private void init(int cap) {
 		storage = new EnergyStorage(cap);
 	}
@@ -45,7 +68,7 @@ public abstract class TileEnergyBase extends TileEntity implements IEnergyHandle
 		}
 	}
 
-	private void sendPacket() {
+	public void sendPacket() {
 		PacketHandler.INSTANCE.sendToDimension(new MessageEnergyUpdate(xCoord, yCoord, zCoord, getEnergyStored()), worldObj.provider.dimensionId);
 	}
 

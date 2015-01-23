@@ -9,7 +9,7 @@ public class PacketHandler {
 	public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(ModProps.modid);
 
 	public static void init() {
-		INSTANCE.registerMessage(MessageEnergyUpdate.class, MessageEnergyUpdate.class, 0, Side.SERVER);
+		INSTANCE.registerMessage(MessageEnergyUpdate.class, MessageEnergyUpdate.class, 0, Side.CLIENT);
 		INSTANCE.registerMessage(MessageManagerBlock.class, MessageManagerBlock.class, 1, Side.SERVER);
 		INSTANCE.registerMessage(MessageSeedInfuser.class, MessageSeedInfuser.class, 2, Side.SERVER);
 		INSTANCE.registerMessage(MessageSeedInfuser.class, MessageSeedInfuser.class, 3, Side.CLIENT);

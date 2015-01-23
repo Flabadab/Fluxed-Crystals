@@ -8,21 +8,21 @@ import net.minecraft.item.ItemStack;
 import fluxedCrystals.client.gui.slot.SlotCustom;
 import fluxedCrystals.client.gui.slot.SlotIBindable;
 import fluxedCrystals.client.gui.slot.SlotUpgrade;
+import fluxedCrystals.items.FCItems;
 import fluxedCrystals.tileEntity.TileEntityGemRefiner;
 
 public class ContainerGemRefiner extends Container {
 
 	public ContainerGemRefiner(InventoryPlayer invPlayer, TileEntityGemRefiner manager) {
 
-		addSlotToContainer(new Slot(manager, 0, 9, 9));
-		addSlotToContainer(new SlotCustom(manager, 1, 151, 9, 64));
+		addSlotToContainer(new Slot(manager, 0, 46, 37));
+		addSlotToContainer(new SlotCustom(manager, 1, 114, 37, 64));
+		addSlotToContainer(new SlotUpgrade(manager, 2, 147, 8));
+		addSlotToContainer(new SlotUpgrade(manager, 3, 147, 26));
+		addSlotToContainer(new SlotUpgrade(manager, 4, 147, 44));
 
-		addSlotToContainer(new SlotUpgrade(manager, 2, 116, 62));
-		addSlotToContainer(new SlotUpgrade(manager, 3, 134, 62));
-		addSlotToContainer(new SlotUpgrade(manager, 4, 152, 62));
-
-		addSlotToContainer(new SlotIBindable(manager, 5, 76, 62));
-
+		addSlotToContainer(new SlotCustom(manager, 5, 13, 62, 1, new ItemStack(FCItems.upgradeRangeBasic), new ItemStack(FCItems.upgradeRangeAdvanced), new ItemStack(FCItems.upgradeRangeGreater)));
+		addSlotToContainer(new SlotIBindable(manager, 6, 147, 62));
 		for (int x = 0; x < 9; x++) {
 			addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 142));
 		}

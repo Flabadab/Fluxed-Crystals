@@ -1,25 +1,28 @@
 package fluxedCrystals.client.gui.gemRefiner;
 
+import java.util.Random;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
 import fluxedCrystals.ModProps;
-import fluxedCrystals.client.gui.seedInfuser.ContainerSeedInfuser;
-import fluxedCrystals.network.MessageGemRefiner;
-import fluxedCrystals.network.MessageSeedInfuser;
-import fluxedCrystals.network.PacketHandler;
+import fluxedCrystals.items.FCItems;
 import fluxedCrystals.tileEntity.TileEntityGemRefiner;
-import fluxedCrystals.tileEntity.TileEntitySeedInfuser;
 
 public class GUIGemRefiner extends GuiContainer {
 
 	private TileEntityGemRefiner tile;
+	private int energyOffset = 0;
+	private int cut = 0;
+	private int sawX;
+	private int sawY;
+	private boolean sawRange = false;
 
 	public GUIGemRefiner(InventoryPlayer invPlayer, TileEntityGemRefiner tile2) {
 		super(new ContainerGemRefiner(invPlayer, tile2));
@@ -34,15 +37,53 @@ public class GUIGemRefiner extends GuiContainer {
 	@SuppressWarnings("unchecked")
 	public void initGui() {
 		super.initGui();
+		sawX = guiLeft + 90;
+		sawY = guiTop + 37;
 	}
 
 	@Override
-	public void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
+	public void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
+		energyOffset++;
 		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
-	
+		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
+		drawTexturedModalRect(guiLeft + 14, guiTop + 15, 177, 4, 14, 42);
+		if (tile.getEnergyStored() > 0 && !tile.isUpgradeActive(new ItemStack(FCItems.upgradeMana)) && !tile.isUpgradeActive(new ItemStack(FCItems.upgradeEssentia)) && !tile.isUpgradeActive(new ItemStack(FCItems.upgradeLP))) {
+//			GL11.glColor4d(tile.getEnergyColor() / 10000, tile.getEnergyColor() / 10000, tile.getEnergyColor() / 10000, 1f);
+			drawTexturedModalRect(guiLeft + 14, guiTop + 15, 193, 4, 14, 42);
+			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		}
+		if (tile.isUpgradeActive(new ItemStack(FCItems.upgradeMana))) {
+//			GL11.glColor4d(tile.getManaColor() / 10000, tile.getManaColor() / 10000, tile.getManaColor() / 10000, 1f);
+
+			drawTexturedModalRect(guiLeft + 14, guiTop + 15, 193, 47, 14, 42);
+			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		}
+		GL11.glColor4f(0.2f, 0.2f, 0.2f, 1.0f);
+		if (tile.getRecipeIndex() >= 0 && tile.getStackInSlot(0) != null) {
+			if (energyOffset % 20 == 0) {
+
+				if (sawRange) {
+					sawX = sawX + 5;
+					sawY = sawY - 2;
+					sawRange = false;
+				} else {
+					sawX = sawX + 5;
+					sawY = sawY + 2;
+					sawRange = true;
+				}
+			}
+			if (sawX >= guiLeft + 105) {
+				sawX = guiLeft + 62;
+			}
+			if (new Random().nextInt(3) == 0) {
+				RenderItem.getInstance().renderItemIntoGUI(fontRendererObj, Minecraft.getMinecraft().getTextureManager(), tile.getStackInSlot(0), sawX, sawY);
+			} else {
+				RenderItem.getInstance().renderItemIntoGUI(fontRendererObj, Minecraft.getMinecraft().getTextureManager(), new ItemStack(FCItems.shard, 1, tile.getStackInSlot(0).getItemDamage()), sawX, sawY);
+			}
+
+		}
 	}
 
 }

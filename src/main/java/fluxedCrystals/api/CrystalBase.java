@@ -30,7 +30,6 @@ public abstract class CrystalBase extends Block {
 		this.disableStats();
 	}
 
-
 	public boolean growCrop(World world, int x, int y, int z, Random rand, boolean night) {
 		if (world.getBlockLightValue(x, y + 1, z) >= 9 || night) {
 			int l = world.getBlockMetadata(x, y, z);
@@ -38,7 +37,7 @@ public abstract class CrystalBase extends Block {
 
 				// if (rand.nextInt((int) (25.0F / f) + 1) == 0) {
 				++l;
-				world.setBlockMetadataWithNotify(x, y, z, l, 2);
+				world.setBlockMetadataWithNotify(x, y, z, l, 3);
 				return true;
 				// }
 			}

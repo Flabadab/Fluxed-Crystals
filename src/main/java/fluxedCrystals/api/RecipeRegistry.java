@@ -105,13 +105,6 @@ public class RecipeRegistry {
 		return idx >= 0 && idx < crops.size();
 	}
 
-	public static int getDimensionWhitelist(int itemDamage) {
-		if (rangeCheck(itemDamage)) {
-			return crops.get(itemDamage).getDimensionWhitelist();
-		}
-		return -2906;
-	}
-
 	public static int getColor(int itemDamage) {
 		if (rangeCheck(itemDamage))
 			return crops.get(itemDamage).getColor();

@@ -28,14 +28,13 @@ public class SeedCrystalRecipe {
 	private Aspect aspectNeeded;
 	private int aspectNeededAmount;
 	private int seedReturn;
-	private int dimensionWhitelist;
 	private int entityID;
 
 	public SeedCrystalRecipe(SeedType type) {
-		this(type.name, type.color, JsonUtils.parseStringIntoItemStack(type.ingredient), type.dropMin, type.dropMax, type.growthTime, type.tier, type.ingredientAmount, type.powerPerStage, type.decorationBlocks, JsonUtils.parseStringIntoItemStack(type.weightedDrop), type.weightedDropChance, type.prettyPrettyArmor, type.refinerAmount, type.lore, type.sharp, Aspect.getAspect(type.aspectNeeded), type.aspectNeededAmount, type.seedReturn, type.dimensionWhitelist, type.entityID);
+		this(type.name, type.color, JsonUtils.parseStringIntoItemStack(type.ingredient), type.dropMin, type.dropMax, type.growthTime, type.tier, type.ingredientAmount, type.powerPerStage, type.decorationBlocks, JsonUtils.parseStringIntoItemStack(type.weightedDrop), type.weightedDropChance, type.prettyPrettyArmor, type.refinerAmount, type.lore, type.sharp, Aspect.getAspect(type.aspectNeeded), type.aspectNeededAmount, type.seedReturn, type.entityID);
 	}
 
-	public SeedCrystalRecipe(String name, int color, ItemStack ingredient, int dropMin, int dropMax, int growthTime, int tier, int ingredientAmount, int powerPerStage, boolean decorationBlock, ItemStack weightedDrop, int weightedDropChance, boolean prettyPrettyArmor, int refinerAmount, String lore, boolean sharp, Aspect aspectNeeded, int aspectNeededAmount, int seedReturn, int dimensionWhitelist, int entityID) {
+	public SeedCrystalRecipe(String name, int color, ItemStack ingredient, int dropMin, int dropMax, int growthTime, int tier, int ingredientAmount, int powerPerStage, boolean decorationBlock, ItemStack weightedDrop, int weightedDropChance, boolean prettyPrettyArmor, int refinerAmount, String lore, boolean sharp, Aspect aspectNeeded, int aspectNeededAmount, int seedReturn, int entityID) {
 		this.name = name;
 		this.color = color;
 		this.ingredient = ingredient;
@@ -55,7 +54,6 @@ public class SeedCrystalRecipe {
 		this.aspectNeeded = aspectNeeded;
 		this.aspectNeededAmount = aspectNeededAmount;
 		this.seedReturn = seedReturn;
-		this.dimensionWhitelist = dimensionWhitelist;
 		this.entityID = entityID;
 	}
 }

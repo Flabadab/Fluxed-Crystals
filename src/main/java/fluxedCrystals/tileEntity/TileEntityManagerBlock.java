@@ -23,6 +23,8 @@ import fluxedCrystals.api.RecipeRegistry;
 import fluxedCrystals.blocks.FCBlocks;
 import fluxedCrystals.config.ConfigProps;
 import fluxedCrystals.items.FCItems;
+import fluxedCrystals.network.MessageEnergyStorage;
+import fluxedCrystals.network.PacketHandler;
 
 /**
  * Created by Jared on 11/2/2014.
@@ -40,6 +42,7 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 	private int mana;
 	private int MAX_MANA;
 	private boolean RF = true;
+	private int energy = 0;
 	@Getter
 	private ArrayList<TileEntityPowerBlock> powerBlocks = new ArrayList<TileEntityPowerBlock>();
 
@@ -82,7 +85,9 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 		if (canPlacePowerBlocks(size)) {
 			placePowerBlocks(size);
 		}
-
+		if (energy != storage.getEnergyStored()) {
+			PacketHandler.INSTANCE.sendToAll(new MessageEnergyStorage(this));
+		}
 		if (!(lastTick == worldObj.getTotalWorldTime())) {
 			if (!powerBlocks.isEmpty()) {
 				for (int j = 0; j < powerBlocks.size(); j++) {

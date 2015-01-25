@@ -48,23 +48,15 @@ public class MessageGemRefiner implements IMessage, IMessageHandler<MessageGemRe
 	@Override
 	public IMessage onMessage(MessageGemRefiner message, MessageContext ctx) {
 		int x = message.x, y = message.y, z = message.z;
-		if (ctx.side.isServer()) {
-			TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(x, y, z);
-			if (te instanceof TileEntityGemRefiner) {
-				TileEntityGemRefiner refiner = (TileEntityGemRefiner) te;
-				if (refiner.getStackInSlot(0) != null && refiner.getStackInSlot(0).stackSize > 0) {
-					refiner.setRefining(true);
-				}
-				int index = refiner.getRecipeIndex();
-				if (index >= 0) {
-					return new MessageGemRefiner(x, y, z, index);
-				}
+		TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(x, y, z);
+		if (te instanceof TileEntityGemRefiner) {
+			TileEntityGemRefiner refiner = (TileEntityGemRefiner) te;
+			if (refiner.getStackInSlot(0) != null && refiner.getStackInSlot(0).stackSize > 0) {
+				refiner.setRefining(true);
 			}
-		} else {
-			TileEntity te = FluxedCrystals.proxy.getClientWorld().getTileEntity(x, y, z);
-			if (te instanceof TileEntityGemRefiner) {
-				((TileEntityGemRefiner) te).setRecipeIndex(message.data);
-				te.getWorldObj().markBlockForUpdate(x, y, z);
+			int index = refiner.getRecipeIndex();
+			if (index >= 0) {
+				return new MessageGemRefiner(x, y, z, index);
 			}
 		}
 		return null;

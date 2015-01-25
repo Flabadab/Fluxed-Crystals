@@ -43,6 +43,7 @@ public class GUIGemRefiner extends GuiContainer {
 
 	@Override
 	public void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
+		GL11.glPushMatrix();
 		energyOffset++;
 		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
@@ -82,6 +83,7 @@ public class GUIGemRefiner extends GuiContainer {
 			}
 
 		}
+		GL11.glPopMatrix();
 	}
 
 }

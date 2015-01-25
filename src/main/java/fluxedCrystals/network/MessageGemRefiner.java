@@ -55,9 +55,9 @@ public class MessageGemRefiner implements IMessage, IMessageHandler<MessageGemRe
 				refiner.setRefining(true);
 			}
 			int index = refiner.getRecipeIndex();
-			if (index >= 0) {
-				return new MessageGemRefiner(x, y, z, index);
-			}
+//			if (index >= 0) {
+//				return new MessageGemRefiner(x, y, z, index);
+//			}
 		}
 		return null;
 	}

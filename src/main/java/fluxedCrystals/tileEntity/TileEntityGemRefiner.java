@@ -58,9 +58,6 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 
 	public void updateEntity() {
 		super.updateEntity();
-//		if (energy != storage.getEnergyStored()) {
-//			PacketHandler.INSTANCE.sendToAll(new MessageEnergyStorage(this));
-//		}
 		if (getStackInSlot(0) != null) {
 			PacketHandler.INSTANCE.sendToServer(new MessageGemRefiner(xCoord, yCoord, zCoord));
 		}

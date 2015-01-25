@@ -1,17 +1,11 @@
 package fluxedCrystals.tileEntity;
 
-import tterrag.core.common.util.BlockCoord;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants;
 import fluxedCrystals.api.CrystalBase;
-import fluxedCrystals.api.RecipeRegistry;
-import fluxedCrystals.blocks.FCBlocks;
 import fluxedCrystals.blocks.crystal.BlockCrystal;
-import fluxedCrystals.utils.Utils;
 
 /**
  * Created by Jared on 11/2/2014.

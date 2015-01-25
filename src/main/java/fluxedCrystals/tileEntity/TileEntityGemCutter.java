@@ -66,9 +66,7 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 	}
 
 	public void updateEntity() {
-		if (energy != storage.getEnergyStored()) {
-			PacketHandler.INSTANCE.sendToAll(new MessageEnergyStorage(this));
-		}
+		super.updateEntity();
 		if (getStackInSlot(0) != null && !cutting) {
 			PacketHandler.INSTANCE.sendToServer(new MessageGemCutter(xCoord, yCoord, zCoord));
 		}

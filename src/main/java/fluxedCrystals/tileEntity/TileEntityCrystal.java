@@ -19,6 +19,7 @@ import net.minecraft.world.World;
 import tterrag.core.common.util.BlockCoord;
 import fluxedCrystals.api.CrystalBase;
 import fluxedCrystals.api.RecipeRegistry;
+import fluxedCrystals.blocks.crystal.BlockCrystal;
 import fluxedCrystals.compat.waila.IWailaInfo;
 import fluxedCrystals.items.FCItems;
 
@@ -37,23 +38,37 @@ public class TileEntityCrystal extends TileEntity implements IWailaInfo {
 	private TileEntityPowerBlock power;
 
 	private ItemStack[] managerUpgrades = new ItemStack[3];
+	private BlockCrystal crystal;
 
 	public void updateEntity() {
 		if (!worldObj.isRemote) {
 			if (power == null && getPowerTile(worldObj, new BlockCoord(this)) != null) {
 				power = getPowerTile(worldObj, new BlockCoord(this));
-				managerUpgrades = power.getManagerUpgrades();
-			}
-			if (power != null && worldObj.getBlockMetadata(xCoord, yCoord, zCoord) < 7) {
 
-				ticksgrown++;
-				System.out.println(ticksgrown);
-				if (power.getEnergyStored() > (RecipeRegistry.getPowerPerStage(idx) / 7))
-					if (ticksgrown >= RecipeRegistry.getGrowthTime(idx) / 7) {
-						ticksgrown = 0;
-						growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)));
-						power.storage.extractEnergy((RecipeRegistry.getPowerPerStage(idx) / 7), false);
-					}
+			}
+			if (crystal == null) {
+				crystal = (BlockCrystal) worldObj.getBlock(xCoord, yCoord, zCoord);
+			}
+			if (power != null) {
+				managerUpgrades = power.getManagerUpgrades();
+				if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) < 7) {
+
+					ticksgrown++;
+					System.out.println(ticksgrown);
+					if (power.getEnergyStored() > getUpgradeDrain(idx))
+						if (ticksgrown >= RecipeRegistry.getGrowthTime(idx) / getSpeed()) {
+							ticksgrown = 0;
+							growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)));
+							power.storage.extractEnergy((getUpgradeDrain(idx)), false);
+						}
+				}
+			}
+			if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) >= 7) {
+				if (power.getEnergyStored() >= 250 && isUpgradeActive(new ItemStack(FCItems.upgradeAutomation))) {
+					crystal.dropCropDrops(worldObj, xCoord, yCoord, zCoord, 0, false);
+					worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 3);
+					power.storage.extractEnergy(250, false);
+				}
 			}
 		}
 	}
@@ -139,5 +154,56 @@ public class TileEntityCrystal extends TileEntity implements IWailaInfo {
 		}
 
 		return false;
+	}
+
+	public int getSpeed() {
+		int speed = 7;
+		for (ItemStack item : managerUpgrades) {
+			if (item != null) {
+				if (item.isItemEqual(new ItemStack(FCItems.upgradeSpeed))) {
+					speed += 2;
+				}
+			}
+		}
+		return speed;
+	}
+
+	public int getEffeciency() {
+		int eff = 0;
+		for (ItemStack item : managerUpgrades) {
+			if (item != null) {
+				if (item.isItemEqual(new ItemStack(FCItems.upgradeEffeciency))) {
+					eff += 15;
+				}
+			}
+		}
+		if (eff == 0) {
+			eff = 1;
+		}
+		return eff;
+	}
+
+	public int getUpgradeDrain(int idx) {
+		int energy = RecipeRegistry.getPowerPerStage(idx);
+
+		for (ItemStack item : managerUpgrades) {
+			if (item != null) {
+				if (item.isItemEqual(new ItemStack(FCItems.upgradeNight))) {
+					energy += energy / 15;
+				}
+				if (item.isItemEqual(new ItemStack(FCItems.upgradeSpeed))) {
+					energy += energy / 12;
+				}
+				if (item.isItemEqual(new ItemStack(FCItems.upgradeAutomation))) {
+					energy += energy / 8;
+				}
+			}
+		}
+
+		if (isUpgradeActive(new ItemStack(FCItems.upgradeEffeciency))) {
+			energy /= getEffeciency();
+		}
+
+		return energy;
 	}
 }

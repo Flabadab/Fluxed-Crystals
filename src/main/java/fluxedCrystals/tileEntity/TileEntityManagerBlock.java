@@ -2,7 +2,6 @@ package fluxedCrystals.tileEntity;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.Random;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,18 +13,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
-import thaumcraft.api.aspects.AspectSourceHelper;
 import tterrag.core.common.util.BlockCoord;
 import vazkii.botania.api.mana.IManaReceiver;
 import WayofTime.alchemicalWizardry.api.items.interfaces.IBindable;
 import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
-import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.api.RecipeRegistry;
 import fluxedCrystals.blocks.FCBlocks;
-import fluxedCrystals.config.ConfigProps;
 import fluxedCrystals.items.FCItems;
-import fluxedCrystals.network.MessageEnergyStorage;
-import fluxedCrystals.network.PacketHandler;
 
 /**
  * Created by Jared on 11/2/2014.
@@ -44,8 +38,11 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 	private int MAX_MANA;
 	private boolean RF = true;
 	private int energy = 0;
+
 	@Getter
 	private ArrayList<TileEntityPowerBlock> powerBlocks = new ArrayList<TileEntityPowerBlock>();
+	@Getter
+	private ArrayList<TileEntityPowerBlock> powerBlocksToRemove = new ArrayList<TileEntityPowerBlock>();
 
 	@Setter
 	private boolean converting;
@@ -87,58 +84,107 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 		if (canPlacePowerBlocks(size)) {
 			placePowerBlocks(size);
 		}
+		if (worldObj.getTotalWorldTime() % 20 == 0) {
+			for (TileEntityPowerBlock power : powerBlocks) {
+				if (power.getManager() == null) {
+					power.setManager(this);
+				}
+				if (power.getWorldObj() == null) {
+					powerBlocksToRemove.add(power);
+				}
+				power.setManagerUpgrades(new ItemStack[] { getUpgradeOne(), getUpgradeTwo(), getUpgradeThree() });
+				if (power.getEnergyStored() < power.getMaxStorage() && storage.getEnergyStored() >= 500) {
+					power.storage.receiveEnergy(500, false);
+					storage.extractEnergy(500, false);
+				}
 
-		if (!powerBlocks.isEmpty()) {
-			for (int j = 0; j < powerBlocks.size(); j++) {
-
-				TileEntityPowerBlock power = powerBlocks.get(worldObj.rand.nextInt(powerBlocks.size()));
-				if (power != null)
-					if (power.getCropTile(worldObj) != null) {
-						if (isUpgradeActive(new ItemStack(FCItems.upgradeMana))) {
-							if (getCurrentMana() > 0) {
-								if (getCurrentMana() >= getUpgradeDrain(power.getCropTile(worldObj).getIndex()))
-									if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
-										if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)))) {
-											mana -= -getUpgradeDrain(power.getCropTile(worldObj).getIndex());
-										}
-							}
-						}
-						if (isUpgradeActive(new ItemStack(FCItems.upgradeLP))) {
-							if (getStackInSlot(4) != null) {
-								if (getStackInSlot(4).getItem() instanceof IBindable) {
-									IBindable bindedItem = ((IBindable) getStackInSlot(4).getItem());
-									if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
-										if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)))) {
-											SoulNetworkHandler.syphonFromNetwork(getStackInSlot(4), getUpgradeDrain(power.getCropTile(worldObj).getIndex()) / 4);
-										}
-								}
-							}
-						}
-						if (isUpgradeActive(new ItemStack(FCItems.upgradeAutomation)))
-							if (worldObj.getBlockMetadata(power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord) >= 7) {
-								power.getCrop(worldObj).dropCropDrops(worldObj, power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord, 0, false);
-								worldObj.setBlockMetadataWithNotify(power.getCropTile(worldObj).xCoord, power.getCropTile(worldObj).yCoord, power.getCropTile(worldObj).zCoord, 0, 3);
-								this.storage.extractEnergy(100, false);
-							}
-						if (FluxedCrystals.thaumcraftThere && isUpgradeActive(new ItemStack(FCItems.upgradeEssentia))) {
-							if (ConfigProps.aspect != null) {
-								if (AspectSourceHelper.findEssentia(power.getCropTile(worldObj), ConfigProps.aspect, ForgeDirection.UNKNOWN, ConfigProps.aspectRange))
-									if (worldObj.getTotalWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
-										if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)))) {
-											for (int i = 0; i < RecipeRegistry.getAspectNeededAmount(power.getCropTile(worldObj).getIndex()); i++)
-												AspectSourceHelper.drainEssentia(power.getCropTile(worldObj), ConfigProps.aspect, ForgeDirection.UNKNOWN, ConfigProps.aspectRange);
-										}
-							}
-						}
-						if (!isUpgradeActive(new ItemStack(FCItems.upgradeEssentia)) && !isUpgradeActive(new ItemStack(FCItems.upgradeMana)) && !isUpgradeActive(new ItemStack(FCItems.upgradeLP)))
-							if (this.storage.getEnergyStored() > getUpgradeDrain(power.getCropTile(worldObj).getIndex()))
-								if (worldObj.getWorldInfo().getWorldTime() % (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex()) / getSpeed()) == 0)
-									if (power.growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)))) {
-										this.storage.extractEnergy(getUpgradeDrain(power.getCropTile(worldObj).getIndex()), false);
-									}
-					}
+			}
+			for (TileEntityPowerBlock power : powerBlocksToRemove) {
+				powerBlocks.remove(power);
 			}
 		}
+		// if (!powerBlocks.isEmpty()) {
+		// for (int j = 0; j < powerBlocks.size(); j++) {
+		//
+		// TileEntityPowerBlock power =
+		// powerBlocks.get(worldObj.rand.nextInt(powerBlocks.size()));
+		// if (power != null)
+		// if (power.getCropTile(worldObj) != null) {
+		// if (isUpgradeActive(new ItemStack(FCItems.upgradeMana))) {
+		// if (getCurrentMana() > 0) {
+		// if (getCurrentMana() >=
+		// getUpgradeDrain(power.getCropTile(worldObj).getIndex()))
+		// if (worldObj.getTotalWorldTime() %
+		// (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex())
+		// / getSpeed()) == 0)
+		// if (power.growPlant(worldObj, isUpgradeActive(new
+		// ItemStack(FCItems.upgradeNight)))) {
+		// mana -= -getUpgradeDrain(power.getCropTile(worldObj).getIndex());
+		// }
+		// }
+		// }
+		// if (isUpgradeActive(new ItemStack(FCItems.upgradeLP))) {
+		// if (getStackInSlot(4) != null) {
+		// if (getStackInSlot(4).getItem() instanceof IBindable) {
+		// IBindable bindedItem = ((IBindable) getStackInSlot(4).getItem());
+		// if (worldObj.getTotalWorldTime() %
+		// (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex())
+		// / getSpeed()) == 0)
+		// if (power.growPlant(worldObj, isUpgradeActive(new
+		// ItemStack(FCItems.upgradeNight)))) {
+		// SoulNetworkHandler.syphonFromNetwork(getStackInSlot(4),
+		// getUpgradeDrain(power.getCropTile(worldObj).getIndex()) / 4);
+		// }
+		// }
+		// }
+		// }
+		// if (isUpgradeActive(new ItemStack(FCItems.upgradeAutomation)))
+		// if (worldObj.getBlockMetadata(power.getCropTile(worldObj).xCoord,
+		// power.getCropTile(worldObj).yCoord,
+		// power.getCropTile(worldObj).zCoord) >= 7) {
+		// power.getCrop(worldObj).dropCropDrops(worldObj,
+		// power.getCropTile(worldObj).xCoord,
+		// power.getCropTile(worldObj).yCoord,
+		// power.getCropTile(worldObj).zCoord, 0, false);
+		// worldObj.setBlockMetadataWithNotify(power.getCropTile(worldObj).xCoord,
+		// power.getCropTile(worldObj).yCoord,
+		// power.getCropTile(worldObj).zCoord, 0, 3);
+		// this.storage.extractEnergy(100, false);
+		// }
+		// if (FluxedCrystals.thaumcraftThere && isUpgradeActive(new
+		// ItemStack(FCItems.upgradeEssentia))) {
+		// if (ConfigProps.aspect != null) {
+		// if (AspectSourceHelper.findEssentia(power.getCropTile(worldObj),
+		// ConfigProps.aspect, ForgeDirection.UNKNOWN, ConfigProps.aspectRange))
+		// if (worldObj.getTotalWorldTime() %
+		// (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex())
+		// / getSpeed()) == 0)
+		// if (power.growPlant(worldObj, isUpgradeActive(new
+		// ItemStack(FCItems.upgradeNight)))) {
+		// for (int i = 0; i <
+		// RecipeRegistry.getAspectNeededAmount(power.getCropTile(worldObj).getIndex());
+		// i++)
+		// AspectSourceHelper.drainEssentia(power.getCropTile(worldObj),
+		// ConfigProps.aspect, ForgeDirection.UNKNOWN, ConfigProps.aspectRange);
+		// }
+		// }
+		// }
+		// if (!isUpgradeActive(new ItemStack(FCItems.upgradeEssentia)) &&
+		// !isUpgradeActive(new ItemStack(FCItems.upgradeMana)) &&
+		// !isUpgradeActive(new ItemStack(FCItems.upgradeLP)))
+		// if (this.storage.getEnergyStored() >
+		// getUpgradeDrain(power.getCropTile(worldObj).getIndex()))
+		// if (worldObj.getWorldInfo().getWorldTime() %
+		// (RecipeRegistry.getGrowthTime(power.getCropTile(worldObj).getIndex())
+		// / getSpeed()) == 0)
+		// if (power.growPlant(worldObj, isUpgradeActive(new
+		// ItemStack(FCItems.upgradeNight)))) {
+		// this.storage.extractEnergy(getUpgradeDrain(power.getCropTile(worldObj).getIndex()),
+		// false);
+		// }
+		// }
+		// }
+		// }
 
 	}
 
@@ -149,12 +195,12 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 					// NO-OP
 				} else if (storage.getEnergyStored() > 250) {
 					if (worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == Blocks.dirt || worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == Blocks.grass || worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == FCBlocks.powerBlock) {
-
 						worldObj.setBlock(xCoord + x, yCoord, zCoord + z, FCBlocks.powerBlock);
 						((TileEntityPowerBlock) worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z)).setManager(this);
 						powerBlocks.add((TileEntityPowerBlock) worldObj.getTileEntity(xCoord + x, yCoord, zCoord + z));
 						placedBlocks = true;
-						storage.extractEnergy(250, false);
+						if (!(worldObj.getBlock(xCoord + x, yCoord, zCoord + z) == FCBlocks.powerBlock))
+							storage.extractEnergy(250, false);
 					}
 				}
 			}

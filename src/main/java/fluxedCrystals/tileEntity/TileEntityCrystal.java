@@ -1,5 +1,6 @@
 package fluxedCrystals.tileEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
@@ -14,33 +15,55 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
-import cofh.api.energy.IEnergyContainerItem;
-import fluxedCrystals.FluxedCrystals;
+import tterrag.core.common.util.BlockCoord;
+import fluxedCrystals.api.CrystalBase;
 import fluxedCrystals.api.RecipeRegistry;
 import fluxedCrystals.compat.waila.IWailaInfo;
 import fluxedCrystals.items.FCItems;
 
+@Getter
+@Setter
 public class TileEntityCrystal extends TileEntity implements IWailaInfo {
 	private int idx = 0;
 	@Getter
 	@Setter
-	private int ticksgrown;
+	private int ticksgrown = 0;
 
 	@Getter
 	@Setter
 	private boolean harvested = false;
 
-	public TileEntityCrystal() {
+	private TileEntityPowerBlock power;
 
-	}
+	private ItemStack[] managerUpgrades = new ItemStack[3];
 
 	public void updateEntity() {
-		ticksgrown++;
-		if (ticksgrown >= RecipeRegistry.getGrowthTime(idx)) {
-			ticksgrown = 0;
+		if (!worldObj.isRemote) {
+			if (power == null && getPowerTile(worldObj, new BlockCoord(this)) != null) {
+				power = getPowerTile(worldObj, new BlockCoord(this));
+				managerUpgrades = power.getManagerUpgrades();
+			}
+			if (power != null && worldObj.getBlockMetadata(xCoord, yCoord, zCoord) < 7) {
+
+				ticksgrown++;
+				System.out.println(ticksgrown);
+				if (power.getEnergyStored() > (RecipeRegistry.getPowerPerStage(idx) / 7))
+					if (ticksgrown >= RecipeRegistry.getGrowthTime(idx) / 7) {
+						ticksgrown = 0;
+						growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)));
+						power.storage.extractEnergy((RecipeRegistry.getPowerPerStage(idx) / 7), false);
+					}
+			}
 		}
+	}
+
+	public boolean growPlant(World world, boolean night) {
+		if (world != null)
+			if (world.getBlock(xCoord, yCoord, zCoord) instanceof CrystalBase) {
+				return ((CrystalBase) world.getBlock(xCoord, yCoord, zCoord)).growCrop(world, xCoord, yCoord, zCoord, world.rand, night);
+			}
+		return false;
 	}
 
 	@Override
@@ -98,5 +121,23 @@ public class TileEntityCrystal extends TileEntity implements IWailaInfo {
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
 		return new ItemStack(FCItems.shard, RecipeRegistry.getSeedReturn(idx), getIndex());
+	}
+
+	public TileEntityPowerBlock getPowerTile(World world, BlockCoord coord) {
+		if (world.getTileEntity(coord.x, coord.y - 1, coord.z) != null && world.getTileEntity(coord.x, coord.y - 1, coord.z) instanceof TileEntityPowerBlock) {
+			return (TileEntityPowerBlock) world.getTileEntity(coord.x, coord.y - 1, coord.z);
+		}
+		return null;
+	}
+
+	public boolean isUpgradeActive(ItemStack upgrade) {
+		for (ItemStack upgrades : managerUpgrades) {
+			if (upgrades != null)
+				if (upgrades.isItemEqual(upgrade)) {
+					return true;
+				}
+		}
+
+		return false;
 	}
 }

@@ -49,24 +49,24 @@ public class TileEntityCrystal extends TileEntity implements IWailaInfo {
 			if (crystal == null) {
 				crystal = (BlockCrystal) worldObj.getBlock(xCoord, yCoord, zCoord);
 			}
-			if (power != null) {
+			if (power != null && power.getManagerLocation().getTileEntity(worldObj) != null) {
 				managerUpgrades = power.getManagerUpgrades();
 				if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) < 7) {
 
 					ticksgrown++;
-					if (power.getEnergyStored() > getUpgradeDrain(idx))
+					if (((TileEntityManagerBlock) power.getManagerLocation().getTileEntity(worldObj)).getEnergyStored() > getUpgradeDrain(idx) && ((TileEntityManagerBlock) power.getManagerLocation().getTileEntity(worldObj)).getPowerBlocks().contains(worldObj.getTileEntity(xCoord, yCoord - 1, zCoord)))
 						if (ticksgrown >= RecipeRegistry.getGrowthTime(idx) / getSpeed()) {
 							ticksgrown = 0;
 							growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)));
-							power.storage.extractEnergy((getUpgradeDrain(idx)), false);
+							((TileEntityManagerBlock) power.getManagerLocation().getTileEntity(worldObj)).storage.extractEnergy((getUpgradeDrain(idx)), false);
 						}
 				}
 			}
 			if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) >= 7) {
-				if (power.getEnergyStored() >= 250 && isUpgradeActive(new ItemStack(FCItems.upgradeAutomation))) {
+				if (((TileEntityManagerBlock) power.getManagerLocation().getTileEntity(worldObj)).getEnergyStored() >= 250 && isUpgradeActive(new ItemStack(FCItems.upgradeAutomation))) {
 					crystal.dropCropDrops(worldObj, xCoord, yCoord, zCoord, 0, false);
 					worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 3);
-					power.storage.extractEnergy(250, false);
+					((TileEntityManagerBlock) power.getManagerLocation().getTileEntity(worldObj)).storage.extractEnergy(250, false);
 				}
 			}
 		}

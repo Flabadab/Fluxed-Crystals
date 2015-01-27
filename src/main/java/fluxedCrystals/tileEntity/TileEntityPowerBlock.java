@@ -2,9 +2,12 @@ package fluxedCrystals.tileEntity;
 
 import java.util.EnumSet;
 
+import tterrag.core.common.util.BlockCoord;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import fluxedCrystals.api.CrystalBase;
@@ -13,19 +16,23 @@ import fluxedCrystals.blocks.crystal.BlockCrystal;
 /**
  * Created by Jared on 11/2/2014.
  */
-public class TileEntityPowerBlock extends TileEnergyBase {
+public class TileEntityPowerBlock extends TileEntity {
 
 	private TileEntityManagerBlock manager;
 	@Getter
 	@Setter
 	public ItemStack[] managerUpgrades = new ItemStack[3];
 
+	@Getter
+	@Setter
+	public BlockCoord managerLocation = new BlockCoord(this);
+
 	public TileEntityPowerBlock() {
-		super(10000);
+
 	}
 
-	public void updateEntity() {
-		super.updateEntity();
+	public boolean canUpdate() {
+		return false;
 	}
 
 	public void setManager(TileEntityManagerBlock manager) {
@@ -57,19 +64,12 @@ public class TileEntityPowerBlock extends TileEnergyBase {
 		return world.getTileEntity(xCoord, yCoord + 1, zCoord) != null && world.getTileEntity(xCoord, yCoord + 1, zCoord) instanceof TileEntityCrystal ? (TileEntityCrystal) world.getTileEntity(xCoord, yCoord + 1, zCoord) : null;
 	}
 
-	@Override
-	public EnumSet<ForgeDirection> getValidOutputs() {
-		EnumSet<ForgeDirection> list = EnumSet.noneOf(ForgeDirection.class);
-		// list.add(ForgeDirection.NORTH);
-		// list.add(ForgeDirection.EAST);
-		// list.add(ForgeDirection.SOUTH);
-		// list.add(ForgeDirection.WEST);
-		return list;
+	public void writeToNBT(NBTTagCompound nbt) {
+		managerLocation.writeToNBT(nbt);
 	}
 
-	@Override
-	public EnumSet<ForgeDirection> getValidInputs() {
-		EnumSet<ForgeDirection> list = EnumSet.noneOf(ForgeDirection.class);
-		return list;
+	public void readFromNBT(NBTTagCompound nbt) {
+		managerLocation = managerLocation.readFromNBT(nbt);
 	}
+
 }

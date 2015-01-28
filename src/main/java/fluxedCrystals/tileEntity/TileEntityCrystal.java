@@ -54,7 +54,6 @@ public class TileEntityCrystal extends TileEntity implements IWailaInfo {
 				if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) < 7) {
 
 					ticksgrown++;
-					System.out.println(ticksgrown);
 					if (power.getEnergyStored() > getUpgradeDrain(idx))
 						if (ticksgrown >= RecipeRegistry.getGrowthTime(idx) / getSpeed()) {
 							ticksgrown = 0;

@@ -2,13 +2,11 @@ package fluxedCrystals.config;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
-import minetweaker.MineTweakerAPI;
-import minetweaker.MineTweakerImplementationAPI;
-import minetweaker.api.minecraft.MineTweakerMC;
-import minetweaker.mc1710.util.MineTweakerHacks;
 import net.minecraft.item.ItemStack;
 
 import org.apache.commons.io.filefilter.FileFilterUtils;
@@ -66,7 +64,8 @@ public class ConfigHandler extends AbstractConfigHandler {
 		ModToken token = new ModToken(FluxedCrystals.class, ModProps.modid + "/misc/");
 
 		String basePath = FluxedCrystals.configDir.getAbsolutePath();
-		File[] cropFiles = FluxedCrystals.configDir.listFiles((FileFilter) FileFilterUtils.suffixFileFilter(".json"));
+		ArrayList<File> cropFiles = convertArrayToList(FluxedCrystals.configDir.listFiles((FileFilter) FileFilterUtils.suffixFileFilter(".json")));
+		Collections.sort(cropFiles);
 		File crops = new File(basePath + "/Crystal.json");
 		File thermalCrops = new File(basePath + "/thermalCrystal.json");
 
@@ -85,9 +84,9 @@ public class ConfigHandler extends AbstractConfigHandler {
 		}
 		JsonConfigReader<SeedType> cropReader;
 		List<SeedCrystalRecipe> recipes = RecipeRegistry.getSeedCropRecipes();
-		for (int i = 0; i < cropFiles.length; i++) {
-			if (cropFiles[i] != null) {
-				cropReader = new JsonConfigReader<SeedType>(token, cropFiles[i], SeedType.class);
+		for (int i = 0; i < cropFiles.size(); i++) {
+			if (cropFiles.get(i) != null) {
+				cropReader = new JsonConfigReader<SeedType>(token, cropFiles.get(i), SeedType.class);
 				registerAll(cropReader.getElements());
 
 			}
@@ -106,5 +105,13 @@ public class ConfigHandler extends AbstractConfigHandler {
 		for (ISeedType type : types) {
 			type.register();
 		}
+	}
+
+	public static ArrayList<File> convertArrayToList(File[] files) {
+		ArrayList<File> returnList = new ArrayList<File>();
+		for (File file : files) {
+			returnList.add(file);
+		}
+		return returnList;
 	}
 }

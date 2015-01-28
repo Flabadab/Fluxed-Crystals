@@ -41,35 +41,36 @@ public class TileEntityCrystal extends TileEntity implements IWailaInfo {
 	private BlockCrystal crystal;
 
 	public void updateEntity() {
-		if (!worldObj.isRemote) {
-			if (power == null && getPowerTile(worldObj, new BlockCoord(this)) != null) {
-				power = getPowerTile(worldObj, new BlockCoord(this));
-
-			}
-			if (crystal == null) {
-				crystal = (BlockCrystal) worldObj.getBlock(xCoord, yCoord, zCoord);
-			}
-			if (power != null && power.getManagerLocation().getTileEntity(worldObj) != null) {
-				managerUpgrades = power.getManagerUpgrades();
-				if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) < 7) {
-
-					ticksgrown++;
-					if (((TileEntityManagerBlock) power.getManagerLocation().getTileEntity(worldObj)).getEnergyStored() > getUpgradeDrain(idx) && ((TileEntityManagerBlock) power.getManagerLocation().getTileEntity(worldObj)).getPowerBlocks().contains(worldObj.getTileEntity(xCoord, yCoord - 1, zCoord)))
-						if (ticksgrown >= RecipeRegistry.getGrowthTime(idx) / getSpeed()) {
-							ticksgrown = 0;
-							growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)));
-							((TileEntityManagerBlock) power.getManagerLocation().getTileEntity(worldObj)).storage.extractEnergy((getUpgradeDrain(idx)), false);
-						}
-				}
-			}
-			if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) >= 7) {
-				if (((TileEntityManagerBlock) power.getManagerLocation().getTileEntity(worldObj)).getEnergyStored() >= 250 && isUpgradeActive(new ItemStack(FCItems.upgradeAutomation))) {
-					crystal.dropCropDrops(worldObj, xCoord, yCoord, zCoord, 0, false);
-					worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 3);
-					((TileEntityManagerBlock) power.getManagerLocation().getTileEntity(worldObj)).storage.extractEnergy(250, false);
-				}
-			}
-		}
+		ticksgrown++;
+//		if (!worldObj.isRemote) {
+//			if (power == null && getPowerTile(worldObj, new BlockCoord(this)) != null) {
+//				power = getPowerTile(worldObj, new BlockCoord(this));
+//
+//			}
+//			if (crystal == null) {
+//				crystal = (BlockCrystal) worldObj.getBlock(xCoord, yCoord, zCoord);
+//			}
+//			if (power != null && worldObj.getTileEntity(power.managerX, power.managerY, power.managerZ) != null) {
+//				managerUpgrades = power.getManagerUpgrades();
+//				if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) < 7) {
+//
+//					ticksgrown++;
+//					if (((TileEntityManagerBlock) worldObj.getTileEntity(power.managerX, power.managerY, power.managerZ)).getEnergyStored() > getUpgradeDrain(idx) && ((TileEntityManagerBlock) worldObj.getTileEntity(power.managerX, power.managerY, power.managerZ)).getPowerBlocks().contains(worldObj.getTileEntity(xCoord, yCoord - 1, zCoord)))
+//						if (ticksgrown >= RecipeRegistry.getGrowthTime(idx) / getSpeed()) {
+//							ticksgrown = 0;
+//							growPlant(worldObj, isUpgradeActive(new ItemStack(FCItems.upgradeNight)));
+//							((TileEntityManagerBlock) worldObj.getTileEntity(power.managerX, power.managerY, power.managerZ)).storage.extractEnergy((getUpgradeDrain(idx)), false);
+//						}
+//				}
+//			}
+//			if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) >= 7) {
+//				if (((TileEntityManagerBlock) worldObj.getTileEntity(power.managerX, power.managerY, power.managerZ)).getEnergyStored() >= 250 && isUpgradeActive(new ItemStack(FCItems.upgradeAutomation))) {
+//					crystal.dropCropDrops(worldObj, xCoord, yCoord, zCoord, 0, false);
+//					worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 3);
+//					((TileEntityManagerBlock) worldObj.getTileEntity(power.managerX, power.managerY, power.managerZ)).storage.extractEnergy(250, false);
+//				}
+//			}
+//		}
 	}
 
 	public boolean growPlant(World world, boolean night) {

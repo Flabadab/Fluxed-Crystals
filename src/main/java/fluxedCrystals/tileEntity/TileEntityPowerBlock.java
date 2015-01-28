@@ -16,24 +16,26 @@ import fluxedCrystals.blocks.crystal.BlockCrystal;
 /**
  * Created by Jared on 11/2/2014.
  */
-public class TileEntityPowerBlock extends TileEntity {
+@Getter
+@Setter
+public class TileEntityPowerBlock extends TileEnergyBase {
 
 	private TileEntityManagerBlock manager;
-	@Getter
-	@Setter
 	public ItemStack[] managerUpgrades = new ItemStack[3];
 
-	@Getter
-	@Setter
-	public BlockCoord managerLocation = new BlockCoord(this);
+	public int managerX = 0;
+	public int managerY = 0;
+	public int managerZ = 0;
 
 	public TileEntityPowerBlock() {
+		super(10000);
 
 	}
 
 	public boolean canUpdate() {
 		return false;
 	}
+
 
 	public void setManager(TileEntityManagerBlock manager) {
 		this.manager = manager;
@@ -43,9 +45,6 @@ public class TileEntityPowerBlock extends TileEntity {
 		return manager;
 	}
 
-	public void invalidatePowerBlocks() {
-		setManager(null);
-	}
 
 	public boolean growPlant(World world, boolean night) {
 		if (world != null)
@@ -65,11 +64,24 @@ public class TileEntityPowerBlock extends TileEntity {
 	}
 
 	public void writeToNBT(NBTTagCompound nbt) {
-		managerLocation.writeToNBT(nbt);
+		super.writeToNBT(nbt);
 	}
 
 	public void readFromNBT(NBTTagCompound nbt) {
-		managerLocation = managerLocation.readFromNBT(nbt);
+		super.readFromNBT(nbt);
+
+	}
+
+	@Override
+	public EnumSet<ForgeDirection> getValidOutputs() {
+		return EnumSet.noneOf(ForgeDirection.class);
+	}
+
+	@Override
+	public EnumSet<ForgeDirection> getValidInputs() {
+		EnumSet<ForgeDirection> set = EnumSet.allOf(ForgeDirection.class);
+		set.remove(ForgeDirection.UP);
+		return set;
 	}
 
 }

@@ -56,6 +56,7 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 	}
 
 	public void updateEntity() {
+		super.updateEntity();
 		if (getStackInSlot(0) != null && !refining) {
 			PacketHandler.INSTANCE.sendToServer(new MessageGemRefiner(xCoord, yCoord, zCoord));
 		}
@@ -355,7 +356,7 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 				return true;
 			}
 		}
-		refined = 0;
+//		refined = 0;
 		setRecipeIndex(-1);
 		refining = false;
 		return false;
@@ -383,7 +384,7 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 				return true;
 			}
 		}
-		refined = 0;
+//		refined = 0;
 		setRecipeIndex(-1);
 		refining = false;
 		return false;
@@ -411,7 +412,7 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 				return true;
 			}
 		}
-		refined = 0;
+//		refined = 0;
 		setRecipeIndex(-1);
 		refining = false;
 		return false;
@@ -438,7 +439,7 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 				return true;
 			}
 		}
-		refined = 0;
+//		refined = 0;
 		setRecipeIndex(-1);
 		refining = false;
 		return false;

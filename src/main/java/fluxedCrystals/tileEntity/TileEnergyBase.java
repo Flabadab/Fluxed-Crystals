@@ -14,7 +14,7 @@ import fluxedCrystals.network.PacketHandler;
 import fluxedCrystals.utils.Utils;
 
 public abstract class TileEnergyBase extends TileEntity implements IEnergyHandler {
-	protected EnergyStorage storage;
+	public EnergyStorage storage;
 	protected int capacity;
 
 	private int lastStored = 0;
@@ -32,7 +32,6 @@ public abstract class TileEnergyBase extends TileEntity implements IEnergyHandle
 			return 1;
 		}
 		return storage.getEnergyStored() * amount / storage.getMaxEnergyStored();
-
 	}
 
 	public double getEnergyColor() {

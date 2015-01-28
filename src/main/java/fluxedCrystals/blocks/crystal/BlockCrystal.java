@@ -36,11 +36,18 @@ import fluxedCrystals.config.ConfigProps;
 import fluxedCrystals.items.FCItems;
 import fluxedCrystals.items.ItemScythe;
 import fluxedCrystals.tileEntity.TileEntityCrystal;
+import fluxedCrystals.tileEntity.TileEntityPowerBlock;
 import fluxedCrystals.utils.DamageSourceCrystal;
 
 public class BlockCrystal extends CrystalBase implements ITileEntityProvider, IWailaInfo {
 	public BlockCrystal() {
 		setHardness(0.05F);
+		setTickRandomly(true);
+		
+	}
+
+	public int tickRate(World world) {
+		return 1;
 	}
 
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
@@ -49,6 +56,22 @@ public class BlockCrystal extends CrystalBase implements ITileEntityProvider, IW
 			if (!world.isRemote && world.getWorldTime() % 5 == 0)
 				if (entity instanceof EntityPlayer)
 					((EntityPlayer) entity).attackEntityFrom(new DamageSourceCrystal(), 1);
+		}
+	}
+
+	public void updateTick(World world, int x, int y, int z, Random rand) {
+		System.out.println(new BlockCoord(x, y, z).toString());
+		if (world.getBlockMetadata(x, y, z) < 7) {
+			TileEntityCrystal crystal = (TileEntityCrystal) world.getTileEntity(x, y, z);
+			TileEntityPowerBlock power = (TileEntityPowerBlock) world.getTileEntity(x, y - 1, z);
+			int idx = crystal.getIndex();
+			if (crystal != null && power != null) {
+				if (crystal.getTicksgrown() >= RecipeRegistry.getGrowthTime(idx)) {
+					if (power.getEnergyStored() >= RecipeRegistry.getPowerPerStage(idx) && growCrop(world, x, y, z, rand, true)) {
+						power.storage.extractEnergy(RecipeRegistry.getPowerPerStage(idx), false);
+					}
+				}
+			}
 		}
 	}
 

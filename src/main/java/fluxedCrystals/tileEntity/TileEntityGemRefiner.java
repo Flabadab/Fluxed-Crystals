@@ -356,7 +356,7 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 				return true;
 			}
 		}
-//		refined = 0;
+		refined = 0;
 		setRecipeIndex(-1);
 		refining = false;
 		return false;
@@ -384,7 +384,7 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 				return true;
 			}
 		}
-//		refined = 0;
+		refined = 0;
 		setRecipeIndex(-1);
 		refining = false;
 		return false;
@@ -412,7 +412,7 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 				return true;
 			}
 		}
-//		refined = 0;
+		refined = 0;
 		setRecipeIndex(-1);
 		refining = false;
 		return false;
@@ -439,7 +439,7 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 				return true;
 			}
 		}
-//		refined = 0;
+		refined = 0;
 		setRecipeIndex(-1);
 		refining = false;
 		return false;

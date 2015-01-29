@@ -43,12 +43,8 @@ public class BlockCrystal extends CrystalBase implements ITileEntityProvider, IW
 	public BlockCrystal() {
 		setHardness(0.05F);
 		setTickRandomly(true);
-		
 	}
 
-	public int tickRate(World world) {
-		return 1;
-	}
 
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
 		TileEntityCrystal crop = (TileEntityCrystal) world.getTileEntity(x, y, z);
@@ -60,7 +56,6 @@ public class BlockCrystal extends CrystalBase implements ITileEntityProvider, IW
 	}
 
 	public void updateTick(World world, int x, int y, int z, Random rand) {
-		System.out.println(new BlockCoord(x, y, z).toString());
 		if (world.getBlockMetadata(x, y, z) < 7) {
 			TileEntityCrystal crystal = (TileEntityCrystal) world.getTileEntity(x, y, z);
 			TileEntityPowerBlock power = (TileEntityPowerBlock) world.getTileEntity(x, y - 1, z);

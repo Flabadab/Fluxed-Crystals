@@ -370,7 +370,6 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 						cutting = false;
 						cut = 0;
 						setRecipeIndex(-1);
-						PacketHandler.INSTANCE.sendToDimension(new MessageGemCutter(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
 
 					}
 				}
@@ -399,7 +398,6 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 						cutting = false;
 						cut = 0;
 						setRecipeIndex(-1);
-						PacketHandler.INSTANCE.sendToDimension(new MessageGemCutter(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
 
 					}
 				}
@@ -427,7 +425,6 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 						cutting = false;
 						cut = 0;
 						setRecipeIndex(-1);
-						PacketHandler.INSTANCE.sendToDimension(new MessageGemCutter(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
 
 					}
 				}
@@ -454,7 +451,6 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 						cutting = false;
 						cut = 0;
 						setRecipeIndex(-1);
-						PacketHandler.INSTANCE.sendToDimension(new MessageGemCutter(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
 
 					}
 				}

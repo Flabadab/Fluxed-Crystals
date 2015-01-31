@@ -38,8 +38,9 @@ public class FCBlocks {
 	}
 
 	private static void registerTileEntity() {
-
+		// TODO remove
 		GameRegistry.registerTileEntity(TileEntityManagerBlock.class, "managerBlock");
+
 		GameRegistry.registerTileEntity(TileEntityPowerBlock.class, "powerBlock");
 		GameRegistry.registerTileEntity(TileEntitySeedInfuser.class, "seedInfuser");
 		GameRegistry.registerTileEntity(TileEntityCrystal.class, "crop");
@@ -53,6 +54,7 @@ public class FCBlocks {
 	private static void registerBlocks() {
 		GameRegistry.registerBlock(crop, "crop");
 		registerBlock(powerBlock, "Power Block", "power_block");
+		// TODO remove
 		registerBlock(managerBlock, "Manager Block", "Manager_Block");
 		registerBlock(seedInfuser, "Seed Infuser", "Seed_Infuser");
 		registerBlock(gemRefiner, "Gem Refiner", "Gem_Refiner");

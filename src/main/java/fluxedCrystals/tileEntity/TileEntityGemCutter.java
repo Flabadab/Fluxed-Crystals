@@ -569,7 +569,7 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, int side) {
-		return side != 0 && slot != 0;
+		return side != 0 && slot != 0 && slot !=2 && slot !=3 && slot !=4;
 	}
 
 }

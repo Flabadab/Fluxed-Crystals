@@ -67,7 +67,7 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 
 	public void updateEntity() {
 		super.updateEntity();
-		if (!worldObj.isRemote && getStackInSlot(0) != null && !cutting) {
+		if (worldObj.isRemote && getStackInSlot(0) != null && !cutting) {
 			PacketHandler.INSTANCE.sendToServer(new MessageGemCutter(xCoord, yCoord, zCoord));
 		}
 		if (worldObj != null) {

@@ -78,13 +78,11 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 				if (!isUpgradeActive(new ItemStack(FCItems.upgradeMana)) && !isUpgradeActive(new ItemStack(FCItems.upgradeLP)) && !isUpgradeActive(new ItemStack(FCItems.upgradeEssentia))) {
 					if (getStackInSlot(1) != null) {
 						if (worldObj.getWorldTime() % getSpeed() == 0 && storage.getEnergyStored() >= getEffeciency() && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
-							PacketHandler.INSTANCE.sendToServer(new MessageGemCutter(xCoord, yCoord, zCoord));
 							refine();
 							return;
 						}
 					} else {
 						if (worldObj.getWorldTime() % getSpeed() == 0 && storage.getEnergyStored() >= getEffeciency()) {
-							PacketHandler.INSTANCE.sendToServer(new MessageGemCutter(xCoord, yCoord, zCoord));
 							refine();
 							return;
 						}
@@ -96,13 +94,11 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 				if (getStackInSlot(6) != null) {
 					if (getStackInSlot(1) != null && isUpgradeActive(new ItemStack(FCItems.upgradeLP))) {
 						if (worldObj.getWorldTime() % getSpeed() == 0 && SoulNetworkHandler.canSyphonFromOnlyNetwork(getStackInSlot(6), getEffeciency() / 4) && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
-							PacketHandler.INSTANCE.sendToServer(new MessageGemCutter(xCoord, yCoord, zCoord));
 							refineLP();
 							return;
 						}
 					} else {
 						if (worldObj.getWorldTime() % getSpeed() == 0 && SoulNetworkHandler.canSyphonFromOnlyNetwork(getStackInSlot(6), getEffeciency() / 4) && isUpgradeActive(new ItemStack(FCItems.upgradeLP))) {
-							PacketHandler.INSTANCE.sendToServer(new MessageGemCutter(xCoord, yCoord, zCoord));
 							refineLP();
 							return;
 						}
@@ -110,13 +106,11 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 				}
 				if (getStackInSlot(1) != null && isUpgradeActive(new ItemStack(FCItems.upgradeMana))) {
 					if (worldObj.getWorldTime() % getSpeed() == 0 && mana >= getEffeciency() && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
-						PacketHandler.INSTANCE.sendToServer(new MessageGemCutter(xCoord, yCoord, zCoord));
 						refineMana();
 						return;
 					}
 				} else {
 					if (isUpgradeActive(new ItemStack(FCItems.upgradeMana)) && worldObj.getWorldTime() % getSpeed() == 0 && mana >= getEffeciency()) {
-						PacketHandler.INSTANCE.sendToServer(new MessageGemCutter(xCoord, yCoord, zCoord));
 						refineMana();
 						return;
 					}
@@ -125,7 +119,6 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 				if (FluxedCrystals.thaumcraftThere && isUpgradeActive(new ItemStack(FCItems.upgradeEssentia))) {
 					if (AspectSourceHelper.findEssentia(this, Aspect.MECHANISM, ForgeDirection.UNKNOWN, 16)) {
 						if (worldObj.getWorldTime() % getSpeed() == 0 && getStackInSlot(1) != null && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
-							PacketHandler.INSTANCE.sendToServer(new MessageGemCutter(xCoord, yCoord, zCoord));
 							if (refineEssentia()) {
 								for (int i = 0; i < new Random().nextInt(16) + 1; i++)
 
@@ -134,7 +127,6 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 							return;
 						} else {
 							if (worldObj.getWorldTime() % getSpeed() == 0) {
-								PacketHandler.INSTANCE.sendToServer(new MessageGemCutter(xCoord, yCoord, zCoord));
 								if (refineEssentia()) {
 									for (int i = 0; i < new Random().nextInt(16) + 1; i++)
 										AspectSourceHelper.drainEssentia(this, Aspect.MECHANISM, ForgeDirection.UNKNOWN, 16);
@@ -370,6 +362,7 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 						cutting = false;
 						cut = 0;
 						setRecipeIndex(-1);
+						PacketHandler.INSTANCE.sendToDimension(new MessageGemCutter(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
 
 					}
 				}
@@ -398,6 +391,7 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 						cutting = false;
 						cut = 0;
 						setRecipeIndex(-1);
+						PacketHandler.INSTANCE.sendToDimension(new MessageGemCutter(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
 
 					}
 				}
@@ -425,6 +419,7 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 						cutting = false;
 						cut = 0;
 						setRecipeIndex(-1);
+						PacketHandler.INSTANCE.sendToDimension(new MessageGemCutter(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
 
 					}
 				}
@@ -451,6 +446,7 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 						cutting = false;
 						cut = 0;
 						setRecipeIndex(-1);
+						PacketHandler.INSTANCE.sendToDimension(new MessageGemCutter(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
 
 					}
 				}

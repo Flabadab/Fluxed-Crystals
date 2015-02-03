@@ -45,7 +45,6 @@ public class BlockCrystal extends CrystalBase implements ITileEntityProvider, IW
 		setTickRandomly(true);
 	}
 
-
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
 		TileEntityCrystal crop = (TileEntityCrystal) world.getTileEntity(x, y, z);
 		if (RecipeRegistry.getIsSharp(crop.getIndex())) {
@@ -56,17 +55,21 @@ public class BlockCrystal extends CrystalBase implements ITileEntityProvider, IW
 	}
 
 	public void updateTick(World world, int x, int y, int z, Random rand) {
+		TileEntityCrystal crystal = (TileEntityCrystal) world.getTileEntity(x, y, z);
+		TileEntityPowerBlock power = (TileEntityPowerBlock) world.getTileEntity(x, y - 1, z);
+		int idx = crystal.getIndex();
 		if (world.getBlockMetadata(x, y, z) < 7) {
-			TileEntityCrystal crystal = (TileEntityCrystal) world.getTileEntity(x, y, z);
-			TileEntityPowerBlock power = (TileEntityPowerBlock) world.getTileEntity(x, y - 1, z);
-			int idx = crystal.getIndex();
 			if (crystal != null && power != null) {
-				if (crystal.getTicksgrown() >= RecipeRegistry.getGrowthTime(idx)) {
-					if (power.getEnergyStored() >= RecipeRegistry.getPowerPerStage(idx) && growCrop(world, x, y, z, rand, true)) {
-						power.storage.extractEnergy(RecipeRegistry.getPowerPerStage(idx), false);
+				if (crystal.getTicksgrown() >= RecipeRegistry.getGrowthTime(idx) / power.getSpeed()) {
+					if (power.getEnergyStored() >= power.getUpgradeDrain(idx) && growCrop(world, x, y, z, rand, true)) {
+						power.storage.extractEnergy(power.getUpgradeDrain(idx), false);
 					}
 				}
 			}
+		}
+		if (world.getBlockMetadata(x, y, z) >= 7 && power.isUpgradeActive(new ItemStack(FCItems.upgradeAutomation))) {
+			doDrop(crystal, world, x, y, z, 0, false);
+			world.setBlockMetadataWithNotify(x, y, z, 0, 3);
 		}
 	}
 

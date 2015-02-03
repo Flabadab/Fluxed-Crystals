@@ -92,10 +92,6 @@ public class TileEntityManagerBlock extends TileEnergyBase implements IInventory
 				if (power.getWorldObj() == null) {
 					powerBlocksToRemove.add(power);
 				}
-				power.setManagerUpgrades(new ItemStack[] { getUpgradeOne(), getUpgradeTwo(), getUpgradeThree() });
-				power.setManagerX(xCoord);
-				power.setManagerY(yCoord);
-				power.setManagerZ(zCoord);
 				
 			}
 			for (TileEntityPowerBlock power : powerBlocksToRemove) {

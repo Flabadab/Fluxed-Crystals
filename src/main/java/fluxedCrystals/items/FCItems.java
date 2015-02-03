@@ -60,7 +60,6 @@ public class FCItems {
 	}
 
 	private static void registerRecipes() {
-
 	}
 
 	private static void registerItems() {

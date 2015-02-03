@@ -100,7 +100,6 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 						}
 					} else {
 						if (worldObj.getWorldTime() % getSpeed() == 0 && SoulNetworkHandler.canSyphonFromOnlyNetwork(getStackInSlot(6), getEffeciency() / 4) && isUpgradeActive(new ItemStack(FCItems.upgradeLP))) {
-							PacketHandler.INSTANCE.sendToServer(new MessageGemCutter(xCoord, yCoord, zCoord));
 							refineLP();
 							return;
 						}

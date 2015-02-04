@@ -3,15 +3,11 @@ package fluxedCrystals.tileEntity;
 import java.util.ArrayList;
 import java.util.EnumSet;
 
-import tterrag.core.common.util.BlockCoord;
-import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -24,16 +20,11 @@ import fluxedCrystals.items.FCItems;
 /**
  * Created by Jared on 11/2/2014.
  */
-@Getter
-@Setter
 public class TileEntityPowerBlock extends TileEnergyBase implements ISidedInventory {
 
-	private TileEntityManagerBlock manager;
 	public ItemStack[] items;;
-
 	public TileEntityPowerBlock() {
 		super(10000);
-
 		items = new ItemStack[3];
 	}
 

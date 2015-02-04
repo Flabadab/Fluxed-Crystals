@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import net.minecraft.item.ItemStack;
 import thaumcraft.api.aspects.Aspect;
 
@@ -17,7 +15,6 @@ import fluxedCrystals.api.recipe.RecipeGemRefiner;
 import fluxedCrystals.api.recipe.RecipeSeedInfuser;
 import fluxedCrystals.api.recipe.SeedCrystalRecipe;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RecipeRegistry {
 
 	private static List<RecipeSeedInfuser> seedRecipes = new ArrayList<RecipeSeedInfuser>();

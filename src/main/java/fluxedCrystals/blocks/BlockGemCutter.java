@@ -1,18 +1,13 @@
 package fluxedCrystals.blocks;
 
-import java.util.ArrayList;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.tileEntity.TileEntityGemCutter;
-import fluxedCrystals.tileEntity.TileEntityGemRefiner;
-import fluxedCrystals.tileEntity.TileEntityManagerBlock;
 
 public class BlockGemCutter extends Block implements ITileEntityProvider {
 	protected BlockGemCutter() {

@@ -12,7 +12,6 @@ import fluxedCrystals.tileEntity.TileEntityCrystal;
 import fluxedCrystals.tileEntity.TileEntityGemCutter;
 import fluxedCrystals.tileEntity.TileEntityGemRefiner;
 import fluxedCrystals.tileEntity.TileEntityGlass;
-import fluxedCrystals.tileEntity.TileEntityManagerBlock;
 import fluxedCrystals.tileEntity.TileEntityPowerBlock;
 import fluxedCrystals.tileEntity.TileEntityRoughChunk;
 import fluxedCrystals.tileEntity.TileEntitySeedInfuser;
@@ -22,7 +21,6 @@ public class FCBlocks {
 	public static Block crop = new BlockCrystal();
 
 	public static Block powerBlock = new BlockPowerBlock();
-	public static Block managerBlock = new BlockManagerBlock();
 
 	public static Block seedInfuser = new BlockSeedInfuser();
 	public static Block infusedGlass = new BlockGlass();
@@ -38,8 +36,6 @@ public class FCBlocks {
 	}
 
 	private static void registerTileEntity() {
-		// TODO remove
-		GameRegistry.registerTileEntity(TileEntityManagerBlock.class, "managerBlock");
 
 		GameRegistry.registerTileEntity(TileEntityPowerBlock.class, "powerBlock");
 		GameRegistry.registerTileEntity(TileEntitySeedInfuser.class, "seedInfuser");
@@ -54,8 +50,6 @@ public class FCBlocks {
 	private static void registerBlocks() {
 		GameRegistry.registerBlock(crop, "crop");
 		registerBlock(powerBlock, "Power Block", "power_block");
-		// TODO remove
-		registerBlock(managerBlock, "Manager Block", "Manager_Block");
 		registerBlock(seedInfuser, "Seed Infuser", "Seed_Infuser");
 		registerBlock(gemRefiner, "Gem Refiner", "Gem_Refiner");
 		registerBlock(gemCutter, "Gem Cutter", "Gem_Cutter");

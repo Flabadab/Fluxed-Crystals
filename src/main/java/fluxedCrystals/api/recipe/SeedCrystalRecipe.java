@@ -1,13 +1,91 @@
 package fluxedCrystals.api.recipe;
 
-import lombok.Getter;
 import net.minecraft.item.ItemStack;
 import thaumcraft.api.aspects.Aspect;
 import tterrag.core.common.json.JsonUtils;
 import fluxedCrystals.config.json.SeedType;
 
-@Getter
 public class SeedCrystalRecipe {
+
+	public String getName() {
+		return name;
+	}
+
+	public int getColor() {
+		return color;
+	}
+
+	public ItemStack getIngredient() {
+		return ingredient;
+	}
+
+	public int getDropMin() {
+		return dropMin;
+	}
+
+	public int getDropMax() {
+		return dropMax;
+	}
+
+	public int getGrowthTime() {
+		return growthTime;
+	}
+
+	public int getTier() {
+		return tier;
+	}
+
+	public int getIngredientAmount() {
+		return ingredientAmount;
+	}
+
+	public int getPowerPerStage() {
+		return powerPerStage;
+	}
+
+	public boolean isDecorationBlocks() {
+		return decorationBlocks;
+	}
+
+	public ItemStack getWeightedDrop() {
+		return weightedDrop;
+	}
+
+	public int getWeightedDropChance() {
+		return weightedDropChance;
+	}
+
+	public boolean isPrettyPrettyArmor() {
+		return prettyPrettyArmor;
+	}
+
+	public int getRefinerAmount() {
+		return refinerAmount;
+	}
+
+	public String getLore() {
+		return lore;
+	}
+
+	public boolean isSharp() {
+		return sharp;
+	}
+
+	public Aspect getAspectNeeded() {
+		return aspectNeeded;
+	}
+
+	public int getAspectNeededAmount() {
+		return aspectNeededAmount;
+	}
+
+	public int getSeedReturn() {
+		return seedReturn;
+	}
+
+	public int getEntityID() {
+		return entityID;
+	}
 
 	private String name;
 	private int color;

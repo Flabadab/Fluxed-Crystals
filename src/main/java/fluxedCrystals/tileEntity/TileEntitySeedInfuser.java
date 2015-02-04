@@ -1,7 +1,5 @@
 package fluxedCrystals.tileEntity;
 
-import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -9,10 +7,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.common.util.ForgeDirection;
 import fluxedCrystals.api.RecipeRegistry;
 import fluxedCrystals.api.recipe.RecipeSeedInfuser;
-import fluxedCrystals.items.FCItems;
 import fluxedCrystals.network.MessageSeedInfuser;
 import fluxedCrystals.network.PacketHandler;
 
@@ -23,13 +19,25 @@ public class TileEntitySeedInfuser extends TileEntity implements IInventory {
 
 	public ItemStack[] items;
 
-	@Getter
 	private boolean infusing = false;
-	@Getter
 	private int infused = 0;
 
-	@Getter
-	@Setter
+	public int getRecipeIndex() {
+		return recipeIndex;
+	}
+
+	public void setRecipeIndex(int recipeIndex) {
+		this.recipeIndex = recipeIndex;
+	}
+
+	public boolean isInfusing() {
+		return infusing;
+	}
+
+	public int getInfused() {
+		return infused;
+	}
+
 	private int recipeIndex;
 
 	public TileEntitySeedInfuser() {

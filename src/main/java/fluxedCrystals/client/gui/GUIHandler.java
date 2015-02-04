@@ -10,13 +10,10 @@ import fluxedCrystals.client.gui.gemCutter.ContainerGemCutter;
 import fluxedCrystals.client.gui.gemCutter.GUIGemCutter;
 import fluxedCrystals.client.gui.gemRefiner.ContainerGemRefiner;
 import fluxedCrystals.client.gui.gemRefiner.GUIGemRefiner;
-import fluxedCrystals.client.gui.manager.ContainerManagerBlock;
-import fluxedCrystals.client.gui.manager.GUIManagerBlock;
 import fluxedCrystals.client.gui.seedInfuser.ContainerSeedInfuser;
 import fluxedCrystals.client.gui.seedInfuser.GUISeedInfuser;
 import fluxedCrystals.tileEntity.TileEntityGemCutter;
 import fluxedCrystals.tileEntity.TileEntityGemRefiner;
-import fluxedCrystals.tileEntity.TileEntityManagerBlock;
 import fluxedCrystals.tileEntity.TileEntitySeedInfuser;
 
 public class GUIHandler implements IGuiHandler {
@@ -30,12 +27,7 @@ public class GUIHandler implements IGuiHandler {
 		TileEntity te = world.getTileEntity(x, y, z);
 		switch (ID) {
 
-		case 0:
 
-			if (te != null && te instanceof TileEntityManagerBlock) {
-				return new ContainerManagerBlock(player.inventory, (TileEntityManagerBlock) te);
-			}
-			break;
 
 		case 1:
 			if (te != null && te instanceof TileEntitySeedInfuser) {
@@ -62,11 +54,6 @@ public class GUIHandler implements IGuiHandler {
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity te = world.getTileEntity(x, y, z);
 		switch (ID) {
-		case 0:
-			if (te != null && te instanceof TileEntityManagerBlock) {
-				return new GUIManagerBlock(player.inventory, (TileEntityManagerBlock) te);
-			}
-			break;
 		case 1:
 			if (te != null && te instanceof TileEntitySeedInfuser) {
 				return new GUISeedInfuser(player.inventory, (TileEntitySeedInfuser) te);

@@ -4,19 +4,12 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Random;
 
-import com.sun.org.apache.xpath.internal.operations.Gte;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 import thaumcraft.api.aspects.Aspect;
@@ -27,8 +20,6 @@ import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.api.RecipeRegistry;
 import fluxedCrystals.api.recipe.RecipeGemCutter;
 import fluxedCrystals.items.FCItems;
-import fluxedCrystals.network.MessageEnergyStorage;
-import fluxedCrystals.network.MessageEnergyUpdate;
 import fluxedCrystals.network.MessageGemCutter;
 import fluxedCrystals.network.PacketHandler;
 
@@ -39,22 +30,43 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 
 	public ItemStack[] items;
 
-	@Getter
 	private boolean cutting = false;
-	@Getter
 	private int cut = 0;
-	@Getter
 	private int timePerCut = 0;
-	@Getter
-	int energy;
 
-	@Getter
-	@Setter
 	private int recipeIndex;
 
 	public int mana;
 	public int MAX_MANA;
 	public boolean RF = true;
+
+	public boolean isCutting() {
+		return cutting;
+	}
+
+	public void setCutting(boolean cutting) {
+		this.cutting = cutting;
+	}
+
+	public int getTimePerCut() {
+		return timePerCut;
+	}
+
+	public void setTimePerCut(int timePerCut) {
+		this.timePerCut = timePerCut;
+	}
+
+	public int getRecipeIndex() {
+		return recipeIndex;
+	}
+
+	public void setRecipeIndex(int recipeIndex) {
+		this.recipeIndex = recipeIndex;
+	}
+
+	public int getCut() {
+		return cut;
+	}
 
 	public TileEntityGemCutter() {
 		super(10000);
@@ -71,9 +83,6 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 			PacketHandler.INSTANCE.sendToServer(new MessageGemCutter(xCoord, yCoord, zCoord));
 		}
 		if (worldObj != null) {
-			if (worldObj.isRemote) {
-				energy = storage.getEnergyStored();
-			}
 			if (storage.getEnergyStored() > 0) {
 				if (!isUpgradeActive(new ItemStack(FCItems.upgradeMana)) && !isUpgradeActive(new ItemStack(FCItems.upgradeLP)) && !isUpgradeActive(new ItemStack(FCItems.upgradeEssentia))) {
 					if (getStackInSlot(1) != null) {

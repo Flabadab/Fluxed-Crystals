@@ -1,11 +1,8 @@
 package fluxedCrystals.tileEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import lombok.Getter;
-import lombok.Setter;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.cbcore.LangUtil;
@@ -24,27 +21,51 @@ import fluxedCrystals.blocks.crystal.BlockCrystal;
 import fluxedCrystals.compat.waila.IWailaInfo;
 import fluxedCrystals.items.FCItems;
 
-@Getter
-@Setter
 public class TileEntityCrystal extends TileEntity implements IWailaInfo {
 	private int idx = 0;
-	@Getter
-	@Setter
 	private int ticksgrown = 0;
-
-	@Getter
-	@Setter
 	private boolean harvested = false;
+
+	public boolean isHarvested() {
+		return harvested;
+	}
+
+	public void setHarvested(boolean harvested) {
+		this.harvested = harvested;
+	}
+
+	public int getIdx() {
+		return idx;
+	}
+
+	public void setIdx(int idx) {
+		this.idx = idx;
+	}
+
+	public int getTicksgrown() {
+		return ticksgrown;
+	}
+
+	public void setTicksgrown(int ticksgrown) {
+		this.ticksgrown = ticksgrown;
+	}
+
+	public TileEntityPowerBlock getPower() {
+		return power;
+	}
+
+	public void setPower(TileEntityPowerBlock power) {
+		this.power = power;
+	}
 
 	private TileEntityPowerBlock power;
 
-	private ItemStack[] managerUpgrades = new ItemStack[3];
 	private BlockCrystal crystal;
 
 	public void updateEntity() {
 		ticksgrown++;
 
-		if (worldObj.getTotalWorldTime() % (new Random().nextInt(600)+1) == 0) {
+		if (worldObj.getTotalWorldTime() % (new Random().nextInt(600) + 1) == 0) {
 			worldObj.getBlock(xCoord, yCoord, zCoord).updateTick(worldObj, xCoord, yCoord, zCoord, worldObj.rand);
 		}
 		// if (!worldObj.isRemote) {

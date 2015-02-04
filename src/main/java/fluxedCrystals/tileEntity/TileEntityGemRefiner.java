@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Random;
 
-import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -22,7 +20,6 @@ import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.api.RecipeRegistry;
 import fluxedCrystals.api.recipe.RecipeGemRefiner;
 import fluxedCrystals.items.FCItems;
-import fluxedCrystals.network.MessageEnergyStorage;
 import fluxedCrystals.network.MessageGemRefiner;
 import fluxedCrystals.network.PacketHandler;
 
@@ -33,13 +30,25 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 
 	public ItemStack[] items;
 
-	@Getter
 	private boolean refining = false;
-	@Getter
 	private int refined = 0;
 
-	@Getter
-	@Setter
+	public int getRecipeIndex() {
+		return recipeIndex;
+	}
+
+	public void setRecipeIndex(int recipeIndex) {
+		this.recipeIndex = recipeIndex;
+	}
+
+	public boolean isRefining() {
+		return refining;
+	}
+
+	public int getRefined() {
+		return refined;
+	}
+
 	private int recipeIndex;
 
 	private int mana;

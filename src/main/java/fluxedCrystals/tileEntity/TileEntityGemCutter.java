@@ -79,6 +79,7 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 
 	public void updateEntity() {
 		super.updateEntity();
+
 		if (worldObj.isRemote && getStackInSlot(0) != null && !cutting) {
 			PacketHandler.INSTANCE.sendToServer(new MessageGemCutter(xCoord, yCoord, zCoord));
 		}
@@ -87,7 +88,7 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 				if (!isUpgradeActive(new ItemStack(FCItems.upgradeMana)) && !isUpgradeActive(new ItemStack(FCItems.upgradeLP)) && !isUpgradeActive(new ItemStack(FCItems.upgradeEssentia))) {
 					if (getStackInSlot(1) != null) {
 						if (worldObj.getWorldTime() % getSpeed() == 0 && storage.getEnergyStored() >= getEffeciency() && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
-							
+
 							refine();
 							return;
 						}
@@ -567,7 +568,7 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, int side) {
-		return side != 0 && slot != 0 && slot !=2 && slot !=3 && slot !=4;
+		return side != 0 && slot != 0 && slot != 2 && slot != 3 && slot != 4;
 	}
 
 }

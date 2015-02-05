@@ -76,11 +76,7 @@ public class GUIGemRefiner extends GuiContainer {
 			if (sawX >= guiLeft + 105) {
 				sawX = guiLeft + 62;
 			}
-			if (new Random().nextInt(3) == 0) {
 				RenderItem.getInstance().renderItemIntoGUI(fontRendererObj, Minecraft.getMinecraft().getTextureManager(), tile.getStackInSlot(0), sawX, sawY);
-			} else {
-				RenderItem.getInstance().renderItemIntoGUI(fontRendererObj, Minecraft.getMinecraft().getTextureManager(), new ItemStack(FCItems.shard, 1, tile.getStackInSlot(0).getItemDamage()), sawX, sawY);
-			}
 
 		}
 		GL11.glPopMatrix();

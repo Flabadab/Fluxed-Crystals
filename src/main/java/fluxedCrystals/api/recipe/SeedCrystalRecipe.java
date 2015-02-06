@@ -87,9 +87,14 @@ public class SeedCrystalRecipe {
 		return entityID;
 	}
 
+	public ItemStack getDrop() {
+		return drop;
+	}
+
 	private String name;
 	private int color;
 	private ItemStack ingredient;
+	private ItemStack drop;
 	private int dropMin;
 	private int dropMax;
 	private int growthTime;
@@ -109,10 +114,10 @@ public class SeedCrystalRecipe {
 	private int entityID;
 
 	public SeedCrystalRecipe(SeedType type) {
-		this(type.name, type.color, JsonUtils.parseStringIntoItemStack(type.ingredient), type.dropMin, type.dropMax, type.growthTime, type.tier, type.ingredientAmount, type.powerPerStage, type.decorationBlocks, JsonUtils.parseStringIntoItemStack(type.weightedDrop), type.weightedDropChance, type.prettyPrettyArmor, type.refinerAmount, type.lore, type.sharp, Aspect.getAspect(type.aspectNeeded), type.aspectNeededAmount, type.seedReturn, type.entityID);
+		this(type.name, type.color, JsonUtils.parseStringIntoItemStack(type.ingredient), type.dropMin, type.dropMax, type.growthTime, type.tier, type.ingredientAmount, type.powerPerStage, type.decorationBlocks, JsonUtils.parseStringIntoItemStack(type.weightedDrop), type.weightedDropChance, type.prettyPrettyArmor, type.refinerAmount, type.lore, type.sharp, Aspect.getAspect(type.aspectNeeded), type.aspectNeededAmount, type.seedReturn, type.entityID, JsonUtils.parseStringIntoItemStack(type.drop));
 	}
 
-	public SeedCrystalRecipe(String name, int color, ItemStack ingredient, int dropMin, int dropMax, int growthTime, int tier, int ingredientAmount, int powerPerStage, boolean decorationBlock, ItemStack weightedDrop, int weightedDropChance, boolean prettyPrettyArmor, int refinerAmount, String lore, boolean sharp, Aspect aspectNeeded, int aspectNeededAmount, int seedReturn, int entityID) {
+	public SeedCrystalRecipe(String name, int color, ItemStack ingredient, int dropMin, int dropMax, int growthTime, int tier, int ingredientAmount, int powerPerStage, boolean decorationBlock, ItemStack weightedDrop, int weightedDropChance, boolean prettyPrettyArmor, int refinerAmount, String lore, boolean sharp, Aspect aspectNeeded, int aspectNeededAmount, int seedReturn, int entityID, ItemStack drop) {
 		this.name = name;
 		this.color = color;
 		this.ingredient = ingredient;
@@ -133,5 +138,6 @@ public class SeedCrystalRecipe {
 		this.aspectNeededAmount = aspectNeededAmount;
 		this.seedReturn = seedReturn;
 		this.entityID = entityID;
+		this.drop = drop;
 	}
 }

@@ -10,6 +10,7 @@ public class SeedType implements ISeedType {
 	public String name = "null";
 	public int color = 0xFFFFFF;
 	public String ingredient = "minecraft:diamond";
+	public String drop = "minecraft:diamond";
 	public int dropMin = 1;
 	public int dropMax = 1;
 	public int growthTime = 1200;

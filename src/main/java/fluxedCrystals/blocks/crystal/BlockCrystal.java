@@ -50,7 +50,7 @@ public class BlockCrystal extends CrystalBase implements ITileEntityProvider, IW
 		if (RecipeRegistry.getIsSharp(crop.getIndex())) {
 			if (!world.isRemote && world.getWorldTime() % 5 == 0)
 				if (entity instanceof EntityPlayer)
-					((EntityPlayer) entity).attackEntityFrom(new DamageSourceCrystal(), 1);
+					((EntityPlayer) entity).attackEntityFrom(new DamageSourceCrystal(), world.getBlockMetadata(x, y, z));
 		}
 	}
 
@@ -119,10 +119,16 @@ public class BlockCrystal extends CrystalBase implements ITileEntityProvider, IW
 	}
 
 	private void doDrop(TileEntityCrystal crop, World world, int x, int y, int z, int itemMultiplier, boolean seed) {
+
 		if (seed)
 			dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.seed, RecipeRegistry.getSeedReturn(crop.getIndex()), crop.getIndex()));
 		if (ConfigProps.normalShardRecipes) {
 			dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.shard, RecipeRegistry.getDropAmount(crop.getIndex()) + itemMultiplier, crop.getIndex()));
+		} else if (RecipeRegistry.getDrop(crop.getIndex()) != null) {
+			ItemStack drop = RecipeRegistry.getDrop(crop.getIndex()).copy();
+			drop.stackSize = RecipeRegistry.getDropAmount(crop.getIndex()) + itemMultiplier;
+			dropBlockAsItem(world, x, y, z, drop);
+
 		} else {
 			dropBlockAsItem(world, x, y, z, new ItemStack(FCItems.roughChunk, RecipeRegistry.getDropAmount(crop.getIndex()) + itemMultiplier, crop.getIndex()));
 		}

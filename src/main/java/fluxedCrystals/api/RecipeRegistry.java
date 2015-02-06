@@ -217,6 +217,12 @@ public class RecipeRegistry {
 		return 1;
 	}
 
+	public static ItemStack getDrop(int itemDamage) {
+		if (rangeCheck(itemDamage))
+			return crops.get(itemDamage).getDrop();
+		return null;
+	}
+
 	public static void reset() {
 		String caller = Thread.currentThread().getStackTrace()[2].getClassName();
 		if (caller.contains("fluxedCrystals.config")) {

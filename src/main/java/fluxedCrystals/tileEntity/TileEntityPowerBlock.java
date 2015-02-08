@@ -24,7 +24,7 @@ public class TileEntityPowerBlock extends TileEnergyBase implements ISidedInvent
 
 	public ItemStack[] items;;
 	public TileEntityPowerBlock() {
-		super(10000);
+		super(100000);
 		items = new ItemStack[3];
 	}
 
@@ -258,7 +258,7 @@ public class TileEntityPowerBlock extends TileEnergyBase implements ISidedInvent
 	}
 
 	public int getSpeed() {
-		int speed = 7;
+		int speed = 8;
 		for (ItemStack item : getUpgrades()) {
 			if (item != null) {
 				if (item.isItemEqual(new ItemStack(FCItems.upgradeSpeed))) {
@@ -298,9 +298,6 @@ public class TileEntityPowerBlock extends TileEnergyBase implements ISidedInvent
 				}
 				if (item.isItemEqual(new ItemStack(FCItems.upgradeSpeed))) {
 					energy += energy / 12;
-				}
-				if (item.isItemEqual(new ItemStack(FCItems.upgradeAutomation))) {
-					energy += energy / 8;
 				}
 			}
 		}

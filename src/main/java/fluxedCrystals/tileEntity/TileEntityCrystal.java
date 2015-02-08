@@ -63,9 +63,16 @@ public class TileEntityCrystal extends TileEntity implements IWailaInfo {
 	private BlockCrystal crystal;
 
 	public void updateEntity() {
+		if(power==null){
+			power = (TileEntityPowerBlock)worldObj.getTileEntity(xCoord, yCoord-1, zCoord);
+		}
 		ticksgrown++;
+		if (ticksgrown > RecipeRegistry.getGrowthTime(idx) / power.getSpeed()) {
+			worldObj.getBlock(xCoord, yCoord, zCoord).updateTick(worldObj, xCoord, yCoord, zCoord, worldObj.rand);
+			ticksgrown=0;
+		}
 
-		if (worldObj.getTotalWorldTime() % (new Random().nextInt(100) + 1) == 0) {
+		if (worldObj.getTotalWorldTime() % (new Random().nextInt(200) + 1) == 0) {
 			worldObj.getBlock(xCoord, yCoord, zCoord).updateTick(worldObj, xCoord, yCoord, zCoord, worldObj.rand);
 		}
 		// if (!worldObj.isRemote) {

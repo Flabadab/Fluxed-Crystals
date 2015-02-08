@@ -9,8 +9,8 @@ public class SeedType implements ISeedType {
 
 	public String name = "null";
 	public int color = 0xFFFFFF;
-	public String ingredient = "minecraft:diamond";
-	public String drop = "minecraft:diamond";
+	public String ingredient = "minecraft:portal";
+	public String drop = "minecraft:portal";
 	public int dropMin = 1;
 	public int dropMax = 1;
 	public int growthTime = 1200;
@@ -18,7 +18,7 @@ public class SeedType implements ISeedType {
 	public int ingredientAmount = 32;
 	public int powerPerStage = 2000;
 	public boolean decorationBlocks = true;
-	public String weightedDrop = "minecraft:diamond";
+	public String weightedDrop = "minecraft:portal";
 	public int weightedDropChance = 0;
 	public boolean prettyPrettyArmor = true;
 	public int refinerAmount = 4;

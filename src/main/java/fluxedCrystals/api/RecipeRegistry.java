@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import thaumcraft.api.aspects.Aspect;
 
@@ -218,7 +219,7 @@ public class RecipeRegistry {
 	}
 
 	public static ItemStack getDrop(int itemDamage) {
-		if (rangeCheck(itemDamage))
+		if (rangeCheck(itemDamage) && crops.get(itemDamage).getDrop().isItemEqual(new ItemStack(Blocks.portal)))
 			return crops.get(itemDamage).getDrop();
 		return null;
 	}

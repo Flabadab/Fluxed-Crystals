@@ -65,7 +65,7 @@ public class TileEntityCrystal extends TileEntity implements IWailaInfo {
 	public void updateEntity() {
 		ticksgrown++;
 
-		if (worldObj.getTotalWorldTime() % (new Random().nextInt(600) + 1) == 0) {
+		if (worldObj.getTotalWorldTime() % (new Random().nextInt(100) + 1) == 0) {
 			worldObj.getBlock(xCoord, yCoord, zCoord).updateTick(worldObj, xCoord, yCoord, zCoord, worldObj.rand);
 		}
 		// if (!worldObj.isRemote) {

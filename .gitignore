@@ -6,6 +6,7 @@
 /build
 /eclipse
 /bin
+/out
 
 *.mtl
 *.classpath
@@ -14,3 +15,5 @@
 /.settings
 /.idea
 *.iml
+*.ipr
+*.iws

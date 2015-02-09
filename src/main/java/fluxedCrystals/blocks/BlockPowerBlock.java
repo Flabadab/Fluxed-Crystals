@@ -24,7 +24,7 @@ public class BlockPowerBlock extends Block implements ITileEntityProvider {
 
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		ArrayList<ItemStack> stack = new ArrayList<ItemStack>();
-		stack.add(new ItemStack(Blocks.dirt));
+		stack.add(new ItemStack(this));
 		return stack;
 	}
 

@@ -27,7 +27,7 @@ public class EventHandler {
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void render(RenderLivingEvent.Pre event) {
 		String s = EnumChatFormatting.getTextWithoutFormattingCodes(event.entity.getCommandSenderName());
-		if (s.equals("jaredlll08") || s.equals("esriel123")) {
+		if (s.equals("Jaredlll08") || s.equals("esriel123")) {
 			if (new Random().nextInt(2) == 0) {
 				if (!descending) {
 					trans++;

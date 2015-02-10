@@ -101,7 +101,7 @@ public class ConfigHandler extends AbstractConfigHandler {
 
 			if (!(Block.getBlockFromName("minecraft:portal") == Block.getBlockFromItem(r.getDrop().getItem()))) {
 				RecipeRegistry.registerGemRefinerRecipe(new RecipeGemRefiner(new ItemStack(FCItems.shard, 1, i), r.getDrop(), r.getRefinerAmount(), RecipeRegistry.getDropAmount(r.getDropMin(), r.getDropMax())));
-			} else if (Block.getBlockFromName("minecraft:portal") == Block.getBlockFromItem(r.getDrop().getItem())) {
+			} else  {
 				RecipeRegistry.registerGemRefinerRecipe(new RecipeGemRefiner(new ItemStack(FCItems.shard, 1, i), r.getIngredient(), r.getRefinerAmount(), RecipeRegistry.getDropAmount(r.getDropMin(), r.getDropMax())));
 
 			}

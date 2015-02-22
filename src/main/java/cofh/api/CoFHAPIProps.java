@@ -1,6 +1,5 @@
 package cofh.api;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Import;
 
 public class CoFHAPIProps {
 

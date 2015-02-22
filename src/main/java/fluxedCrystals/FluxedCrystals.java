@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import tterrag.core.TTCore;
 import tterrag.core.common.Lang;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
@@ -16,8 +17,10 @@ import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
+import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.relauncher.Side;
 import fluxedCrystals.blocks.FCBlocks;
 import fluxedCrystals.compat.minetweaker.FluxedCrystalsMT;
@@ -48,7 +51,6 @@ public class FluxedCrystals {
 	public static int chunkRenderID;
 	public static boolean thaumcraftThere;
 	public static List<ModContainer> activeMods = new ArrayList<ModContainer>();
-
 	public static final CreativeTabFluxedCrystals tab = new CreativeTabFluxedCrystals();
 
 	@EventHandler
@@ -85,7 +87,11 @@ public class FluxedCrystals {
 		logger.info("Starting Post Init.");
 		RecipeHandler.init();
 		activeMods = Loader.instance().getActiveModList();
-
+	}
+	
+	@EventHandler
+	public static void serverStart(FMLServerStartingEvent event){
+		ConfigHandler.INSTANCE.reloadIngameConfigs();
 	}
 
 }

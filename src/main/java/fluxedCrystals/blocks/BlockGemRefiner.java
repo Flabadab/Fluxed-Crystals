@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import fluxedCrystals.FluxedCrystals;
+import fluxedCrystals.tileEntity.TileEntityGemCutter;
 import fluxedCrystals.tileEntity.TileEntityGemRefiner;
 
 /**
@@ -33,16 +34,14 @@ public class BlockGemRefiner extends Block implements ITileEntityProvider {
 		return new TileEntityGemRefiner();
 	}
 
-	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+	public void onBlockPreDestroy(World world, int x, int y, int z, int meta) {
 		TileEntityGemRefiner tile = (TileEntityGemRefiner) world.getTileEntity(x, y, z);
-		ArrayList<ItemStack> items = new ArrayList<ItemStack>();
-		items.add(new ItemStack(this));
 		if (tile != null) {
 			for (int i = 0; i < tile.getSizeInventory(); i++) {
 				if (tile.getStackInSlot(i) != null)
-					items.add(tile.getStackInSlot(i));
+					dropBlockAsItem(world, x, y, z, tile.getStackInSlot(i));
 			}
 		}
-		return items;
+		
 	}
 }

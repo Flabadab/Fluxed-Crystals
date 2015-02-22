@@ -50,7 +50,7 @@ public class ConfigHandler extends AbstractConfigHandler {
 	}
 
 	@Override
-	protected void reloadIngameConfigs() {
+	public void reloadIngameConfigs() {
 		activateSection(ConfigProps.addonCategory);
 		ConfigProps.enderioAddon = getProperty("EnderIO Addon Support", true).getBoolean(true);
 		ConfigProps.aspectString = getProperty("Override Aspect for Crystals. (null for nothing)", "null").getString();
@@ -67,7 +67,7 @@ public class ConfigHandler extends AbstractConfigHandler {
 
 		String basePath = FluxedCrystals.configDir.getAbsolutePath();
 		ArrayList<File> cropFiles = convertArrayToList(FluxedCrystals.configDir.listFiles((FileFilter) FileFilterUtils.suffixFileFilter(".json")));
-		Collections.sort(cropFiles);
+
 		File crops = new File(basePath + "/Crystal.json");
 		File thermalCrops = new File(basePath + "/thermalCrystal.json");
 
@@ -84,6 +84,7 @@ public class ConfigHandler extends AbstractConfigHandler {
 				TTFileUtils.copyFromJar(FluxedCrystals.class, ModProps.modid + "/misc/" + "enderioCrystal.json", enderioCrops);
 			}
 		}
+		Collections.sort(cropFiles);
 		JsonConfigReader<SeedType> cropReader;
 		List<SeedCrystalRecipe> recipes = RecipeRegistry.getSeedCropRecipes();
 		for (int i = 0; i < cropFiles.size(); i++) {
@@ -101,7 +102,7 @@ public class ConfigHandler extends AbstractConfigHandler {
 
 			if (!(Block.getBlockFromName("minecraft:portal") == Block.getBlockFromItem(r.getDrop().getItem()))) {
 				RecipeRegistry.registerGemRefinerRecipe(new RecipeGemRefiner(new ItemStack(FCItems.shard, 1, i), r.getDrop(), r.getRefinerAmount(), RecipeRegistry.getDropAmount(r.getDropMin(), r.getDropMax())));
-			} else  {
+			} else {
 				RecipeRegistry.registerGemRefinerRecipe(new RecipeGemRefiner(new ItemStack(FCItems.shard, 1, i), r.getIngredient(), r.getRefinerAmount(), RecipeRegistry.getDropAmount(r.getDropMin(), r.getDropMax())));
 
 			}

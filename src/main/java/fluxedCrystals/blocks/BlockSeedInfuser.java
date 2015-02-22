@@ -9,12 +9,14 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.ModProps;
+import fluxedCrystals.tileEntity.TileEntityGemCutter;
 import fluxedCrystals.tileEntity.TileEntityGemRefiner;
 import fluxedCrystals.tileEntity.TileEntitySeedInfuser;
 
@@ -57,16 +59,14 @@ public class BlockSeedInfuser extends Block implements ITileEntityProvider {
 		return this.textures[0];
 	}
 
-	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+	public void onBlockPreDestroy(World world, int x, int y, int z, int meta) {
 		TileEntitySeedInfuser tile = (TileEntitySeedInfuser) world.getTileEntity(x, y, z);
-		ArrayList<ItemStack> items = new ArrayList<ItemStack>();
-		items.add(new ItemStack(this));
 		if (tile != null) {
 			for (int i = 0; i < tile.getSizeInventory(); i++) {
 				if (tile.getStackInSlot(i) != null)
-					items.add(tile.getStackInSlot(i));
+					dropBlockAsItem(world, x, y, z, tile.getStackInSlot(i));
 			}
 		}
-		return items;
+		
 	}
 }

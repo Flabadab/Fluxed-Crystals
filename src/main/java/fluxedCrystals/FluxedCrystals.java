@@ -89,9 +89,9 @@ public class FluxedCrystals {
 		activeMods = Loader.instance().getActiveModList();
 	}
 	
-	@EventHandler
-	public static void serverStart(FMLServerStartingEvent event){
-		ConfigHandler.INSTANCE.reloadIngameConfigs();
-	}
+//	@EventHandler
+//	public static void serverStart(FMLServerStartingEvent event){
+//		ConfigHandler.INSTANCE.reloadIngameConfigs();
+//	}
 
 }

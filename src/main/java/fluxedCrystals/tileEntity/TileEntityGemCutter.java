@@ -271,7 +271,7 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -553,7 +553,7 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, int side) {
-		if (slot == 0)
+		if (isItemValidForSlot(slot, stack))
 			for (RecipeGemCutter recipe : RecipeRegistry.getGemCutterRecipes()) {
 				if (recipe.getInput().isItemEqual(stack)) {
 					return true;

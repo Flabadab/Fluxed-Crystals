@@ -260,7 +260,7 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -503,7 +503,7 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, int side) {
-		if (slot == 0)
+		if (isItemValidForSlot(slot, stack))
 			for (RecipeGemRefiner recipe : RecipeRegistry.getGemRefinerRecipes()) {
 				if (recipe.getInput().isItemEqual(stack)) {
 					return true;
@@ -514,7 +514,7 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, int side) {
-		return side != 0 && slot != 0 && slot !=2 && slot !=3 && slot !=4;
+		return slot != 0 && slot !=2 && slot !=3 && slot !=4;
 	}
 
 	@Override

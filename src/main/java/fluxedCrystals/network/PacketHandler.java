@@ -8,13 +8,19 @@ import fluxedCrystals.ModProps;
 public class PacketHandler {
 	public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(ModProps.modid);
 
+	private static int id = 0;
 	public static void init() {
-		INSTANCE.registerMessage(MessageEnergyUpdate.class, MessageEnergyUpdate.class, 0, Side.CLIENT);
-		INSTANCE.registerMessage(MessageSeedInfuser.class, MessageSeedInfuser.class, 1, Side.SERVER);
-		INSTANCE.registerMessage(MessageSeedInfuser.class, MessageSeedInfuser.class, 2, Side.CLIENT);
-		INSTANCE.registerMessage(MessageBiome.class, MessageBiome.class, 3, Side.CLIENT);
-		INSTANCE.registerMessage(MessageGemRefiner.class, MessageGemRefiner.class, 4, Side.SERVER);
-		INSTANCE.registerMessage(MessageGemCutter.class, MessageGemCutter.class, 5, Side.SERVER);
-		INSTANCE.registerMessage(MessageEnergyStorage.class, MessageEnergyStorage.class, 6, Side.CLIENT);
+		INSTANCE.registerMessage(MessageEnergyUpdate.class, MessageEnergyUpdate.class, id++, Side.CLIENT);
+		INSTANCE.registerMessage(MessageEnergyStorage.class, MessageEnergyStorage.class, id++, Side.CLIENT);
+
+		INSTANCE.registerMessage(MessageBiome.class, MessageBiome.class, id++, Side.CLIENT);
+
+		INSTANCE.registerMessage(MessageSeedInfuser.class, MessageSeedInfuser.class, id++, Side.CLIENT);
+		INSTANCE.registerMessage(MessageSeedInfuser.class, MessageSeedInfuser.class, id++, Side.SERVER);
+		INSTANCE.registerMessage(MessageGemRefiner.class, MessageGemRefiner.class, id++, Side.CLIENT);
+		INSTANCE.registerMessage(MessageGemRefiner.class, MessageGemRefiner.class, id++, Side.SERVER);
+		INSTANCE.registerMessage(MessageGemCutter.class, MessageGemCutter.class, id++, Side.CLIENT);
+		INSTANCE.registerMessage(MessageGemCutter.class, MessageGemCutter.class, id++, Side.SERVER);
+
 	}
 }

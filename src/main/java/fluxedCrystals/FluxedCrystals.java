@@ -72,12 +72,14 @@ public class FluxedCrystals {
 			new FluxedCrystalsNEIConfig().loadConfig();
 		}
 		FMLInterModComms.sendMessage("Waila", "register", "fluxedCrystals.compat.waila.WailaCompat.load");
+		ConfigHandler.INSTANCE.reloadIngameConfigs();
 	}
 
 	@EventHandler
 	public static void Init(FMLInitializationEvent event) {
 		logger.info("Starting Init.");
 		proxy.renderTrans();
+		ConfigHandler.INSTANCE.reloadIngameConfigs();
 		if (Loader.isModLoaded("MineTweaker3"))
 			TweakerPlugin.register(ModProps.modid, FluxedCrystalsMT.class);
 	}
@@ -87,11 +89,12 @@ public class FluxedCrystals {
 		logger.info("Starting Post Init.");
 		RecipeHandler.init();
 		activeMods = Loader.instance().getActiveModList();
+		ConfigHandler.INSTANCE.reloadIngameConfigs();
 	}
 	
-//	@EventHandler
-//	public static void serverStart(FMLServerStartingEvent event){
-//		ConfigHandler.INSTANCE.reloadIngameConfigs();
-//	}
+	@EventHandler
+	public static void serverStart(FMLServerStartingEvent event){
+		ConfigHandler.INSTANCE.reloadIngameConfigs();
+	}
 
 }

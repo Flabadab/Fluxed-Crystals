@@ -1,8 +1,6 @@
 package fluxedCrystals.network;
 
-import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.tileEntity.TileEntityGemCutter;
-import fluxedCrystals.tileEntity.TileEntityGemRefiner;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -54,10 +52,6 @@ public class MessageGemCutter implements IMessage, IMessageHandler<MessageGemCut
 			if (refiner.getStackInSlot(0) != null && refiner.getStackInSlot(0).stackSize > 0) {
 				refiner.setRefining(true);
 				refiner.refine();
-			}
-			int index = refiner.getRecipeIndex();
-			if (index >= 0) {
-				return new MessageGemCutter(x, y, z, index);
 			}
 		}
 		return null;

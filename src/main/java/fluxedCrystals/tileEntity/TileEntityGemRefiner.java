@@ -104,11 +104,13 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 					if (getStackInSlot(1) != null && isUpgradeActive(new ItemStack(FCItems.upgradeMana))) {
 						if (refining && worldObj.getWorldTime() % getSpeed() == 0 && mana >= getEffeciency() && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
 							refineMana();
+
 							return;
 						}
 					} else {
 						if (refining && isUpgradeActive(new ItemStack(FCItems.upgradeMana)) && worldObj.getWorldTime() % getSpeed() == 0 && mana >= getEffeciency()) {
 							refineMana();
+
 							return;
 						}
 
@@ -514,7 +516,7 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, int side) {
-		return slot != 0 && slot !=2 && slot !=3 && slot !=4;
+		return slot != 0 && slot != 2 && slot != 3 && slot != 4;
 	}
 
 	@Override

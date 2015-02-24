@@ -1,8 +1,6 @@
 package fluxedCrystals.network;
 
-import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.tileEntity.TileEntityGemRefiner;
-import fluxedCrystals.tileEntity.TileEntitySeedInfuser;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -53,10 +51,6 @@ public class MessageGemRefiner implements IMessage, IMessageHandler<MessageGemRe
 			TileEntityGemRefiner refiner = (TileEntityGemRefiner) te;
 			if (refiner.getStackInSlot(0) != null && refiner.getStackInSlot(0).stackSize > 0) {
 				refiner.setRefining(true);
-			}
-			int index = refiner.getRecipeIndex();
-			if (index >= 0) {
-				return new MessageGemRefiner(x, y, z, index);
 			}
 		}
 		return null;

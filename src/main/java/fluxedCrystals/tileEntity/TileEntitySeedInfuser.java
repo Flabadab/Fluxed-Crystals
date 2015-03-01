@@ -9,6 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 import fluxedCrystals.api.RecipeRegistry;
 import fluxedCrystals.api.recipe.RecipeSeedInfuser;
+import fluxedCrystals.items.FCItems;
 import fluxedCrystals.network.MessageSeedInfuser;
 import fluxedCrystals.network.PacketHandler;
 
@@ -172,20 +173,33 @@ public class TileEntitySeedInfuser extends TileEntity implements IInventory {
 		tags.setTag("Items", nbttaglist);
 	}
 
+	public boolean addItemToSlot(int slotNumber, ItemStack stack) {
+		boolean returnBool = false;
+		if (stack != null) {
+			if (getStackInSlot(slotNumber).isItemEqual(new ItemStack(FCItems.universalSeed)) || (getStackInSlot(slotNumber).isItemEqual(stack)) && (getStackInSlot(slotNumber).getMaxStackSize() - getStackInSlot(slotNumber).stackSize - stack.stackSize) > 0) {
+				ItemStack out = stack.copy();
+				if (getStackInSlot(slotNumber) != null && getStackInSlot(slotNumber).isItemEqual(stack)) {
+					out.stackSize += getStackInSlot(slotNumber).stackSize;
+				}
+				setInventorySlotContents(slotNumber, out);
+				returnBool = true;
+			}
+		}
+
+		return returnBool;
+	}
+
 	public boolean infuseSeed() {
 		if (getRecipeIndex() >= 0) {
 			RecipeSeedInfuser recipe = RecipeRegistry.getSeedRecipes().get(getRecipeIndex());
 			if (getStackInSlot(0) != null && getStackInSlot(1) != null)
-				if (recipe.matches(getStackInSlot(0), getStackInSlot(1)) || recipe.matchesExact(getStackInSlot(0), getStackInSlot(1))) {
-					decrStackSize(1, 1);
-					infused++;
-					if (infused == recipe.getInputamount()) {
-						setInventorySlotContents(0, recipe.getOutput());
-						infusing = false;
-						infused = 0;
-						setRecipeIndex(-1);
-						PacketHandler.INSTANCE.sendToDimension(new MessageSeedInfuser(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
-					}
+				if ((recipe.matches(getStackInSlot(0), getStackInSlot(1)) || recipe.matchesExact(getStackInSlot(0), getStackInSlot(1)) && getStackInSlot(1).stackSize == recipe.getInputamount())) {
+					decrStackSize(1, recipe.getInputamount());
+					addItemToSlot(0, recipe.getOutput());
+					infusing = false;
+					infused = 0;
+					setRecipeIndex(-1);
+					PacketHandler.INSTANCE.sendToDimension(new MessageSeedInfuser(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
 					return true;
 				}
 		}

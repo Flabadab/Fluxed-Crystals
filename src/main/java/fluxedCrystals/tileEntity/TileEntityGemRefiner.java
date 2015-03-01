@@ -75,12 +75,12 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 					if (!isUpgradeActive(new ItemStack(FCItems.upgradeMana)) && !isUpgradeActive(new ItemStack(FCItems.upgradeLP)) && !isUpgradeActive(new ItemStack(FCItems.upgradeEssentia))) {
 						if (getStackInSlot(1) != null) {
 							if (refining && worldObj.getWorldTime() % getSpeed() == 0 && storage.getEnergyStored() >= getEffeciency() && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
-								refine();
+								storage.extractEnergy(refineShard(), false);
 								return;
 							}
 						} else {
 							if (refining && worldObj.getWorldTime() % getSpeed() == 0 && storage.getEnergyStored() >= getEffeciency()) {
-								refine();
+								storage.extractEnergy(refineShard(), false);
 								return;
 							}
 						}
@@ -343,6 +343,44 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 		}
 
 		tags.setTag("Items", nbttaglist);
+	}
+
+	public boolean addItemToSlot(int slotNumber, ItemStack stack) {
+		boolean returnBool = false;
+		if (stack != null) {
+			if (getStackInSlot(slotNumber) == null || (getStackInSlot(slotNumber).isItemEqual(stack)) && (getStackInSlot(slotNumber).getMaxStackSize()-getStackInSlot(slotNumber).stackSize-stack.stackSize)>0) {
+				ItemStack out = stack.copy();
+				out.stackSize = stack.stackSize;
+				if(getStackInSlot(slotNumber)!=null){
+					out.stackSize+=getStackInSlot(slotNumber).stackSize;
+				}
+				setInventorySlotContents(slotNumber, out);
+				returnBool = true;
+			}
+		}
+
+		return returnBool;
+	}
+
+	public int refineShard() {
+		int energyUsed = 0;
+		if (getRecipeIndex() >= 0) {
+			RecipeGemRefiner recipe = RecipeRegistry.getGemRefinerRecipes().get(recipeIndex);
+			if (recipe.matchesExact(getStackInSlot(0)) && recipe.getInputamount() <= getStackInSlot(0).stackSize) {
+				refined++;
+				ItemStack out = recipe.getOutput().copy();
+				out.stackSize = recipe.getOutputAmount();
+				if (addItemToSlot(1, out)) {
+					decrStackSize(0, recipe.getInputamount());
+					refining = false;
+					refined = 0;
+					setRecipeIndex(-1);
+					energyUsed = (250 * recipe.getInputamount());
+				}
+			}
+		}
+
+		return energyUsed;
 	}
 
 	public boolean refine() {

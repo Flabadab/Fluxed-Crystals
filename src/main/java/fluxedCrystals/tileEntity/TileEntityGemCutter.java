@@ -271,7 +271,23 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		return true;
+		if (stack == null) {
+			return false;
+		}
+		switch (slot) {
+		default:
+			return false;
+
+		case 0:
+			for (RecipeGemCutter r : RecipeRegistry.getGemCutterRecipes()) {
+				if (r.getInput().isItemEqual(stack)) {
+					return true;
+				}
+			}
+		case 1:
+			return false;
+
+		}
 	}
 
 	@Override
@@ -564,7 +580,7 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, int side) {
-		return side != 0 && slot != 0 && slot != 2 && slot != 3 && slot != 4;
+		return slot != 0 && slot != 2 && slot != 3 && slot != 4;
 	}
 
 }

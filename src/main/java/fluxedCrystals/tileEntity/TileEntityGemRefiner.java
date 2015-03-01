@@ -18,6 +18,7 @@ import vazkii.botania.api.mana.IManaReceiver;
 import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
 import fluxedCrystals.FluxedCrystals;
 import fluxedCrystals.api.RecipeRegistry;
+import fluxedCrystals.api.recipe.RecipeGemCutter;
 import fluxedCrystals.api.recipe.RecipeGemRefiner;
 import fluxedCrystals.items.FCItems;
 import fluxedCrystals.network.MessageGemRefiner;
@@ -262,7 +263,23 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		return true;
+		if (stack == null) {
+			return false;
+		}
+		switch (slot) {
+		default:
+			return false;
+
+		case 0:
+			for (RecipeGemRefiner r : RecipeRegistry.getGemRefinerRecipes()) {
+				if (r.getInput().isItemEqual(stack)) {
+					return true;
+				}
+			}
+		case 1:
+			return false;
+
+		}
 	}
 
 	@Override

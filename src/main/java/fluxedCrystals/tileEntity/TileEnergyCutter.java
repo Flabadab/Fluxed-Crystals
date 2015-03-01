@@ -5,6 +5,7 @@ import java.util.EnumSet;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -30,15 +31,7 @@ public class TileEnergyCutter extends TileEnergyBase implements ISidedInventory 
 		}
 
 	}
-	
-	public void cut(boolean sendPacket) {
-		if (sendPacket) {
-			//Send packet here
-		}
-		
-		
-	}
-	
+
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 	}
@@ -177,7 +170,23 @@ public class TileEnergyCutter extends TileEnergyBase implements ISidedInventory 
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		return true;
+		if (stack == null) {
+			return false;
+		}
+		switch (slot) {
+		default:
+			return false;
+
+		case 0:
+			for (RecipeGemCutter r : RecipeRegistry.getGemCutterRecipes()) {
+				if (r.getInput().isItemEqual(stack)) {
+					return true;
+				}
+			}
+		case 1:
+			return false;
+
+		}
 	}
 
 	@Override

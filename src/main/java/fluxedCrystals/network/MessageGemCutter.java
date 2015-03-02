@@ -51,7 +51,6 @@ public class MessageGemCutter implements IMessage, IMessageHandler<MessageGemCut
 			TileEntityGemCutter refiner = (TileEntityGemCutter) te;
 			if (refiner.getStackInSlot(0) != null && refiner.getStackInSlot(0).stackSize > 0) {
 				refiner.setRefining(true);
-				refiner.refine();
 			}
 		}
 		return null;

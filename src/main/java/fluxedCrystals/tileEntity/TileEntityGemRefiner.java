@@ -87,55 +87,6 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 						}
 					}
 				}
-				if (storage.getEnergyStored() <= 0) {
-
-					if (getStackInSlot(6) != null) {
-						if (getStackInSlot(1) != null && isUpgradeActive(new ItemStack(FCItems.upgradeLP))) {
-							if (refining && worldObj.getWorldTime() % getSpeed() == 0 && SoulNetworkHandler.canSyphonFromOnlyNetwork(getStackInSlot(6), getEffeciency() / 4) && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
-								refineLP();
-								return;
-							}
-						} else {
-							if (refining && worldObj.getWorldTime() % getSpeed() == 0 && SoulNetworkHandler.canSyphonFromOnlyNetwork(getStackInSlot(6), getEffeciency() / 4) && isUpgradeActive(new ItemStack(FCItems.upgradeLP))) {
-								refineLP();
-								return;
-							}
-						}
-					}
-					if (getStackInSlot(1) != null && isUpgradeActive(new ItemStack(FCItems.upgradeMana))) {
-						if (refining && worldObj.getWorldTime() % getSpeed() == 0 && mana >= getEffeciency() && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
-							refineMana();
-
-							return;
-						}
-					} else {
-						if (refining && isUpgradeActive(new ItemStack(FCItems.upgradeMana)) && worldObj.getWorldTime() % getSpeed() == 0 && mana >= getEffeciency()) {
-							refineMana();
-
-							return;
-						}
-
-					}
-					if (FluxedCrystals.thaumcraftThere && isUpgradeActive(new ItemStack(FCItems.upgradeEssentia))) {
-						if (AspectSourceHelper.findEssentia(this, Aspect.MECHANISM, ForgeDirection.UNKNOWN, 16)) {
-							if (refining && worldObj.getWorldTime() % getSpeed() == 0 && getStackInSlot(1) != null && getStackInSlot(1).stackSize < getStackInSlot(1).getMaxStackSize()) {
-								if (refineEssentia()) {
-									for (int i = 0; i < new Random().nextInt(16) + 1; i++)
-										AspectSourceHelper.drainEssentia(this, Aspect.MECHANISM, ForgeDirection.UNKNOWN, 16);
-								}
-								return;
-							} else {
-								if (refining && worldObj.getWorldTime() % getSpeed() == 0) {
-									if (refineEssentia()) {
-										for (int i = 0; i < new Random().nextInt(16) + 1; i++)
-											AspectSourceHelper.drainEssentia(this, Aspect.MECHANISM, ForgeDirection.UNKNOWN, 16);
-										return;
-									}
-								}
-							}
-						}
-					}
-				}
 			}
 	}
 
@@ -245,7 +196,6 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 
 	@Override
 	public ItemStack getStackInSlot(int par1) {
-
 		return items[par1];
 	}
 
@@ -365,11 +315,11 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 	public boolean addItemToSlot(int slotNumber, ItemStack stack) {
 		boolean returnBool = false;
 		if (stack != null) {
-			if (getStackInSlot(slotNumber) == null || (getStackInSlot(slotNumber).isItemEqual(stack)) && (getStackInSlot(slotNumber).getMaxStackSize()-getStackInSlot(slotNumber).stackSize-stack.stackSize)>0) {
+			if (getStackInSlot(slotNumber) == null || (getStackInSlot(slotNumber).isItemEqual(stack)) && (getStackInSlot(slotNumber).getMaxStackSize() - getStackInSlot(slotNumber).stackSize - stack.stackSize) > 0) {
 				ItemStack out = stack.copy();
 				out.stackSize = stack.stackSize;
-				if(getStackInSlot(slotNumber)!=null){
-					out.stackSize+=getStackInSlot(slotNumber).stackSize;
+				if (getStackInSlot(slotNumber) != null) {
+					out.stackSize += getStackInSlot(slotNumber).stackSize;
 				}
 				setInventorySlotContents(slotNumber, out);
 				returnBool = true;

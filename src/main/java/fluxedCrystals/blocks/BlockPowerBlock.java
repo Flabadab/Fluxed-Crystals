@@ -13,6 +13,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import fluxedCrystals.api.IUpgrade;
 import fluxedCrystals.items.upgrades.Upgrade;
+import fluxedCrystals.tileEntity.TileEntityGemCutter;
 import fluxedCrystals.tileEntity.TileEntityPowerBlock;
 
 public class BlockPowerBlock extends Block implements ITileEntityProvider {
@@ -26,6 +27,16 @@ public class BlockPowerBlock extends Block implements ITileEntityProvider {
 		ArrayList<ItemStack> stack = new ArrayList<ItemStack>();
 		stack.add(new ItemStack(this));
 		return stack;
+	}
+
+	public void onBlockPreDestroy(World world, int x, int y, int z, int meta) {
+		TileEntityPowerBlock tile = (TileEntityPowerBlock) world.getTileEntity(x, y, z);
+		if (tile != null) {
+			for (int i = 0; i < tile.getSizeInventory(); i++) {
+				if (tile.getStackInSlot(i) != null)
+					dropBlockAsItem(world, x, y, z, tile.getStackInSlot(i));
+			}
+		}
 	}
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int meta, float hitX, float hitY, float hitZ) {

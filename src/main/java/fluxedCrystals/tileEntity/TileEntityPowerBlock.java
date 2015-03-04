@@ -23,6 +23,7 @@ import fluxedCrystals.items.FCItems;
 public class TileEntityPowerBlock extends TileEnergyBase implements ISidedInventory {
 
 	public ItemStack[] items;;
+
 	public TileEntityPowerBlock() {
 		super(100000);
 		items = new ItemStack[3];
@@ -155,7 +156,7 @@ public class TileEntityPowerBlock extends TileEnergyBase implements ISidedInvent
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		return true;
+		return false;
 	}
 
 	@Override
@@ -177,27 +178,19 @@ public class TileEntityPowerBlock extends TileEnergyBase implements ISidedInvent
 		}
 	}
 
-	private static int[] slotsAll = { 0, 1, 2, 3, 4, 5, 6 };
-
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
-		return slotsAll;
+		return new int[] {};
 	}
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, int side) {
-		if (slot == 0)
-			for (RecipeGemRefiner recipe : RecipeRegistry.getGemRefinerRecipes()) {
-				if (recipe.getInput().isItemEqual(stack)) {
-					return true;
-				}
-			}
 		return false;
 	}
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, int side) {
-		return side != 0 && slot != 0 && slot != 2 && slot != 3 && slot != 4;
+		return false;
 	}
 
 	public ItemStack getUpgradeOne() {

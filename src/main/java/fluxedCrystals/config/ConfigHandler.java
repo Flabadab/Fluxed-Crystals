@@ -87,14 +87,13 @@ public class ConfigHandler extends AbstractConfigHandler {
 		}
 
 		Collections.sort(cropFiles, new Comparator()
-            {
-                 public int compare(final Object o1, final Object o2)
-                 {
-                     return new String(((File)o1).getName()).compareTo(new String(((File) o2).getName()));
-                 }
-
-            }
-        );
+                    {
+                        public int compare(final Object o1, final Object o2)
+                        {
+                            return new String(((File)o1).getName()).compareTo(new String(((File) o2).getName()));
+                        }
+                    }
+                );
 
 		JsonConfigReader<SeedType> cropReader;
 		List<SeedCrystalRecipe> recipes = RecipeRegistry.getSeedCropRecipes();

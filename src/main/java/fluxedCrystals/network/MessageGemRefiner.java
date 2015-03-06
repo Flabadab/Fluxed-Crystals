@@ -3,6 +3,7 @@ package fluxedCrystals.network;
 import fluxedCrystals.tileEntity.TileEntityGemRefiner;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
+import fluxedCrystals.FluxedCrystals;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -46,11 +47,28 @@ public class MessageGemRefiner implements IMessage, IMessageHandler<MessageGemRe
 	@Override
 	public IMessage onMessage(MessageGemRefiner message, MessageContext ctx) {
 		int x = message.x, y = message.y, z = message.z;
-		TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(x, y, z);
-		if (te instanceof TileEntityGemRefiner) {
-			TileEntityGemRefiner refiner = (TileEntityGemRefiner) te;
-			if (refiner.getStackInSlot(0) != null && refiner.getStackInSlot(0).stackSize > 0) {
-				refiner.setRefining(true);
+
+		if (ctx.side.isServer()) {
+			TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(x, y, z);
+			if (te instanceof TileEntityGemRefiner) {
+				TileEntityGemRefiner refiner = (TileEntityGemRefiner) te;
+				if (refiner.getStackInSlot(0) != null && refiner.getStackInSlot(0).stackSize > 0) {
+					refiner.setRefining(true);
+				}
+				int index = refiner.getRecipeIndex();
+				if (index >= 0) {
+					return new MessageGemRefiner(x, y, z, index);
+				}
+			}
+		} else {
+			TileEntity te = FluxedCrystals.proxy.getClientWorld().getTileEntity(x, y, z);
+			if (te instanceof TileEntityGemRefiner) {;
+				if(message.data >= 0){
+					((TileEntityGemRefiner) te).setRecipeIndex(message.data);
+					((TileEntityGemRefiner) te).setRefining(true);
+				}
+				te.getWorldObj().markBlockForUpdate(x, y, z);
+				return new MessageGemRefiner(x, y, z, message.data);
 			}
 		}
 		return null;

@@ -67,21 +67,9 @@ public class TileEntityGemRefiner extends TileEnergyBase implements IInventory, 
 
 	public void updateEntity() {
 		super.updateEntity();
-        
-		if(!worldObj.isRemote){
-			int number = -1;
-			if(getStackInSlot(0) != null && !refining){
-				for (RecipeGemRefiner recipe : RecipeRegistry.getGemRefinerRecipes()) {
-					number++;
-					if (recipe.matchesExact(getStackInSlot(0))) {
-						setRecipeIndex(number);
-						break;
-					}
-				}
-				PacketHandler.INSTANCE.sendToDimension(new MessageGemRefiner(xCoord, yCoord, zCoord, getRecipeIndex()), worldObj.provider.dimensionId);
-			}
+		if(!worldObj.isRemote && getStackInSlot(0) != null && !refining){
+            PacketHandler.INSTANCE.sendToDimension(new MessageGemRefiner(xCoord, yCoord, zCoord), worldObj.provider.dimensionId);
 		}
-        
 		if (worldObj.isRemote && getStackInSlot(0) != null && !refining) {
 			PacketHandler.INSTANCE.sendToServer(new MessageGemRefiner(xCoord, yCoord, zCoord));
 		}

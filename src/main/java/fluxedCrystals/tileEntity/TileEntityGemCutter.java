@@ -79,6 +79,9 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 
 	public void updateEntity() {
 		super.updateEntity();
+		if(!worldObj.isRemote && getStackInSlot(0) != null && !cutting){
+            PacketHandler.INSTANCE.sendToDimension(new MessageGemCutter(xCoord, yCoord, zCoord), worldObj.provider.dimensionId);
+		}
 		if (worldObj.isRemote && getStackInSlot(0) != null && !cutting) {
 			PacketHandler.INSTANCE.sendToServer(new MessageGemCutter(xCoord, yCoord, zCoord));
 		}
@@ -245,8 +248,8 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer arg0) {
-		return true;
+	public boolean isUseableByPlayer(EntityPlayer player) {
+		return player.getDistanceSq(xCoord+0.5f, yCoord+0.5f, zCoord+0.5f) <= 64;
 	}
 
 	@Override
@@ -332,6 +335,9 @@ public class TileEntityGemCutter extends TileEnergyBase implements IInventory, I
 					decrStackSize(0, 1);
 					cut++;
 					storage.extractEnergy(250, false);
+                    
+				    PacketHandler.INSTANCE.sendToDimension(new MessageGemCutter(xCoord, yCoord, zCoord, recipeIndex), worldObj.provider.dimensionId);
+                    
 					if (cut == recipe.getInputamount()) {
 						ItemStack out = recipe.getOutput().copy();
 						out.stackSize = recipe.getOutputAmount();

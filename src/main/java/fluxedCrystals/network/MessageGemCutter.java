@@ -3,6 +3,7 @@ package fluxedCrystals.network;
 import fluxedCrystals.tileEntity.TileEntityGemCutter;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
+import fluxedCrystals.FluxedCrystals;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -46,11 +47,31 @@ public class MessageGemCutter implements IMessage, IMessageHandler<MessageGemCut
 	@Override
 	public IMessage onMessage(MessageGemCutter message, MessageContext ctx) {
 		int x = message.x, y = message.y, z = message.z;
-		TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(x, y, z);
-		if (te instanceof TileEntityGemCutter) {
-			TileEntityGemCutter refiner = (TileEntityGemCutter) te;
-			if (refiner.getStackInSlot(0) != null && refiner.getStackInSlot(0).stackSize > 0) {
-				refiner.setRefining(true);
+
+		if (ctx.side.isServer()) {
+			TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(x, y, z);
+			if (te instanceof TileEntityGemCutter) {
+				TileEntityGemCutter refiner = (TileEntityGemCutter) te;
+				if (refiner.getStackInSlot(0) != null && refiner.getStackInSlot(0).stackSize > 0) {
+					refiner.setRefining(true);
+				}
+				int index = refiner.getRecipeIndex();
+				if (index >= 0) {
+					return new MessageGemCutter(x, y, z, index);
+				}
+			}
+		} else {
+			TileEntity te = FluxedCrystals.proxy.getClientWorld().getTileEntity(x, y, z);
+			if (te instanceof TileEntityGemCutter) {
+				TileEntityGemCutter refiner = (TileEntityGemCutter) te;
+				if (refiner.getStackInSlot(0) != null && refiner.getStackInSlot(0).stackSize > 0) {
+					refiner.setRefining(true);{
+				    te.getWorldObj().markBlockForUpdate(x, y, z);
+				}
+				int index = refiner.getRecipeIndex();
+				if (index >= 0) 
+					return new MessageGemCutter(x, y, z, index);
+				}
 			}
 		}
 		return null;

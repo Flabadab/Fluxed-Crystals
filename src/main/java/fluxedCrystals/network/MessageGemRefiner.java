@@ -62,13 +62,16 @@ public class MessageGemRefiner implements IMessage, IMessageHandler<MessageGemRe
 			}
 		} else {
 			TileEntity te = FluxedCrystals.proxy.getClientWorld().getTileEntity(x, y, z);
-			if (te instanceof TileEntityGemRefiner) {;
-				if(message.data >= 0){
-					((TileEntityGemRefiner) te).setRecipeIndex(message.data);
-					((TileEntityGemRefiner) te).setRefining(true);
+			if (te instanceof TileEntityGemRefiner) {
+				TileEntityGemRefiner refiner = (TileEntityGemRefiner) te;
+				if (refiner.getStackInSlot(0) != null && refiner.getStackInSlot(0).stackSize > 0) {
+					refiner.setRefining(true);
+				    te.getWorldObj().markBlockForUpdate(x, y, z);
 				}
-				te.getWorldObj().markBlockForUpdate(x, y, z);
-				return new MessageGemRefiner(x, y, z, message.data);
+				int index = refiner.getRecipeIndex();
+				if (index >= 0) {
+					return new MessageGemRefiner(x, y, z, index);
+				}
 			}
 		}
 		return null;

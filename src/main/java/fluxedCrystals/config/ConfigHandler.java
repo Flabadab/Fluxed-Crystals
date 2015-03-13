@@ -5,6 +5,7 @@ import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -84,7 +85,16 @@ public class ConfigHandler extends AbstractConfigHandler {
 				TTFileUtils.copyFromJar(FluxedCrystals.class, ModProps.modid + "/misc/" + "enderioCrystal.json", enderioCrops);
 			}
 		}
-		Collections.sort(cropFiles);
+
+		Collections.sort(cropFiles, new Comparator()
+                    {
+                        public int compare(final Object o1, final Object o2)
+                        {
+                            return new String(((File)o1).getName()).compareTo(new String(((File) o2).getName()));
+                        }
+                    }
+                );
+
 		JsonConfigReader<SeedType> cropReader;
 		List<SeedCrystalRecipe> recipes = RecipeRegistry.getSeedCropRecipes();
 		for (int i = 0; i < cropFiles.size(); i++) {
